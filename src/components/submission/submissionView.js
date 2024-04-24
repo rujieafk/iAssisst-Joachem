@@ -20,7 +20,8 @@ import { Document, Page,pdfjs } from 'react-pdf';
     const location = useLocation();
     const data = location.state.data;
 
-    // console.log(data);
+    
+    // console.log(location.state.EmpID);
 
     const { employeeId } = useParams();
     const [showModal, setShowModal] = useState(false);
@@ -32,15 +33,19 @@ import { Document, Page,pdfjs } from 'react-pdf';
     const [pdf, setPdf] = useState([]);
     const [pdfResubmit, setPdfResubmit] = useState([]);
 
-  //   const [thisInfo, setSSSinfo] = useState({
-  //     resubmitPDF: []
-  // });
+    const [resubmitFiles, setResubmitFiles] = useState([]);
+  
+    // const handleResubmitPDF = (e) => {
+    //   setResubmitFiles([...resubmitFiles, ...e.target.files]);
+    // };
 
-  const [resubmitFiles, setResubmitFiles] = useState([]);
+    const handleResubmitPDF = (e, requirementName, PdfFileID) => {
+      // Combine the file with its corresponding RequirementName
+      const thisSubmissionID = data.SubmissionID;
 
-  const handleResubmitPDF = (e) => {
-    setResubmitFiles([...resubmitFiles, ...e.target.files]);
-};
+      const fileWithRequirementName = { file: e.target.files[0], requirementName, PdfFileID, thisSubmissionID};
+      setResubmitFiles([...resubmitFiles, fileWithRequirementName]);
+    };
     
     // Converts base64 to pdf
     const convertToPDF = (base64) => {
@@ -120,19 +125,25 @@ import { Document, Page,pdfjs } from 'react-pdf';
   
 
       const handleFormSubmit = async (e) => {
-      e.preventDefault();
-
-      const formData = new FormData();
+        e.preventDefault();
+      
+        const formData = new FormData();
         resubmitFiles.forEach((file) => {
-          formData.append('newPDF', file);
-        });
+          formData.append('newPDF', file.file); // Append only the file
+          formData.append('requirementName', file.requirementName); // Append the requirementName
+          formData.append('PdfFileID', file.PdfFileID); // Append the PdfFileID
+          formData.append('SubmissionID', file.thisSubmissionID); // Append the PdfFileID
 
+
+        });
         try {
+          console.log(resubmitFiles);
+      
           const response = await fetch('http://localhost:5000/resubmitPDF', {
             method: 'POST',
             body: formData,
-          });
-
+          }); 
+      
           if (response.ok) {
             const jsonResponse = await response.json();
             console.log(jsonResponse.message);
@@ -141,10 +152,12 @@ import { Document, Page,pdfjs } from 'react-pdf';
           } else {
             console.error('Failed to upload PDF:', response.statusText);
           }
+         
         } catch (error) {
           console.error('Error uploading PDF:', error);
         }
       };
+      
     
   
     // Modal functions
@@ -252,51 +265,52 @@ import { Document, Page,pdfjs } from 'react-pdf';
                 {/* Page content ends here */}
 
                 {/* page content begin here */}  
-                {pdf && pdf.map((pdf, index) =>
-                <div className="container-fluid">
+                {pdf && pdf.map((pdfItem, index) =>
+                  <div className="container-fluid" key={index}>
                     <div className="row justify-content-center">
-                        <div className="col-xl-8 col-lg-7">
-                            <div className="card shadow mb-4">
-                                {/* Card Header - New Hire Upload */}
-                                <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 className="m-0 font-weight-bold text-primary">{pdf.RequirementName}</h6> 
-                                    <h6 className="m-0 font-weight-bold" style={{color: 'red'}}>{pdf.Resubmit?'Resubmit':''}</h6> 
+                      <div className="col-xl-8 col-lg-7">
+                        <div className="card shadow mb-4">
+                          {/* Card Header - New Hire Upload */}
+                          <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 className="m-0 font-weight-bold text-primary">{pdfItem.RequirementName}</h6>
+                            <h6 className="m-0 font-weight-bold" style={{ color: 'red' }}>{pdfItem.Resubmit ? 'Resubmit' : ''}</h6>
+                          </div>
+                          {/* Card Body - New Hire Options */}
+                          <div className="card-body">
+                            <div className="tab-content">
+                              <div className="card-body">
+                                <div className="d-flex justify-content-between align-items-center">
+                                  <div>
+                                    <button onClick={() => handleButtonClick(pdfItem.PdfData)}>
+                                      View PDF
+                                    </button>
+                                    <button onClick={() => convertAndDownloadPDF(pdfItem.PdfData, pdfItem.FileName)} className='btnClose'>
+                                      Download
+                                    </button>
+                                    <label>{pdfItem.FileName}</label>
+                                  </div>
+                                  <label>Date Submitted: {pdfItem.UploadDate}</label>
                                 </div>
-                                {/* Card Body - New Hire Options */}
-                                <div className="card-body">
-                                    <div className="tab-content">
-                                        <div className="card-body">
-                                            <div className="d-flex justify-content-between align-items-center">
-                                              <div> 
-                                                <button onClick={() => handleButtonClick(pdf.PdfData)}>
-                                                  View PDF
-                                                </button>
-                                                <button onClick={() => convertAndDownloadPDF(pdf.PdfData,pdf.FileName)} className='btnClose'>
-                                                  Download
-                                                </button>
-                                                <label>{pdf.FileName}</label>
-                                              </div>
-                                              <label>Date Submitted: {pdf.UploadDate}</label>  
-                                            </div>
 
-                                            {/* For Resubmission */}
-                                            {pdf.Resubmit === 1 &&
-                                              <div className="d-flex justify-content-between">
-                                                  {pdf.EmpResubmitted === 0 &&
-                                                  <div className="d-flex justify-content-left">
-                                                      <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handleResubmitPDF}/> 
-                                                  </div> }
-                                                  <label>Reason: {pdf.ResubmitReason}</label>
-                                              </div>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
+                                {/* For Resubmission */}
+                                {pdfItem.Resubmit === 1 &&
+                                  <div className="d-flex justify-content-between">
+                                    {pdfItem.EmpResubmitted === 0 &&
+                                      <div className="d-flex justify-content-left">
+                                        {/* Pass pdf.RequirementName to handleResubmitPDF */}
+                                        <input type="file" className="input-file" aria-describedby="fileHelp" onChange={(e) => handleResubmitPDF(e, pdfItem.RequirementName, pdfItem.PdfFileID, location.state.EmpID, data.SubmissionID)} />
+                                      </div>}
+                                    <label>Reason: {pdfItem.ResubmitReason}</label>
+                                  </div>
+                                }
+                              </div>
                             </div>
+                          </div>
                         </div>
+                      </div>
                     </div>
-                </div>
-                )} 
+                  </div>
+                )}
                 {/* Page content ends here */}
 
                 {/* page content begin here */}

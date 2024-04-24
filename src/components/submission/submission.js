@@ -14,9 +14,11 @@ const Submissions = () => {
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [submissions, setSubmissions] = useState([]);
+  const [EmpID, SetEmpID] = useState('');
   
   const viewSubmission = (data) => {
-    navigate('/submissionview', { state: { data } }) 
+    // navigate('/submissionview', { state: { data, EmpID} }); 
+    navigate('/submissionview', { state: { data } });
   };
 
 
@@ -28,6 +30,7 @@ const Submissions = () => {
   const handleFormSubmit = async () => {
     
     const EmpId = '10023'
+    // SetEmpID(EmpId);
 
     const formData = new FormData();
     formData.append('EmpId', EmpId); 

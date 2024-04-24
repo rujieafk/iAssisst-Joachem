@@ -5,7 +5,9 @@ const multer = require('multer');
 const upload = multer({ dest: 'uploads/' }); // Specify upload directory
 
 const dbOperation = require('./dbFiles/dbOperation.js');
-const ResubmitPDFContructor = require('./dbFiles/ResubmitPDFContructor.js')
+const submissionResubmit = require('./dbFiles/dbContructor/submissionResubmit.js');
+const ResubmitPDFContructor = require('./dbFiles/dbContructor//ResubmitPDFContructor.js');
+
 
 const app = express();
 const PORT = 5000;
@@ -74,6 +76,7 @@ app.post('/usersubmission',  upload.single('EmpId'), async (req, res) => {
     // } 
   
     const result = await dbOperation.getUserSubmissions(req.body.EmpId);
+    console.log(req.body.EmpId);
     res.status(200).json({ result: result });
 
   } catch (error) {
@@ -81,19 +84,44 @@ app.post('/usersubmission',  upload.single('EmpId'), async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
-app.post('/resubmitPDF', upload.array('newPDF'), async (req, res) => {
+app.post('/resubmitPDF', upload.fields([{ name: 'newPDF' }, { name: 'requirementName' }, {name: 'PdfFileID'}, {name: 'SubmissionID'}]), async (req, res) => {
   try {
     
-    const uploadedFiles = req.files; // files will be an array of files
+    const uploadedFiles = req.files;
+    const { requirementName } = req.body; 
+    const { PdfFileID } = req.body; 
+    const { SubmissionID } = req.body; 
+   
+    uploadedFiles.newPDF.forEach((file, index) => {
+     
+      const fileRequirementName = requirementName[index];
+      
+      // console.log("SubmissionID:", SubmissionID[index]);
+      // console.log("PdfFileID:", PdfFileID[index]);
+      // console.log("Requirement Name:", fileRequirementName); 
+      // console.log("File:", file);
 
-    
-    // Handle each file as needed
-    uploadedFiles.forEach((file, index) => {
-      // console.log(`File ${index + 1}:`, file);
-      dbOperation.updateResubmit(file);
+      const setrequirementName = fileRequirementName;
+      const FileName = file.originalname;
+      const ContentType = "pdf";
+      const setFileSize = file.size;
+
+      const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
+      const UploadDate = currentDate;
+
+      const PdfData = file;
+      const Resubmit = "0";
+      const ResubmitReason = "";
+      const setSubmissionID = SubmissionID[index];
+
+      const setPdfFileID = PdfFileID[index];
+
+      const dbData = new submissionResubmit(setrequirementName,FileName,ContentType,setFileSize,UploadDate,PdfData, Resubmit,ResubmitReason,setSubmissionID,setPdfFileID);
+      const dbDataPDF = new ResubmitPDFContructor(PdfData);
+
+      dbOperation.updateResubmit(dbData,dbDataPDF);
     });
-    
+
     res.status(200).json({ message: 'Files uploaded successfully' });
   } catch (error) {
     console.error('Error:', error);
@@ -103,4 +131,5 @@ app.post('/resubmitPDF', upload.array('newPDF'), async (req, res) => {
 
 
 
+      
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
