@@ -125,21 +125,55 @@ const getPDF = async (id) => {
     }
 }
 
-const updateResubmit = (data,dataPDF) => {
+const updateResubmit = async(data,dataPDF) => {
     try {
-        console.log("OPERATION: ",data);
-        console.log("OPERATION: ",dataPDF);
+        // Assuming you have already initialized SQL connection pool
+        let pool = await sql.connect(config);
+
+        const EmpResubmitted = "1";
         
+        const file = await pool.request()
+
+        .input('EmpResubmitted', EmpResubmitted) 
+        .input('PdfFileID', data.PdfFileID) 
+        .query(`
+            UPDATE PdfFile SET EmpResubmitted = @EmpResubmitted WHERE PdfFileID = @PdfFileID;
+        `); 
+
+        InsertResubmitPdf(data,dataPDF);
+
+        console.log("Successfully inserted: ",file);
     } catch (error) {
         console.error("Error inserting PDF:", error);
         throw error;
     }
 }  
 
-const InsertResubmitPdf = async () => {
+const InsertResubmitPdf = async (data,dataPDF) => {
     try {
+        let pool = await sql.connect(config);
         
-       
+        const pdf = fs.readFileSync(`uploads/${dataPDF.resubmitPDF.filename}`);
+
+        const pdf_base64 = Buffer.from(pdf).toString('base64');
+
+        const file = await pool.request()
+        .input('RequirementName', data.requirementName)
+        .input('FileName', data.FileName)
+        .input('ContentType', data.ContentType)
+        .input('Filesize', data.Filesize)
+        .input('UploadDate', data.UploadDate)
+        .input('Resubmit', data.Resubmit)
+        .input('ResubmitReason', data.ResubmitReason)
+        .input('SubmissionID', data.SubmissionID)
+        .input('pdfData', sql.NVarChar(sql.MAX), pdf_base64)
+        .query(`
+            INSERT INTO PdfFile (RequirementName, FileName, ContentType, Filesize, UploadDate, Resubmit, ResubmitReason, SubmissionID, pdfData)
+            VALUES (@RequirementName, @FileName, @ContentType, @Filesize, @UploadDate, @Resubmit, @ResubmitReason, @SubmissionID, @pdfData)
+        `);
+
+
+        console.log("Successfully inserted: ",file);
     } catch (error) {
         console.error("Error inserting PDF:", error);
         throw error;

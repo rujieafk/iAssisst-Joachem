@@ -130,14 +130,11 @@ import { Document, Page,pdfjs } from 'react-pdf';
         const formData = new FormData();
         resubmitFiles.forEach((file) => {
           formData.append('newPDF', file.file); // Append only the file
-          formData.append('requirementName', file.requirementName); // Append the requirementName
+          formData.append('requirementName', file.requirementName.toString()); // Append the requirementName
           formData.append('PdfFileID', file.PdfFileID); // Append the PdfFileID
           formData.append('SubmissionID', file.thisSubmissionID); // Append the PdfFileID
-
-
         });
         try {
-          console.log(resubmitFiles);
       
           const response = await fetch('http://localhost:5000/resubmitPDF', {
             method: 'POST',
@@ -273,6 +270,7 @@ import { Document, Page,pdfjs } from 'react-pdf';
                           {/* Card Header - New Hire Upload */}
                           <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h6 className="m-0 font-weight-bold text-primary">{pdfItem.RequirementName}</h6>
+                            
                             <h6 className="m-0 font-weight-bold" style={{ color: 'red' }}>{pdfItem.Resubmit ? 'Resubmit' : ''}</h6>
                           </div>
                           {/* Card Body - New Hire Options */}

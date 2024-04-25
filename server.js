@@ -84,42 +84,39 @@ app.post('/usersubmission',  upload.single('EmpId'), async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 app.post('/resubmitPDF', upload.fields([{ name: 'newPDF' }, { name: 'requirementName' }, {name: 'PdfFileID'}, {name: 'SubmissionID'}]), async (req, res) => {
   try {
-    
     const uploadedFiles = req.files;
-    const { requirementName } = req.body; 
-    const { PdfFileID } = req.body; 
-    const { SubmissionID } = req.body; 
-   
-    uploadedFiles.newPDF.forEach((file, index) => {
-     
-      const fileRequirementName = requirementName[index];
-      
-      // console.log("SubmissionID:", SubmissionID[index]);
-      // console.log("PdfFileID:", PdfFileID[index]);
-      // console.log("Requirement Name:", fileRequirementName); 
-      // console.log("File:", file);
+    const { requirementName, PdfFileID, SubmissionID } = req.body;
 
-      const setrequirementName = fileRequirementName;
+    uploadedFiles.newPDF.forEach((file, index) => {
+      let setrequirementName;
+      if (uploadedFiles.newPDF.length === 1) {
+        setrequirementName = requirementName;
+      } else {
+        setrequirementName = requirementName[index];
+      }
+
+      console.log(setrequirementName);
+
       const FileName = file.originalname;
       const ContentType = "pdf";
       const setFileSize = file.size;
 
-      const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
-      const UploadDate = currentDate;
+      const now = new Date();
+      const UploadDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
 
       const PdfData = file;
       const Resubmit = "0";
       const ResubmitReason = "";
       const setSubmissionID = SubmissionID[index];
-
       const setPdfFileID = PdfFileID[index];
 
-      const dbData = new submissionResubmit(setrequirementName,FileName,ContentType,setFileSize,UploadDate,PdfData, Resubmit,ResubmitReason,setSubmissionID,setPdfFileID);
+      const dbData = new submissionResubmit(setrequirementName, FileName, ContentType, setFileSize, UploadDate, Resubmit, ResubmitReason, setSubmissionID, setPdfFileID);
       const dbDataPDF = new ResubmitPDFContructor(PdfData);
 
-      dbOperation.updateResubmit(dbData,dbDataPDF);
+      dbOperation.updateResubmit(dbData, dbDataPDF);
     });
 
     res.status(200).json({ message: 'Files uploaded successfully' });
@@ -128,6 +125,53 @@ app.post('/resubmitPDF', upload.fields([{ name: 'newPDF' }, { name: 'requirement
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+
+// app.post('/resubmitPDF', upload.fields([{ name: 'newPDF' }, { name: 'requirementName' }, {name: 'PdfFileID'}, {name: 'SubmissionID'}]), async (req, res) => {
+//   try {
+    
+
+//     const uploadedFiles = req.files;
+//     const { requirementName }  = req.body; 
+//     const { PdfFileID } = req.body; 
+//     const { SubmissionID } = req.body; 
+
+//     uploadedFiles.newPDF.forEach((file, index) => {
+
+//       const setrequirementName = requirementName[index];
+//       const setrequirementName = requirementName;
+      
+//       console.log("SubmissionID:", SubmissionID[index]);
+//       console.log("PdfFileID:", PdfFileID[index]);
+//       console.log("Requirement Name:", fileRequirementName); 
+//       console.log("File:", file);
+
+//       const FileName = file.originalname;
+//       const ContentType = "pdf";
+//       const setFileSize = file.size;
+
+//       const now = new Date();
+//       const UploadDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+
+//       const PdfData = file;
+//       const Resubmit = "0";
+//       const ResubmitReason = "";
+//       const setSubmissionID = SubmissionID[index];
+
+//       const setPdfFileID = PdfFileID[index];
+
+//       const dbData = new submissionResubmit(setrequirementName,FileName,ContentType,setFileSize,UploadDate, Resubmit,ResubmitReason,setSubmissionID,setPdfFileID);
+//       const dbDataPDF = new ResubmitPDFContructor(PdfData);
+
+//       dbOperation.updateResubmit(dbData,dbDataPDF);
+//     });
+
+//     res.status(200).json({ message: 'Files uploaded successfully' });
+//   } catch (error) {
+//     console.error('Error:', error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
 
 
 

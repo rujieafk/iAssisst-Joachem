@@ -1,5 +1,5 @@
 class submissionResubmit{
-    constructor(requirementName,FileName,ContentType,Filesize,UploadDate, Resubmit,ResubmitReason,SubmissionID, PdfFileID){
+    constructor(requirementName,FileName,ContentType,Filesize,UploadDate, Resubmit,ResubmitReason,SubmissionID,PdfFileID ){
         this.requirementName = requirementName;
         this.FileName = FileName;
         this.ContentType = ContentType;
