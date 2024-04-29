@@ -28,6 +28,12 @@ import { variables } from '../../variables';
       ContactNumber: '',
       EmailAddress: ''
     });
+
+    const [thisInfo, setThisInfo] = useState({
+      Application_Form: '',
+      paySlipFiles: '',
+      Valid_ID: ''
+    });
   
     useEffect(() => {
       // Fetch employee data based on employeeId
@@ -47,26 +53,49 @@ import { variables } from '../../variables';
       fetchEmployeeData();
     }, [employeeId]);
   
-   
+    const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setEmployeeData({
+        ...employeeData,
+        [name]: value
+      });
+    };
   
     const handleFormSubmit = async (e) => {
       e.preventDefault();
-      // try {
-      //   const response = await fetch(variables.API_URL + 'UploadEmp/' + employeeId, {
-      //     method: 'PUT',
-      //     headers: {
-      //       'Content-Type': 'application/json'
-      //     },
-      //     body: JSON.stringify(employeeData)
-      //   });
-      //   if (!response.ok) {
-      //     throw new Error('Failed to update employee');
-      //   }
-      //   // Handle successful update
-      //   console.log('Employee updated successfully');
-      // } catch (error) {
-      //   console.error('Error updating employee:', error);
-      // }
+      
+      const formData = new FormData();
+      formData.append('Application_Form', thisInfo.Application_Form);
+      formData.append('paySlipFiles', thisInfo.paySlipFiles);
+      formData.append('Valid_ID', thisInfo.Valid_ID);
+  
+      try {
+        const response = await fetch('/DBP_upload', {
+          method: 'POST',
+          body: formData,
+        });
+  
+        if (response.ok) {
+          const jsonResponse = await response.json();
+          console.log(formData);
+          console.log(jsonResponse.message);
+  
+        } else {
+          console.error('Failed to upload PDF:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error uploading PDF:', error);
+      }
+    };
+  
+    const handleApplication_Form = (e) => {
+      setThisInfo({ ...thisInfo, Application_Form: e.target.files[0] });
+    };
+    const handlepay_Slip = (e) => {
+      setThisInfo({ ...thisInfo, paySlipFiles: e.target.files[0] });
+    };
+    const handleValid_ID = (e) => {
+      setThisInfo({ ...thisInfo, Valid_ID: e.target.files[0] });
     };
   
     if (!employeeData) {
@@ -98,7 +127,7 @@ import { variables } from '../../variables';
                               <div className="tab-content">
                                 <div className="card-body">
                                   <div className="d-flex justify-content-left">
-                                    <input type="file" className="input-file" aria-describedby="fileHelp"/>
+                                    <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handleApplication_Form}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
                                 </div>
@@ -124,7 +153,7 @@ import { variables } from '../../variables';
                               <div className="tab-content">
                                 <div className="card-body">
                                   <div className="d-flex justify-content-left">
-                                    <input type="file" className="input-file" aria-describedby="fileHelp"/>
+                                    <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handlepay_Slip}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
                                 </div>
@@ -150,7 +179,7 @@ import { variables } from '../../variables';
                               <div className="tab-content">
                                 <div className="card-body">
                                   <div className="d-flex justify-content-left">
-                                    <input type="file" className="input-file" aria-describedby="fileHelp"/>
+                                    <input type="file" className="input-file" aria-describedby="fileHelp"  onChange={handleValid_ID}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
                                 </div>

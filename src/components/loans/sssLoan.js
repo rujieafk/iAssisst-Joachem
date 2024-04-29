@@ -8,75 +8,99 @@ import { variables } from '../../variables';
 
 function SSSLoan() {
 
-    const { employeeId } = useParams(); 
+    const { employeeId } = useParams();
+    const [employeeData, setEmployeeData] = useState({
+        LastName: '',
+        FirstName: '',
+        MiddleName: '',
+        MaidenName: '',
+        Birthdate: '',
+        Age: '',
+        BirthMonth: '',
+        AgeBracket: '',
+        Aender: '',
+        MaritalStatus: '',
+        SSS: '',
+        PHIC: '',
+        HDMF: '',
+        TIN: '',
+        HRANID: '',
+        ContactNumber: '',
+        EmailAddress: ''
+    });
 
-    const [selectedFile, setSelectedFile] = useState(null);
+    const [thisInfo, setSSSinfo] = useState({
+        Application_Date: '',
+        Transaction_Number: '',
+        Pay_Slip: '',
+        Disclosure_Statement: ''
+    });
 
-    // useEffect(() => {
-    //     // Fetch employee data based on employeeId
-    //     const fetchEmployeeData = async () => {
-    //         try {
-    //             const response = await fetch(variables.API_URL + 'UploadEmp/' + employeeId);
-    //             if (!response.ok) {
-    //                 throw new Error('Failed to fetch employee data');
-    //             }
-    //             const data = await response.json();
-    //             setEmployeeData(data);
-    //         } catch (error) {
-    //             console.error('Error fetching employee data:', error);
-    //         }
-    //     };
+    useEffect(() => {
+        // Fetch employee data based on employeeId
+        const fetchEmployeeData = async () => {
+            try {
+                const response = await fetch(variables.API_URL + 'UploadEmp/' + employeeId);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch employee data');
+                }
+                const data = await response.json();
+                setEmployeeData(data);
+            } catch (error) {
+                console.error('Error fetching employee data:', error);
+            }
+        };
 
-    //     fetchEmployeeData();
-    // }, [employeeId]);
-
-    // const handleFormSubmit = async (e) => {
-    //     e.preventDefault();
-    //     console.log(selectedFile);
-
-    //     const checkResponse = await fetch('http://localhost:5000/upload', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({sssloanPDF: selectedFile.name }),
-    //   });
-      
-    //   if (!checkResponse.ok) {
-    //     console.error('Failed to check employee ID:', checkResponse.statusText);
-    //     return;
-    //   }
-    // };
+        fetchEmployeeData();
+    }, [employeeId]);
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
       
         const formData = new FormData();
-        formData.append('sssloanPDF', selectedFile); // Assuming selectedFile holds the PDF file
-        
-        console.log(formData)
+        formData.append('Application_Date', thisInfo.Application_Date);
+        formData.append('Transaction_Number', thisInfo.Transaction_Number);
+        formData.append('Pay_Slip', thisInfo.Pay_Slip); // Assuming thisInfo.Pay_Slip is a File object
+        formData.append('Disclosure_Statement', thisInfo.Disclosure_Statement); // Assuming thisInfo.Disclosure_Statement is a File object
+      
         try {
-          const uploadResponse = await fetch('http://localhost:5000/upload', {
-            method: 'POST',
-            body: formData,
-          });
-      
-          if (!uploadResponse.ok) {
-            console.error('Failed to upload PDF:', uploadResponse.statusText);
-            return;
-          }
-      
-          console.log('PDF uploaded successfully');
+            const response = await fetch('/SSS_upload', {
+                method: 'POST',
+                body: formData,
+            });
+    
+            if (response.ok) {
+                const jsonResponse = await response.json();
+                console.log(formData);
+                console.log(jsonResponse.message);
+                
+            } else {
+                console.error('Failed to upload PDF:', response.statusText);
+            }
         } catch (error) {
-          console.error('Error uploading PDF:', error);
+            console.error('Error uploading PDF:', error);
         }
-      };
+    };
+    
+    
+    
       
 
-    const handleFileSelect = (e) => {
-        setSelectedFile(e.target.files[0]);
+    const handlePay_Slip = (e) => {
+        setSSSinfo({ ...thisInfo, Pay_Slip: e.target.files[0] });
     };
- 
+
+    const handleDisclosure_Statement = (e) => {
+        setSSSinfo({ ...thisInfo, Disclosure_Statement: e.target.files[0] });
+    };
+
+    const handleLoanApplicationDateChange = (e) => {
+        setSSSinfo({ ...thisInfo, Application_Date: e.target.value });
+    };
+
+    if (!employeeData) {
+        return <div>Loading...</div>;
+    }
 
     const getCurrentDate = () => {
         const now = new Date();
@@ -128,11 +152,13 @@ function SSSLoan() {
                                                             id="loanApplicationDate"
                                                             name="loanApplicationDate"
                                                             max={getCurrentDate()}
+                                                            value={thisInfo.Application_Date}
+                                                            onChange={handleLoanApplicationDateChange}
                                                         />
                                                     </div>
                                                     <div className="form-group">
                                                         <label htmlFor="name">Transaction Number</label>
-                                                        <input type="text" className="form-control" id="name" name="name" />
+                                                        <input type="text" className="form-control" id="name" name="name" onChange={(e) => setSSSinfo({ ...thisInfo, Transaction_Number: e.target.value })} />
                                                     </div>
                                                 </div>
                                             </div>
@@ -160,7 +186,7 @@ function SSSLoan() {
                                                             type="file"
                                                             className="input-file"
                                                             aria-describedby="fileHelp"
-                                                            onChange={handleFileSelect}
+                                                            onChange={handlePay_Slip}
                                                         />
                                                         <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                                     </div>
@@ -186,7 +212,7 @@ function SSSLoan() {
                                             <div className="tab-content">
                                                 <div className="card-body">
                                                     <div className="d-flex justify-content-left">
-                                                        <input type="file" className="input-file" aria-describedby="fileHelp" />
+                                                        <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handleDisclosure_Statement} />
                                                         <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                                     </div>
                                                 </div>

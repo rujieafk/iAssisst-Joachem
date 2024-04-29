@@ -30,7 +30,13 @@ import { variables } from '../../variables';
       EmailAddress: '',
       deliveryType: ''
     });
-  
+
+    const [thisInfo, setThisInfo] = useState({
+      Application_Form: '',
+      paySlipFiles: '',
+      Valid_ID: ''
+    });
+
     useEffect(() => {
       // Fetch employee data based on employeeId
       const fetchEmployeeData = async () => {
