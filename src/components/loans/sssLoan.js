@@ -6,6 +6,9 @@ import Footer from '../footer';
 import '../../App.css';
 import { variables } from '../../variables';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function SSSLoan() {
 
     const { employeeId } = useParams();
@@ -57,6 +60,21 @@ function SSSLoan() {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
       
+        if (!thisInfo.Application_Date || !thisInfo.Transaction_Number || !thisInfo.Pay_Slip || !thisInfo.Disclosure_Statement) {
+            // If any required field is empty, show a warning toast
+            toast.warn('Please fill in all required fields', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            return; // Stop form submission
+          }
+
         const formData = new FormData();
         formData.append('Application_Date', thisInfo.Application_Date);
         formData.append('Transaction_Number', thisInfo.Transaction_Number);
@@ -71,11 +89,33 @@ function SSSLoan() {
     
             if (response.ok) {
                 const jsonResponse = await response.json();
-                console.log(formData);
+                
                 console.log(jsonResponse.message);
+
+                // Emit success toast
+                toast.success('Submitted Successfully', {
+                    position: "bottom-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
                 
             } else {
                 console.error('Failed to upload PDF:', response.statusText);
+                toast.error('Failed to Submit', {
+                    position: "bottom-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
             }
         } catch (error) {
             console.error('Error uploading PDF:', error);
@@ -228,6 +268,18 @@ function SSSLoan() {
                 </div>
                 <Footer />
             </div>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </div>
     );
 }

@@ -6,6 +6,9 @@ import Footer from '../footer';
 import '../../App.css';
 import { variables } from '../../variables';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
  function MaternityNotification() {
    
     const { employeeId } = useParams();
@@ -64,6 +67,22 @@ import { variables } from '../../variables';
   
     const handleFormSubmit = async (e) => {
       e.preventDefault();
+
+      if (!thisInfo.Notication_Form || !thisInfo.Maternity_Eligibility || !thisInfo.Credit_Form || !thisInfo.Medical_Reports) {
+        // If any required field is empty, show a warning toast
+        toast.warn('Please fill in all required fields', {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        return; // Stop form submission
+      }
+
       const formData = new FormData();
       formData.append('Notication_Form', thisInfo.Notication_Form);
       formData.append('Maternity_Eligibility', thisInfo.Maternity_Eligibility);
@@ -78,11 +97,33 @@ import { variables } from '../../variables';
     
           if (response.ok) {
             const jsonResponse = await response.json();
-            console.log(formData);
+
             console.log(jsonResponse.message);
+
+            // Emit success toast
+            toast.success('Submitted Successfully', {
+              position: "bottom-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
     
           } else {
             console.error('Failed to upload PDF:', response.statusText);
+              toast.error('Failed to Submit', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
           }
         } catch (error) {
           console.error('Error uploading PDF:', error);
@@ -225,6 +266,18 @@ import { variables } from '../../variables';
                 </div>
               <Footer />
           </div>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
       </div>
   );
 }

@@ -97,7 +97,7 @@ app.post('/usersubmission',  upload.single('EmpId'), async (req, res) => {
 app.post('/resubmitPDF', upload.fields([{ name: 'newPDF' }, { name: 'requirementName' }, {name: 'PdfFileID'}, {name: 'SubmissionID'}]), async (req, res) => {
   try {
     const uploadedFiles = req.files;
-    const { requirementName, PdfFileID, SubmissionID } = req.body;
+    const { requirementName, PdfFileID, SubmissionID} = req.body;
 
     uploadedFiles.newPDF.forEach((file, index) => {
       let setrequirementName;
@@ -106,8 +106,6 @@ app.post('/resubmitPDF', upload.fields([{ name: 'newPDF' }, { name: 'requirement
       } else {
         setrequirementName = requirementName[index];
       }
-
-      console.log(setrequirementName);
 
       const FileName = file.originalname;
       const ContentType = "pdf";
@@ -119,12 +117,13 @@ app.post('/resubmitPDF', upload.fields([{ name: 'newPDF' }, { name: 'requirement
       const PdfData = file;
       const Resubmit = "0";
       const ResubmitReason = "";
-      const setSubmissionID = SubmissionID[index];
-      const setPdfFileID = PdfFileID[index];
+      const setSubmissionID = SubmissionID;
+      const setPdfFileID = PdfFileID[index]; 
 
+      
       const dbData = new submissionResubmit(setrequirementName, FileName, ContentType, setFileSize, UploadDate, Resubmit, ResubmitReason, setSubmissionID, setPdfFileID);
       const dbDataPDF = new ResubmitPDFContructor(PdfData);
-
+      
       dbOperation.updateResubmit(dbData, dbDataPDF);
     });
 
@@ -227,7 +226,7 @@ app.post('/Landbank_upload', upload.fields([{ name: 'Application_Form' }, { name
       const EmpId = "10023";
 
       const dbData = new DefualtSubmissionContructor(TransactionType,Status,currentDate,currentTime,TurnAround,EmpId);
-      const dbDataPDF = new PagIbigLandbankCard(ApplicationFormFile,paySlipFiles,Valid_ID);
+      const dbDataPDF = new DefaultPdfFile(ApplicationFormFile,paySlipFiles,Valid_ID);
 
       // Pass the required parameters to insertPDF function
       await dbOperation.insertPagIbig_Landbank(dbData,dbDataPDF);

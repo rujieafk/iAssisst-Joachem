@@ -6,6 +6,9 @@ import Footer from '../footer';
 import '../../App.css';
 import { variables } from '../../variables';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
  function MaternityBenefit() {
    
     const { employeeId } = useParams();

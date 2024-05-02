@@ -135,9 +135,9 @@ const updateResubmit = async(data,dataPDF) => {
         const file = await pool.request()
 
         .input('EmpResubmitted', EmpResubmitted) 
-        .input('PdfFileID', data.PdfFileID) 
+        .input('SubmissionID', data.SubmissionID) 
         .query(`
-            UPDATE PdfFile SET EmpResubmitted = @EmpResubmitted WHERE PdfFileID = @PdfFileID;
+            UPDATE PdfFile SET EmpResubmitted = @EmpResubmitted WHERE SubmissionID = @SubmissionID;
         `); 
 
         InsertResubmitPdf(data,dataPDF);

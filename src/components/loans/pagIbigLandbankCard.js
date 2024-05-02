@@ -6,6 +6,9 @@ import Footer from '../footer';
 import '../../App.css';
 import { variables } from '../../variables';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function PagIbigLandbankCard() {
   const { employeeId } = useParams();
   const [employeeData, setEmployeeData] = useState({
@@ -55,6 +58,21 @@ function PagIbigLandbankCard() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
+    if (!thisInfo.Application_Form || !thisInfo.paySlipFiles || !thisInfo.Valid_ID) {
+      // If any required field is empty, show a warning toast
+      toast.warn('Please fill in all required fields', {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      return; // Stop form submission
+    }
+
     const formData = new FormData();
     formData.append('Application_Form', thisInfo.Application_Form);
     formData.append('paySlipFiles', thisInfo.paySlipFiles);
@@ -68,12 +86,45 @@ function PagIbigLandbankCard() {
 
       if (response.ok) {
         const jsonResponse = await response.json();
-        console.log(formData);
+        
         console.log(jsonResponse.message);
+
+        setThisInfo({
+          Application_Form: '',
+          paySlipFiles: '',
+          Valid_ID: ''
+        });
+  
+        // Clear file input fields
+        document.getElementById('applicationFormInput').value = null;
+        document.getElementById('paySlipInput').value = null;
+        document.getElementById('validIdInput').value = null;
+        
+        // Emit success toast
+        toast.success('Submitted Successfully', {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
 
       } else {
         console.error('Failed to upload PDF:', response.statusText);
-      }
+          toast.error('Failed to Submit', {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
+        }
     } catch (error) {
       console.error('Error uploading PDF:', error);
     }
@@ -88,15 +139,7 @@ function PagIbigLandbankCard() {
   const handleValid_ID = (e) => {
     setThisInfo({ ...thisInfo, Valid_ID: e.target.files[0] });
   };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEmployeeData({
-      ...employeeData,
-      [name]: value
-    });
-  };
-
+  
   if (!employeeData) {
     return <div>Loading...</div>;
   }
@@ -126,7 +169,7 @@ function PagIbigLandbankCard() {
                       <div className="tab-content">
                         <div className="card-body">
                           <div className="d-flex justify-content-left">
-                            <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handleApplication_Form} />
+                            <input id="applicationFormInput" type="file" className="input-file" aria-describedby="fileHelp" onChange={handleApplication_Form} />
                             <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                           </div>
                         </div>
@@ -152,7 +195,7 @@ function PagIbigLandbankCard() {
                       <div className="tab-content">
                         <div className="card-body">
                           <div className="d-flex justify-content-left">
-                            <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handlepay_Slip}/>
+                          <input id="paySlipInput" type="file" className="input-file" aria-describedby="fileHelp" onChange={handlepay_Slip} />
                             <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                           </div>
                         </div>
@@ -178,7 +221,7 @@ function PagIbigLandbankCard() {
                       <div className="tab-content">
                         <div className="card-body">
                           <div className="d-flex justify-content-left">
-                            <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handleValid_ID}/>
+                          <input id="validIdInput" type="file" className="input-file" aria-describedby="fileHelp" onChange={handleValid_ID} />
                             <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                           </div>
                         </div>
@@ -196,6 +239,18 @@ function PagIbigLandbankCard() {
         </div>
         <Footer />
       </div>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }

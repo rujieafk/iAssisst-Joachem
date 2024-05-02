@@ -8,8 +8,10 @@ import { variables } from '../../variables';
 import { base64pdf } from '../../vblob';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-// import pdf1 from '../../dummy.pdf'
 import "react-pdf/dist/esm/Page/TextLayer.css"; 
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { Document, Page,pdfjs } from 'react-pdf'; 
 
@@ -20,7 +22,6 @@ import { Document, Page,pdfjs } from 'react-pdf';
     const location = useLocation();
     const data = location.state.data;
 
-    
     // console.log(location.state.EmpID);
 
     const { employeeId } = useParams();
@@ -122,7 +123,6 @@ import { Document, Page,pdfjs } from 'react-pdf';
           console.error('Error uploading PDF:', error);
         }
       }; 
-  
 
       const handleFormSubmit = async (e) => {
         e.preventDefault();
@@ -134,28 +134,36 @@ import { Document, Page,pdfjs } from 'react-pdf';
           formData.append('PdfFileID', file.PdfFileID); // Append the PdfFileID
           formData.append('SubmissionID', file.thisSubmissionID); // Append the PdfFileID
         });
-        try {
+
+        toast.success('🦄 Wow so easy!', {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+
+        // try {
+        //   const response = await fetch('http://localhost:5000/resubmitPDF', {
+        //     method: 'POST',
+        //     body: formData,
+        //   }); 
+        //   if (response.ok) {
+           
       
-          const response = await fetch('http://localhost:5000/resubmitPDF', {
-            method: 'POST',
-            body: formData,
-          }); 
-      
-          if (response.ok) {
-            const jsonResponse = await response.json();
-            console.log(jsonResponse.message);
-            // Clear the selected files after successful submission
-            setResubmitFiles([]);
-          } else {
-            console.error('Failed to upload PDF:', response.statusText);
-          }
+        //     setResubmitFiles([]);
+        //   } else {
+        //     console.error('Failed to upload PDF:', response.statusText);
+        //   }
          
-        } catch (error) {
-          console.error('Error uploading PDF:', error);
-        }
+        // } catch (error) {
+        //   console.error('Error uploading PDF:', error);
+        // }
       };
       
-    
   
     // Modal functions
     const handleButtonClick = (base64) => { 
