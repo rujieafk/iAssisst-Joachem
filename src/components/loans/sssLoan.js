@@ -59,7 +59,7 @@ function SSSLoan() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-      
+
         if (!thisInfo.Application_Date || !thisInfo.Transaction_Number || !thisInfo.Pay_Slip || !thisInfo.Disclosure_Statement) {
             // If any required field is empty, show a warning toast
             toast.warn('Please fill in all required fields', {
@@ -71,27 +71,60 @@ function SSSLoan() {
                 draggable: true,
                 progress: undefined,
                 theme: "light",
-              });
+            });
             return; // Stop form submission
-          }
+        }
+        
+        // const paySlipFile = thisInfo.Pay_Slip;
+        // const disclosureFile = thisInfo.Disclosure_Statement;
 
+        // // Check if the files are PDF
+        // if (paySlipFile.type !== 'application/pdf' || disclosureFile.type !== 'application/pdf') {
+        //     // If not PDF, show a warning toast
+        //     toast.warn('Please upload only PDF files for Pay Slip and Disclosure Statement', {
+        //         position: "bottom-right",
+        //         autoClose: 5000,
+        //         hideProgressBar: false,
+        //         closeOnClick: true,
+        //         pauseOnHover: true,
+        //         draggable: true,
+        //         progress: undefined,
+        //         theme: "light",
+        //     });
+        //     return; // Stop form submission
+        // }
+
+        // Proceed with the file upload
         const formData = new FormData();
         formData.append('Application_Date', thisInfo.Application_Date);
         formData.append('Transaction_Number', thisInfo.Transaction_Number);
-        formData.append('Pay_Slip', thisInfo.Pay_Slip); // Assuming thisInfo.Pay_Slip is a File object
-        formData.append('Disclosure_Statement', thisInfo.Disclosure_Statement); // Assuming thisInfo.Disclosure_Statement is a File object
-      
+        formData.append('Pay_Slip', thisInfo.Pay_Slip);
+        formData.append('Disclosure_Statement', thisInfo.Disclosure_Statement);
+        
         try {
             const response = await fetch('/SSS_upload', {
                 method: 'POST',
                 body: formData,
             });
-    
+        
             if (response.ok) {
                 const jsonResponse = await response.json();
-                
+        
                 console.log(jsonResponse.message);
-
+        
+                setSSSinfo({
+                    Application_Date: '',
+                    Transaction_Number: '',
+                    Pay_Slip: '',
+                    Disclosure_Statement: ''
+                });
+        
+                // Clear file input fields
+                document.getElementById('loanApplicationDate').value = null;
+                document.getElementById('TransactionNum').value = null;
+                document.getElementById('PaySlip').value = null;
+                document.getElementById('DisclosureStatement').value = null;
+        
                 // Emit success toast
                 toast.success('Submitted Successfully', {
                     position: "bottom-right",
@@ -103,7 +136,7 @@ function SSSLoan() {
                     progress: undefined,
                     theme: "light",
                 });
-                
+        
             } else {
                 console.error('Failed to upload PDF:', response.statusText);
                 toast.error('Failed to Submit', {
@@ -120,11 +153,8 @@ function SSSLoan() {
         } catch (error) {
             console.error('Error uploading PDF:', error);
         }
-    };
-    
-    
-    
-      
+        
+    }
 
     const handlePay_Slip = (e) => {
         setSSSinfo({ ...thisInfo, Pay_Slip: e.target.files[0] });
@@ -198,7 +228,7 @@ function SSSLoan() {
                                                     </div>
                                                     <div className="form-group">
                                                         <label htmlFor="name">Transaction Number</label>
-                                                        <input type="text" className="form-control" id="name" name="name" onChange={(e) => setSSSinfo({ ...thisInfo, Transaction_Number: e.target.value })} />
+                                                        <input type="text" className="form-control" id="TransactionNum" name="name" onChange={(e) => setSSSinfo({ ...thisInfo, Transaction_Number: e.target.value })} />
                                                     </div>
                                                 </div>
                                             </div>
@@ -227,6 +257,7 @@ function SSSLoan() {
                                                             className="input-file"
                                                             aria-describedby="fileHelp"
                                                             onChange={handlePay_Slip}
+                                                            id='PaySlip'
                                                         />
                                                         <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                                     </div>
@@ -252,7 +283,7 @@ function SSSLoan() {
                                             <div className="tab-content">
                                                 <div className="card-body">
                                                     <div className="d-flex justify-content-left">
-                                                        <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handleDisclosure_Statement} />
+                                                        <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handleDisclosure_Statement} id='DisclosureStatement' />
                                                         <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                                     </div>
                                                 </div>

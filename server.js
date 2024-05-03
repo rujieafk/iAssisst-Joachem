@@ -25,9 +25,9 @@ app.use(cors());
 app.use(express.json());
 
 app.post('/upload', upload.single('sssloanPDF'), async (req, res) => {
-  // console.log(req);
-  // console.log("this");
-  // try {
+  console.log(req);
+  console.log("this");
+  try {
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded' });
     }
@@ -35,11 +35,11 @@ app.post('/upload', upload.single('sssloanPDF'), async (req, res) => {
   //   // Here you can save the file to the database
     await dbOperation.insertPDF(req.file.filename); // Pass filename to the insertPDF function
 
-  //   res.status(200).json({ message: 'PDF uploaded successfully' });
-  // } catch (error) {
-  //   console.error('Error uploading PDF:', error);
-  //   res.status(500).json({ error: 'Internal server error' });
-  // }
+    res.status(200).json({ message: 'PDF uploaded successfully' });
+  } catch (error) {
+    console.error('Error uploading PDF:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 app.post('/hrsubmission', async (req, res) => {

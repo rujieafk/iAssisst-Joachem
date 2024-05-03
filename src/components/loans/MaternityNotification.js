@@ -57,13 +57,6 @@ import 'react-toastify/dist/ReactToastify.css';
       fetchEmployeeData();
     }, [employeeId]);
   
-    const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setEmployeeData({
-        ...employeeData,
-        [name]: value
-      });
-    };
   
     const handleFormSubmit = async (e) => {
       e.preventDefault();
@@ -82,6 +75,24 @@ import 'react-toastify/dist/ReactToastify.css';
           });
         return; // Stop form submission
       }
+      
+      // function isPDF(file) {
+      //   return file.type === 'application/pdf';
+      // }
+      // if (!isPDF(thisInfo.Notication_Form) || !isPDF(thisInfo.Maternity_Eligibility) || !isPDF(thisInfo.Credit_Form) || !isPDF(thisInfo.Medical_Reports)) {
+      //   // If any field does not contain a PDF, show a warning toast
+      //   toast.warn('Please upload only PDF files', {
+      //       position: "bottom-right",
+      //       autoClose: 5000,
+      //       hideProgressBar: false,
+      //       closeOnClick: true,
+      //       pauseOnHover: true,
+      //       draggable: true,
+      //       progress: undefined,
+      //       theme: "light",
+      //   });
+      //   return; // Stop form submission
+      // }
 
       const formData = new FormData();
       formData.append('Notication_Form', thisInfo.Notication_Form);
@@ -172,7 +183,7 @@ import 'react-toastify/dist/ReactToastify.css';
                               <div className="tab-content">
                                 <div className="card-body">
                                   <div className="d-flex justify-content-left">
-                                    <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handleNotication_Form}/>
+                                    <input type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handleNotication_Form}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
                                 </div>
@@ -198,7 +209,7 @@ import 'react-toastify/dist/ReactToastify.css';
                               <div className="tab-content">
                                 <div className="card-body">
                                   <div className="d-flex justify-content-left">
-                                    <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handMaternity_Eligibility}/>
+                                    <input type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handMaternity_Eligibility}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
                                 </div>
@@ -224,7 +235,7 @@ import 'react-toastify/dist/ReactToastify.css';
                               <div className="tab-content">
                                 <div className="card-body">
                                   <div className="d-flex justify-content-left">
-                                    <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handleCredit_Form}/>
+                                    <input type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handleCredit_Form}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
                                 </div>
@@ -250,7 +261,7 @@ import 'react-toastify/dist/ReactToastify.css';
                               <div className="tab-content">
                                 <div className="card-body">
                                   <div className="d-flex justify-content-left">
-                                    <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handleMedical_Reports}/>
+                                    <input type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handleMedical_Reports}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
                                 </div>

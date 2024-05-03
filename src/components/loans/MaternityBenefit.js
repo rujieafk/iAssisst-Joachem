@@ -71,22 +71,7 @@ import 'react-toastify/dist/ReactToastify.css';
   
     const handleFormSubmit = async (e) => {
       e.preventDefault();
-      // try {
-      //   const response = await fetch(variables.API_URL + 'UploadEmp/' + employeeId, {
-      //     method: 'PUT',
-      //     headers: {
-      //       'Content-Type': 'application/json'
-      //     },
-      //     body: JSON.stringify(employeeData)
-      //   });
-      //   if (!response.ok) {
-      //     throw new Error('Failed to update employee');
-      //   }
-      //   // Handle successful update
-      //   console.log('Employee updated successfully');
-      // } catch (error) {
-      //   console.error('Error updating employee:', error);
-      // }
+      
     };
   
     if (!employeeData) {
@@ -149,11 +134,8 @@ import 'react-toastify/dist/ReactToastify.css';
                                         <select className="form-control" id="deliveryType" name="deliveryType" value={employeeData.deliveryType} onChange={handleInputChange}>
                                           <option value="0">Select Type</option>
                                           <option value="1">Live Child Birth</option>
-                                          <option value="Miscarriage">Miscarriage</option>
-                                          <option value="Emergency Termination of Pregnancy">Emergency Termination of Pregnancy</option>
-                                          <option value="Ectopic Pregnancy">Ectopic Pregnancy</option>
-                                          <option value="Still Birth">Still Birth</option>
-                                          <option value="Fetal Death">Fetal Death</option>
+                                          <option value="2">Miscarriage/ Emergency Termination of Pregnancy/ Ectopic Pregnancy</option>
+                                          <option value="3">Still Birth/ Fetal Death</option>
                                         </select>
                                       </div>
                                     </div>
@@ -167,36 +149,57 @@ import 'react-toastify/dist/ReactToastify.css';
                                             <label >Select a type of delivery</label>  
                                           </div>
                                         )}
-                                        { selected === "1" && selected !== "0" && (
+                                        { selected === "1" && selected  !== "0" && (
                                         <div className="row justify-content-left content-holder">
                                           <div className="form-group">
-                                            <label htmlFor="middleName">Live Birth</label>  
+                                            <label htmlFor="middleName">Live Childbirth</label>  
                                           </div>
                                           <div className="form-group">
-                                            <label htmlFor="middleName">Proof of Child's Birth (Live Birth Certificate)</label> 
+                                            <label style={{ fontSize: '14px' }}>Proof of Child's Birth (Live Birth Certificate)</label>
                                             <input type="file" className="form-control-file" aria-describedby="fileHelp"/>
                                             <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                           </div>
+
+                                          <div style={{ border: '1px solid #ccc', marginTop: '5px', marginBottom: '5px' }} />
+
                                           <div className="form-group">
-                                            <label htmlFor="middleName">Solo Parent ID or Certificate of Eligibility (If Solo Parent)</label> 
+                                            <label style={{ fontSize: '14px' }}>Solo Parent ID or Certificate of Eligibility (Solo Parent only)</label> 
                                             <input type="file" className="form-control-file" aria-describedby="fileHelp"/>
                                             <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                           </div>
+
+                                          <label style={{ fontSize: '10px' }}>Note: Documents issued in a foreign country shall be submitted with English Translation, if applicable</label>
                                         </div> 
                                         )}
                                          
-                                        { selected !== '1' && selected !== '0' && (
+                                        { selected === '2' && selected !== '0' && selected !== '1' && (
                                         <div className="row justify-content-left content-holder">
                                           <div className="form-group">
-                                            <label htmlFor="middleName">{employeeData.deliveryType}</label>  
+                                          <label htmlFor="middleName">Miscarriage/ Emergency Termination of Pregnancy/ Ectopic Pregnancy</label> 
                                           </div>
                                           <div className="form-group">
-                                            <label htmlFor="middleName">Proof of Termination (If Still Birth/Fetal Death)</label> 
+                                            <label htmlFor="middleName">Proof of Pregnancy</label> 
                                             <input type="file" className="form-control-file" aria-describedby="fileHelp"/>
                                             <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                           </div>
+
+                                          <div style={{ border: '1px solid #ccc', marginTop: '5px', marginBottom: '5px' }} />
+                                          
                                           <div className="form-group">
-                                            <label htmlFor="middleName">Fetal Certificate of Death</label> 
+                                            <label htmlFor="middleName">Proof of Termination of Pregnancy/ Hospital Record</label> 
+                                            <input type="file" className="form-control-file" aria-describedby="fileHelp"/>
+                                            <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
+                                          </div>
+                                        </div>  
+                                        )}
+
+                                        { selected === '3' && selected !== '0' && selected !== '1' && selected !== '2' && (
+                                        <div className="row justify-content-left content-holder">
+                                          <div className="form-group">
+                                          <label htmlFor="middleName">Still Birth/Fetal Death</label> 
+                                          </div>
+                                          <div className="form-group">
+                                            <label htmlFor="middleName">Fetal Certificate of Death/ Hospital/ Medical Records</label> 
                                             <input type="file" className="form-control-file" aria-describedby="fileHelp"/>
                                             <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                           </div>

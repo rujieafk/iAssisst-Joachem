@@ -73,6 +73,24 @@ function PagIbigLandbankCard() {
       return; // Stop form submission
     }
 
+    // function isPDF(file) {
+    //   return file.type === 'application/pdf';
+    // }
+    // if (!isPDF(thisInfo.Application_Form) || !isPDF(thisInfo.paySlipFiles) || !isPDF(thisInfo.Valid_ID)) {
+    //   // If any field does not contain a PDF, show a warning toast
+    //   toast.warn('Please upload only PDF files', {
+    //       position: "bottom-right",
+    //       autoClose: 5000,
+    //       hideProgressBar: false,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //       theme: "light",
+    //   });
+    //   return; // Stop form submission
+    // }
+
     const formData = new FormData();
     formData.append('Application_Form', thisInfo.Application_Form);
     formData.append('paySlipFiles', thisInfo.paySlipFiles);
@@ -169,7 +187,7 @@ function PagIbigLandbankCard() {
                       <div className="tab-content">
                         <div className="card-body">
                           <div className="d-flex justify-content-left">
-                            <input id="applicationFormInput" type="file" className="input-file" aria-describedby="fileHelp" onChange={handleApplication_Form} />
+                            <input id="applicationFormInput" type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handleApplication_Form} />
                             <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                           </div>
                         </div>
@@ -195,7 +213,7 @@ function PagIbigLandbankCard() {
                       <div className="tab-content">
                         <div className="card-body">
                           <div className="d-flex justify-content-left">
-                          <input id="paySlipInput" type="file" className="input-file" aria-describedby="fileHelp" onChange={handlepay_Slip} />
+                            <input id="paySlipInput" type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handlepay_Slip} />
                             <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                           </div>
                         </div>
@@ -221,7 +239,7 @@ function PagIbigLandbankCard() {
                       <div className="tab-content">
                         <div className="card-body">
                           <div className="d-flex justify-content-left">
-                          <input id="validIdInput" type="file" className="input-file" aria-describedby="fileHelp" onChange={handleValid_ID} />
+                            <input id="validIdInput" type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handleValid_ID} />
                             <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                           </div>
                         </div>

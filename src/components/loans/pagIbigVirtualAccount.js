@@ -6,6 +6,9 @@ import Footer from '../footer';
 import '../../App.css';
 import { variables } from '../../variables';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
  function PagIbigVirtualAccount() {
    
     const { employeeId } = useParams();
@@ -64,6 +67,39 @@ import { variables } from '../../variables';
     const handleFormSubmit = async (e) => {
       e.preventDefault();
       
+      if (!thisInfo.Screenshot_VirtualAcc || !thisInfo.paySlip || !thisInfo.GrossIncome) {
+        // If any required field is empty, show a warning toast
+        toast.warn('Please fill in all required fields', {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        return; // Stop form submission
+      }
+
+      // function isPDF(file) {
+      //   return file.type === 'application/pdf';
+      // }
+      // if (!isPDF(thisInfo.Screenshot_VirtualAcc) || !isPDF(thisInfo.paySlip) || !isPDF(thisInfo.GrossIncome)) {
+      //   // If any field does not contain a PDF, show a warning toast
+      //   toast.warn('Please upload only PDF files', {
+      //       position: "bottom-right",
+      //       autoClose: 5000,
+      //       hideProgressBar: false,
+      //       closeOnClick: true,
+      //       pauseOnHover: true,
+      //       draggable: true,
+      //       progress: undefined,
+      //       theme: "light",
+      //   });
+      //   return; // Stop form submission
+      // }
+
       const formData = new FormData();
       formData.append('Screenshot_Virtual', thisInfo.Screenshot_VirtualAcc);
       formData.append('paySlip', thisInfo.paySlip);
@@ -77,11 +113,33 @@ import { variables } from '../../variables';
   
         if (response.ok) {
           const jsonResponse = await response.json();
-          console.log(formData);
+          
           console.log(jsonResponse.message);
+
+           // Emit success toast
+          toast.success('Submitted Successfully', {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
   
         } else {
           console.error('Failed to upload PDF:', response.statusText);
+            toast.error('Failed to Submit', {
+              position: "bottom-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
         }
       } catch (error) {
         console.error('Error uploading PDF:', error);
@@ -127,7 +185,7 @@ import { variables } from '../../variables';
                               <div className="tab-content">
                                 <div className="card-body">
                                   <div className="d-flex justify-content-left">
-                                    <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handleScreenshot_Virtual}/>
+                                    <input type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handleScreenshot_Virtual}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
                                 </div>
@@ -153,7 +211,7 @@ import { variables } from '../../variables';
                               <div className="tab-content">
                                 <div className="card-body">
                                   <div className="d-flex justify-content-left">
-                                    <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handlePay_Slip}/>
+                                    <input type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handlePay_Slip}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
                                 </div>
@@ -179,7 +237,7 @@ import { variables } from '../../variables';
                               <div className="tab-content">
                                 <div className="card-body">
                                   <div className="d-flex justify-content-left">
-                                    <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handleGrossIncome}/>
+                                    <input type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handleGrossIncome}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
                                 </div>
@@ -197,6 +255,18 @@ import { variables } from '../../variables';
                 </div>
               <Footer />
           </div>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
       </div>
   );
 }

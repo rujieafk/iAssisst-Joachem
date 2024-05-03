@@ -126,6 +126,22 @@ import { Document, Page,pdfjs } from 'react-pdf';
 
       const handleFormSubmit = async (e) => {
         e.preventDefault();
+
+        // Check if any required field is empty
+        if (resubmitFiles.length === 0) {
+          // If the file is not selected, show a warning toast
+          toast.warn('Please select a file to submit', {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          return; // Stop form submission
+        }
       
         const formData = new FormData();
         resubmitFiles.forEach((file) => {
@@ -135,33 +151,49 @@ import { Document, Page,pdfjs } from 'react-pdf';
           formData.append('SubmissionID', file.thisSubmissionID); // Append the PdfFileID
         });
 
-        toast.success('🦄 Wow so easy!', {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
 
-        // try {
-        //   const response = await fetch('http://localhost:5000/resubmitPDF', {
-        //     method: 'POST',
-        //     body: formData,
-        //   }); 
-        //   if (response.ok) {
-           
-      
-        //     setResubmitFiles([]);
-        //   } else {
-        //     console.error('Failed to upload PDF:', response.statusText);
-        //   }
-         
-        // } catch (error) {
-        //   console.error('Error uploading PDF:', error);
-        // }
+        try {
+          const response = await fetch('http://localhost:5000/resubmitPDF', {
+            method: 'POST',
+            body: formData,
+          }); 
+          if (response.ok) {
+            const jsonResponse = await response.json();
+
+            console.log(jsonResponse.message);
+            
+            setTimeout(() => {
+              window.location.reload();
+            }, 2500);
+            
+            // Emit success toast
+            toast.success('Submitted Successfully', {
+              position: "bottom-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+            setResubmitFiles([]);
+          } else {
+            console.error('Failed to upload PDF:', response.statusText);
+              toast.error('Failed to Submit', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+          }
+        } catch (error) {
+          console.error('Error uploading PDF:', error);
+        }
       };
       
   
@@ -430,6 +462,18 @@ import { Document, Page,pdfjs } from 'react-pdf';
               </div>
               <Footer />
           </div>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
       </div>
   );
 }
