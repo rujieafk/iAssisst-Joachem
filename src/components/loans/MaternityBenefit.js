@@ -12,7 +12,6 @@ import 'react-toastify/dist/ReactToastify.css';
  function MaternityBenefit() {
    
     const { employeeId } = useParams();
-    const [selected, setSelected] = useState("0")
     const [employeeData, setEmployeeData] = useState({
       LastName: '',
       FirstName: '',
@@ -33,11 +32,15 @@ import 'react-toastify/dist/ReactToastify.css';
       EmailAddress: '',
       deliveryType: ''
     });
-
+    
+    const [selected, setSelected] = useState("0")
     const [thisInfo, setThisInfo] = useState({
       Application_Form: '',
-      paySlipFiles: '',
-      Valid_ID: ''
+      LiveBirthCert: '',
+      SoloParent: '',
+      ProofPregnancy: '',
+      HospitalRec: '',
+      DeathCert: ''
     });
 
     useEffect(() => {
@@ -59,7 +62,7 @@ import 'react-toastify/dist/ReactToastify.css';
     }, [employeeId]);
   
     const handleInputChange = (e) => {
-      console.log(e.target.value);
+      
       setSelected(e.target.value);
 
       const { name, value } = e.target;
@@ -68,10 +71,118 @@ import 'react-toastify/dist/ReactToastify.css';
         [name]: value
       });
     }; 
-  
     const handleFormSubmit = async (e) => {
       e.preventDefault();
+
+      const formData = new FormData();
+      formData.append("selected", selected);
+      formData.append('Application_Form', thisInfo.Application_Form);
       
+      if(selected === '1'){
+        formData.append('LiveBirthCert', thisInfo.LiveBirthCert);
+        formData.append('SoloParent', thisInfo.SoloParent);
+
+        toast.success('1', {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }else if(selected === '2'){
+
+        formData.append('ProofPregnancy', thisInfo.ProofPregnancy);
+        formData.append('HospitalRec', thisInfo.HospitalRec);
+
+        toast.success('2', {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }else if(selected === '3'){
+
+        formData.append('DeathCert', thisInfo.DeathCert);
+
+        toast.success('3', {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+
+      try {
+        const response = await fetch('/MaternityBenefit', {
+            method: 'POST',
+            body: formData,
+        });
+    
+        if (response.ok) {
+            const jsonResponse = await response.json();
+    
+            console.log(jsonResponse.message);
+    
+            // setSSSinfo({
+            //     Application_Date: '',
+            //     Transaction_Number: '',
+            //     Pay_Slip: '',
+            //     Disclosure_Statement: ''
+            // });
+    
+            // Clear file input fields
+            // document.getElementById('loanApplicationDate').value = null;
+            // document.getElementById('TransactionNum').value = null;
+            // document.getElementById('PaySlip').value = null;
+            // document.getElementById('DisclosureStatement').value = null;
+    
+            // Emit success toast
+            toast.success('Submitted Successfully', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+          } else {
+              console.error('Failed to upload PDF:', response.statusText);
+              toast.error('Failed to Submit', {
+                  position: "bottom-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+              });
+          }
+      } catch (error) {
+          console.error('Error uploading PDF:', error);
+      }
+    };
+    const handleApplicationForm = (e) => {
+      setThisInfo({ ...thisInfo, Application_Form: e.target.files[0] });
+    };
+    const handleLiveBirthCert = (e) => {
+      setThisInfo({ ...thisInfo, LiveBirthCert: e.target.files[0] });
+    };
+    const handleSoloParent = (e) => {
+      setThisInfo({ ...thisInfo, SoloParent: e.target.files[0] });
     };
   
     if (!employeeData) {
@@ -103,7 +214,7 @@ import 'react-toastify/dist/ReactToastify.css';
                                 <div className="tab-content">
                                   <div className="card-body">
                                     <div className="d-flex justify-content-left">
-                                      <input type="file" className="input-file" aria-describedby="fileHelp"/>
+                                      <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handleApplicationForm} id='ApplicationForm'/>
                                       <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                     </div>
                                   </div>
@@ -132,7 +243,7 @@ import 'react-toastify/dist/ReactToastify.css';
                                       <div className="form-group">
                                         <label htmlFor="deliveryType">Type of Delivery</label>
                                         <select className="form-control" id="deliveryType" name="deliveryType" value={employeeData.deliveryType} onChange={handleInputChange}>
-                                          <option value="0">Select Type</option>
+                                          <option value="0" >Select Type</option>
                                           <option value="1">Live Child Birth</option>
                                           <option value="2">Miscarriage/ Emergency Termination of Pregnancy/ Ectopic Pregnancy</option>
                                           <option value="3">Still Birth/ Fetal Death</option>
@@ -156,7 +267,7 @@ import 'react-toastify/dist/ReactToastify.css';
                                           </div>
                                           <div className="form-group">
                                             <label style={{ fontSize: '14px' }}>Proof of Child's Birth (Live Birth Certificate)</label>
-                                            <input type="file" className="form-control-file" aria-describedby="fileHelp"/>
+                                            <input type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleLiveBirthCert}/>
                                             <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                           </div>
 
@@ -164,7 +275,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
                                           <div className="form-group">
                                             <label style={{ fontSize: '14px' }}>Solo Parent ID or Certificate of Eligibility (Solo Parent only)</label> 
-                                            <input type="file" className="form-control-file" aria-describedby="fileHelp"/>
+                                            <input type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleSoloParent}/>
                                             <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                           </div>
 
@@ -220,6 +331,18 @@ import 'react-toastify/dist/ReactToastify.css';
                 </div>
               <Footer />
           </div>
+          <ToastContainer
+                position="bottom-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
       </div>
   );
 }

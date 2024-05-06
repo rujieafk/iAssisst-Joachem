@@ -198,7 +198,9 @@ import { Document, Page,pdfjs } from 'react-pdf';
       
   
     // Modal functions
-    const handleButtonClick = (base64) => { 
+    const handleButtonClick = (base64, e) => { 
+      e.preventDefault();
+      console.log(e);
       convertToPDF(base64);
       setShowModal(true);
     };
@@ -319,7 +321,7 @@ import { Document, Page,pdfjs } from 'react-pdf';
                               <div className="card-body">
                                 <div className="d-flex justify-content-between align-items-center">
                                   <div>
-                                    <button onClick={() => handleButtonClick(pdfItem.PdfData)}>
+                                    <button onClick={(e) => handleButtonClick(pdfItem.PdfData, e)}>
                                       View PDF
                                     </button>
                                     <button onClick={() => convertAndDownloadPDF(pdfItem.PdfData, pdfItem.FileName)} className='btnClose'>

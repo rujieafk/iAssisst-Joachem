@@ -32,7 +32,7 @@ app.post('/upload', upload.single('sssloanPDF'), async (req, res) => {
       return res.status(400).json({ error: 'No file uploaded' });
     }
 
-  //   // Here you can save the file to the database
+    // Here you can save the file to the database
     await dbOperation.insertPDF(req.file.filename); // Pass filename to the insertPDF function
 
     res.status(200).json({ message: 'PDF uploaded successfully' });
@@ -294,6 +294,42 @@ app.post('/VirtualAcc_upload', upload.fields([ { name: 'paySlip' }, { name: 'Scr
   }
 });
 
+//
+app.post('/MaternityBenefit', upload.fields([{ name: 'selected' }, { name: 'Application_Form' }, { name: 'LiveBirthCert' }, { name: 'SoloParent' }]), async (req, res) => {
+  try {
+      const selected = req.body.selected;
+      const Application_Form = req.files['Application_Form'];
+      const LiveBirthCert = req.files['LiveBirthCert'];
+      const SoloParent = req.files['SoloParent'];
+
+      console.log(selected);
+      console.log(Application_Form);
+      console.log(LiveBirthCert);
+      console.log(SoloParent);
+
+      // const TransactionType = "SSS Loan";
+      // const Status = "Pending";
+      // const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
+      // const currentTime = new Date().toLocaleTimeString('en-US', { hour12: true, hour: 'numeric', minute: 'numeric' }); // Format: HH:MM
+      // const TurnAround = "5"
+
+      // const { Application_Date, Transaction_Number } = req.body;
+      // const paySlipFiles = req.files['Pay_Slip']; // Assuming Pay_Slip can have multiple files
+      // const disclosureStatementFiles = req.files['Disclosure_Statement']; // Assuming Disclosure_Statement can have multiple files
+      // const EmpId = "10023";
+      
+      // const dbData = new sssLoan(TransactionType,Status,currentDate,currentTime,TurnAround,Application_Date, Transaction_Number,EmpId);
+      // const dbDataPDF = new sssLoanPDF(paySlipFiles,disclosureStatementFiles);
+
+      // Pass the required parameters to insertPDF function
+      // await dbOperation.sssLoan(dbData,dbDataPDF);
+      
+      res.status(200).json({ message: 'Files uploaded successfully' });
+  } catch (error) {
+      console.error('Error uploading files:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 app.post('/Maternity_upload', upload.fields([ { name: 'Notication_Form' }, { name: 'Maternity_Eligibility' }, { name: 'Credit_Form' }, { name: 'Medical_Reports' } ]), async (req, res) => {
   try {
