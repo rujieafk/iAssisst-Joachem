@@ -111,6 +111,19 @@ import 'react-toastify/dist/ReactToastify.css';
 
             console.log(jsonResponse.message);
 
+            setThisInfo({
+              Notication_Form: '',
+              Maternity_Eligibility: '',
+              Credit_Form: '',
+              Medical_Reports: ''
+            });
+      
+            // Clear file input fields
+            document.getElementById('Notication_Form').value = null;
+            document.getElementById('Maternity_Eligibility').value = null;
+            document.getElementById('Credit_Form').value = null;
+            document.getElementById('Medical_Reports').value = null;
+
             // Emit success toast
             toast.success('Submitted Successfully', {
               position: "bottom-right",
@@ -183,7 +196,7 @@ import 'react-toastify/dist/ReactToastify.css';
                               <div className="tab-content">
                                 <div className="card-body">
                                   <div className="d-flex justify-content-left">
-                                    <input type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handleNotication_Form}/>
+                                    <input id='Notication_Form' type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handleNotication_Form}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
                                 </div>
@@ -209,7 +222,7 @@ import 'react-toastify/dist/ReactToastify.css';
                               <div className="tab-content">
                                 <div className="card-body">
                                   <div className="d-flex justify-content-left">
-                                    <input type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handMaternity_Eligibility}/>
+                                    <input id='Maternity_Eligibility' type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handMaternity_Eligibility}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
                                 </div>
@@ -235,7 +248,7 @@ import 'react-toastify/dist/ReactToastify.css';
                               <div className="tab-content">
                                 <div className="card-body">
                                   <div className="d-flex justify-content-left">
-                                    <input type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handleCredit_Form}/>
+                                    <input id='Credit_Form' type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handleCredit_Form}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
                                 </div>
@@ -261,7 +274,7 @@ import 'react-toastify/dist/ReactToastify.css';
                               <div className="tab-content">
                                 <div className="card-body">
                                   <div className="d-flex justify-content-left">
-                                    <input type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handleMedical_Reports}/>
+                                    <input id='Medical_Reports' type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handleMedical_Reports}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
                                 </div>

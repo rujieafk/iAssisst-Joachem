@@ -56,14 +56,6 @@ import 'react-toastify/dist/ReactToastify.css';
       fetchEmployeeData();
     }, [employeeId]);
   
-    const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setEmployeeData({
-        ...employeeData,
-        [name]: value
-      });
-    };
-  
     const handleFormSubmit = async (e) => {
       e.preventDefault();
 
@@ -114,6 +106,17 @@ import 'react-toastify/dist/ReactToastify.css';
           const jsonResponse = await response.json();
           
           console.log(jsonResponse.message);
+
+          setThisInfo({
+            Application_Form: '',
+            paySlipFiles: '',
+            Valid_ID: ''
+          });
+    
+          // Clear file input fields
+          document.getElementById('applicationFormInput').value = null;
+          document.getElementById('paySlipInput').value = null;
+          document.getElementById('validIdInput').value = null;
 
           // Emit success toast
           toast.success('Submitted Successfully', {
@@ -184,7 +187,7 @@ import 'react-toastify/dist/ReactToastify.css';
                               <div className="tab-content">
                                 <div className="card-body">
                                   <div className="d-flex justify-content-left">
-                                    <input type="file" className="input-file" aria-describedby="fileHelp"accept=".pdf" onChange={handleApplication_Form}/>
+                                    <input id="applicationFormInput" type="file" className="input-file" aria-describedby="fileHelp"accept=".pdf" onChange={handleApplication_Form}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
                                 </div>
@@ -210,7 +213,7 @@ import 'react-toastify/dist/ReactToastify.css';
                               <div className="tab-content">
                                 <div className="card-body">
                                   <div className="d-flex justify-content-left">
-                                    <input type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handlepay_Slip}/>
+                                    <input id="paySlipInput" type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handlepay_Slip}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
                                 </div>
@@ -236,7 +239,7 @@ import 'react-toastify/dist/ReactToastify.css';
                               <div className="tab-content">
                                 <div className="card-body">
                                   <div className="d-flex justify-content-left">
-                                    <input type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handleValid_ID}/>
+                                    <input id="validIdInput" type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handleValid_ID}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
                                 </div>

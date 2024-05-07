@@ -5,18 +5,21 @@ const multer = require('multer');
 const upload = multer({ dest: 'uploads/' }); // Specify upload directory
 
 const dbOperation = require('./dbFiles/dbOperation.js');
-const submissionResubmit = require('./dbFiles/dbContructor/submissionResubmit.js');
-const ResubmitPDFContructor = require('./dbFiles/dbContructor//ResubmitPDFContructor.js');
-
-
+const thisDefaultContructor = require('./dbFiles/dbContructor/thisDefaultContructor.js');
 const DefaultPdfFile = require('./dbFiles/dbContructor/DefaultPdfFile.js');
-const DefualtSubmissionContructor = require('./dbFiles/dbContructor/DefualtSubmissionContructor.js');
 
-const sssLoan = require('./dbFiles/dbContructor/sssLoan.js');
 const sssLoanPDF = require('./dbFiles/dbContructor/sssLoanPDF.js');
+
+const submissionResubmit = require('./dbFiles/dbContructor/submissionResubmit.js');
+const ResubmitPDFContructor = require('./dbFiles/dbContructor/ResubmitPDFContructor.js');
+
 
 const PagIbigVirtualAccountPDF = require('./dbFiles/dbContructor/PagIbigVirtualAccountPDF.js');
 const MaternityNotification = require('./dbFiles/dbContructor/MaternityNotification.js');
+
+const MaternityBenefit1PDF = require('./dbFiles/dbContructor/MaternityBenefit1PDF.js');
+const MaternityBenefit2PDF = require('./dbFiles/dbContructor/MaternityBenefit2PDF.js');
+const MaternityBenefit3PDF = require('./dbFiles/dbContructor/MaternityBenefit3PDF.js');
 
 const app = express();
 const PORT = 5000;
@@ -188,15 +191,15 @@ app.post('/SSS_upload', upload.fields([{ name: 'Pay_Slip' }, { name: 'Disclosure
       const TransactionType = "SSS Loan";
       const Status = "Pending";
       const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
-      const currentTime = new Date().toLocaleTimeString('en-US', { hour12: true, hour: 'numeric', minute: 'numeric' }); // Format: HH:MM
       const TurnAround = "5"
 
       const { Application_Date, Transaction_Number } = req.body;
+      const TypeOfDelivery = "";
       const paySlipFiles = req.files['Pay_Slip']; // Assuming Pay_Slip can have multiple files
       const disclosureStatementFiles = req.files['Disclosure_Statement']; // Assuming Disclosure_Statement can have multiple files
       const EmpId = "10023";
       
-      const dbData = new sssLoan(TransactionType,Status,currentDate,currentTime,TurnAround,Application_Date, Transaction_Number,EmpId);
+      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery, EmpId);
       const dbDataPDF = new sssLoanPDF(paySlipFiles,disclosureStatementFiles);
 
       // Pass the required parameters to insertPDF function
@@ -216,16 +219,18 @@ app.post('/Landbank_upload', upload.fields([{ name: 'Application_Form' }, { name
       const TransactionType = "Pag-Ibig Landbank Card";
       const Status = "Pending";
       const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
-      const currentTime = new Date().toLocaleTimeString('en-US', { hour12: true, hour: 'numeric', minute: 'numeric' }); // Format: HH:MM
       const TurnAround = "5"
+      const Application_Date = "";
+      const Transaction_Number = "";
+      const TypeOfDelivery = "";
+      
+      const EmpId = "10023";
 
       const ApplicationFormFile = req.files['Application_Form'];
       const paySlipFiles = req.files['paySlipFiles'];
       const Valid_ID= req.files['Valid_ID'];
 
-      const EmpId = "10023";
-
-      const dbData = new DefualtSubmissionContructor(TransactionType,Status,currentDate,currentTime,TurnAround,EmpId);
+      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,EmpId);
       const dbDataPDF = new DefaultPdfFile(ApplicationFormFile,paySlipFiles,Valid_ID);
 
       // Pass the required parameters to insertPDF function
@@ -244,16 +249,18 @@ app.post('/DBP_upload', upload.fields([{ name: 'Application_Form' }, { name: 'pa
       const TransactionType = "Pag-Ibig DBP Card";
       const Status = "Pending";
       const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
-      const currentTime = new Date().toLocaleTimeString('en-US', { hour12: true, hour: 'numeric', minute: 'numeric' }); // Format: HH:MM
       const TurnAround = "5"
+      const Application_Date = "";
+      const Transaction_Number = "";
+      const TypeOfDelivery = "";
+
+      const EmpId = "10023";
 
       const ApplicationFormFile = req.files['Application_Form'];
       const paySlipFiles = req.files['paySlipFiles'];
       const Valid_ID= req.files['Valid_ID'];
 
-      const EmpId = "10023";
-
-      const dbData = new DefualtSubmissionContructor(TransactionType,Status,currentDate,currentTime,TurnAround,EmpId);
+      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,EmpId);
       const dbDataPDF = new DefaultPdfFile(ApplicationFormFile,paySlipFiles,Valid_ID);
 
       // Pass the required parameters to insertPDF function
@@ -272,16 +279,18 @@ app.post('/VirtualAcc_upload', upload.fields([ { name: 'paySlip' }, { name: 'Scr
       const TransactionType = "Pag-Ibig Virtual Account";
       const Status = "Pending";
       const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
-      const currentTime = new Date().toLocaleTimeString('en-US', { hour12: true, hour: 'numeric', minute: 'numeric' }); // Format: HH:MM
       const TurnAround = "5"
+      const Application_Date = "";
+      const Transaction_Number = "";
+      const TypeOfDelivery = "";
+
+      const EmpId = "10023";
 
       const paySlip = req.files['paySlip'];
       const Screenshot_Virtual = req.files['Screenshot_Virtual'];
       const GrossIncome= req.files['GrossIncome'];
 
-      const EmpId = "10023";
-
-      const dbData = new DefualtSubmissionContructor(TransactionType,Status,currentDate,currentTime,TurnAround,EmpId);
+      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,EmpId);
       const dbDataPDF = new PagIbigVirtualAccountPDF(paySlip,Screenshot_Virtual,GrossIncome);
 
       // Pass the required parameters to insertPDF function
@@ -294,35 +303,105 @@ app.post('/VirtualAcc_upload', upload.fields([ { name: 'paySlip' }, { name: 'Scr
   }
 });
 
-//
-app.post('/MaternityBenefit', upload.fields([{ name: 'selected' }, { name: 'Application_Form' }, { name: 'LiveBirthCert' }, { name: 'SoloParent' }]), async (req, res) => {
+
+app.post('/Maternity_upload', upload.fields([ { name: 'Notication_Form' }, { name: 'Maternity_Eligibility' }, { name: 'Credit_Form' }, { name: 'Medical_Reports' } ]), async (req, res) => {
   try {
-      const selected = req.body.selected;
+    const TransactionType = "Maternity Notication";
+    const Status = "Pending";
+    const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
+    const TurnAround = "5"
+    const Application_Date = "";
+    const Transaction_Number = "";
+    const TypeOfDelivery = "";
+
+    const EmpId = "10023";
+    
+    const Notication_Form = req.files['Notication_Form'];
+    const Maternity_Eligibility = req.files['Maternity_Eligibility'];
+    const Credit_Form= req.files['Credit_Form'];
+    const Medical_Reports= req.files['Medical_Reports'];
+
+    const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,EmpId);
+    const dbDataPDF = new MaternityNotification(Notication_Form,Maternity_Eligibility,Credit_Form,Medical_Reports);
+      
+      // console.log(dbData);
+      // Pass the required parameters to insertPDF function
+      await dbOperation.insertMaternityNotification(dbData, dbDataPDF);
+      
+      res.status(200).json({ message: 'Files uploaded successfully' });
+    } catch (error) {``
+      console.error('Error uploading files:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/MaternityBenefit', upload.fields([
+  { name: 'selected' }, 
+  { name: 'Application_Form' }, 
+  { name: 'LiveBirthCert' }, 
+  { name: 'SoloParent' }, 
+  { name: 'ProofPregnancy' }, 
+  { name: 'HospitalRec' }, 
+  { name: 'DeathCert' }
+]), async (req, res) => {
+  try {
+      const selectedNum = req.body.selected;
       const Application_Form = req.files['Application_Form'];
       const LiveBirthCert = req.files['LiveBirthCert'];
       const SoloParent = req.files['SoloParent'];
+      const ProofPregnancy = req.files['ProofPregnancy'];
+      const HospitalRec = req.files['HospitalRec'];
+      const DeathCert = req.files['DeathCert'];
 
-      console.log(selected);
-      console.log(Application_Form);
-      console.log(LiveBirthCert);
-      console.log(SoloParent);
+      // console.log(selected);
+      // console.log("Application_Form: ",Application_Form);
+      // console.log("LiveBirthCert: ",LiveBirthCert);
+      // console.log("SoloParent: ",SoloParent);
+      // console.log("ProofPregnancy: ",ProofPregnancy);
+      // console.log("HospitalRec: ",HospitalRec);
+      // console.log("DeathCert: ",DeathCert);
 
-      // const TransactionType = "SSS Loan";
-      // const Status = "Pending";
-      // const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
-      // const currentTime = new Date().toLocaleTimeString('en-US', { hour12: true, hour: 'numeric', minute: 'numeric' }); // Format: HH:MM
-      // const TurnAround = "5"
+      const TransactionType = "Maternity Benefit";
+      const Status = "Pending";
+      const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
+      const TurnAround = "5"
+      const Application_Date = "";
+      const Transaction_Number = "";
 
-      // const { Application_Date, Transaction_Number } = req.body;
-      // const paySlipFiles = req.files['Pay_Slip']; // Assuming Pay_Slip can have multiple files
-      // const disclosureStatementFiles = req.files['Disclosure_Statement']; // Assuming Disclosure_Statement can have multiple files
-      // const EmpId = "10023";
+      const EmpId = "10023";
       
-      // const dbData = new sssLoan(TransactionType,Status,currentDate,currentTime,TurnAround,Application_Date, Transaction_Number,EmpId);
-      // const dbDataPDF = new sssLoanPDF(paySlipFiles,disclosureStatementFiles);
+      // if(selected === "1"){
+      //   DeliveryType = "Live Child Birth";
+      // } else if(selected === "2"){
+      //     DeliveryType = "Miscarriage/ Emergency Termination of Pregnancy / Ectopic Pregnancy";
+      // } else if(selected === "3"){
+      //     DeliveryType = "Still Birth/Fetal Death";
+      // }
 
-      // Pass the required parameters to insertPDF function
-      // await dbOperation.sssLoan(dbData,dbDataPDF);
+      if(selectedNum === "1"){
+        const TypeOfDelivery = "Live Child Birth";
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,EmpId);
+        const dbDataPDF = new MaternityBenefit1PDF(Application_Form,LiveBirthCert,SoloParent);
+        
+        // Pass the required parameters to insertPDF function
+        await dbOperation.MaternityBenefit(selectedNum,dbData,dbDataPDF);
+      }
+      else if(selectedNum === "2"){
+        const TypeOfDelivery = "Miscarriage / Emergency Termination of Pregnancy / Ectopic Pregnancy";
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,EmpId);
+        const dbDataPDF = new MaternityBenefit2PDF(Application_Form,ProofPregnancy,HospitalRec);
+        
+        // Pass the required parameters to insertPDF function
+        await dbOperation.MaternityBenefit(selectedNum,dbData,dbDataPDF);
+      }else if(selectedNum === "3"){
+        const TypeOfDelivery = "Still Birth / Fetal Death";
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,EmpId);
+        const dbDataPDF = new MaternityBenefit3PDF(Application_Form,DeathCert);
+        
+        // Pass the required parameters to insertPDF function
+        await dbOperation.MaternityBenefit(selectedNum,dbData,dbDataPDF);
+      }
+
       
       res.status(200).json({ message: 'Files uploaded successfully' });
   } catch (error) {
@@ -330,36 +409,6 @@ app.post('/MaternityBenefit', upload.fields([{ name: 'selected' }, { name: 'Appl
       res.status(500).json({ error: 'Internal server error' });
   }
 });
-
-app.post('/Maternity_upload', upload.fields([ { name: 'Notication_Form' }, { name: 'Maternity_Eligibility' }, { name: 'Credit_Form' }, { name: 'Medical_Reports' } ]), async (req, res) => {
-  try {
-    const TransactionType = "Maternity Notication";
-      const Status = "Pending";
-      const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
-      const currentTime = new Date().toLocaleTimeString('en-US', { hour12: true, hour: 'numeric', minute: 'numeric' }); // Format: HH:MM
-      const TurnAround = "5"
-
-      const Notication_Form = req.files['Notication_Form'];
-      const Maternity_Eligibility = req.files['Maternity_Eligibility'];
-      const Credit_Form= req.files['Credit_Form'];
-      const Medical_Reports= req.files['Medical_Reports'];
-
-      const EmpId = "10023";
-
-      const dbData = new DefualtSubmissionContructor(TransactionType,Status,currentDate,currentTime,TurnAround,EmpId);
-      const dbDataPDF = new MaternityNotification(Notication_Form,Maternity_Eligibility,Credit_Form,Medical_Reports);
-
-      // console.log(dbData);
-      // Pass the required parameters to insertPDF function
-      await dbOperation.insertMaternityNotification(dbData, dbDataPDF);
-      
-      res.status(200).json({ message: 'Files uploaded successfully' });
-  } catch (error) {``
-      console.error('Error uploading files:', error);
-      res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
 
       
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

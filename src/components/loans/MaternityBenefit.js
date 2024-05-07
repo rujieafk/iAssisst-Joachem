@@ -74,15 +74,50 @@ import 'react-toastify/dist/ReactToastify.css';
     const handleFormSubmit = async (e) => {
       e.preventDefault();
 
-      const formData = new FormData();
-      formData.append("selected", selected);
-      formData.append('Application_Form', thisInfo.Application_Form);
-      
       if(selected === '1'){
-        formData.append('LiveBirthCert', thisInfo.LiveBirthCert);
-        formData.append('SoloParent', thisInfo.SoloParent);
-
-        toast.success('1', {
+        if (!thisInfo.Application_Form || !thisInfo.LiveBirthCert || !thisInfo.SoloParent) {
+          toast.warn('Please fill in all required fields', {
+              position: "bottom-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+          return; // Stop form submission
+        }
+      } else if(selected === '2'){
+        if (!thisInfo.ProofPregnancy || !thisInfo.HospitalRec) {
+          toast.warn('Please fill in all required fields', {
+              position: "bottom-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+          return; // Stop form submission
+        }
+      } else if(selected === '3'){
+        if (!thisInfo.DeathCert) {
+          toast.warn('Please fill in all required fields', {
+              position: "bottom-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+          return; // Stop form submission
+        }
+      }else{
+        toast.warn('Please fill in all required fields', {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -92,35 +127,23 @@ import 'react-toastify/dist/ReactToastify.css';
           progress: undefined,
           theme: "light",
         });
-      }else if(selected === '2'){
+        return; 
+      }
+      
 
-        formData.append('ProofPregnancy', thisInfo.ProofPregnancy);
-        formData.append('HospitalRec', thisInfo.HospitalRec);
-
-        toast.success('2', {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }else if(selected === '3'){
-
-        formData.append('DeathCert', thisInfo.DeathCert);
-
-        toast.success('3', {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+      const formData = new FormData();
+      formData.append("selected", selected); // Assuming selected is defined
+      formData.append('Application_Form', thisInfo.Application_Form); // Assuming thisInfo.Application_Form is defined
+  
+      // Append other files based on selected option
+      if(selected === '1'){
+          formData.append('LiveBirthCert', thisInfo.LiveBirthCert);
+          formData.append('SoloParent', thisInfo.SoloParent);
+      } else if(selected === '2'){
+          formData.append('ProofPregnancy', thisInfo.ProofPregnancy);
+          formData.append('HospitalRec', thisInfo.HospitalRec);
+      } else if(selected === '3'){
+          formData.append('DeathCert', thisInfo.DeathCert);
       }
 
       try {
@@ -133,31 +156,41 @@ import 'react-toastify/dist/ReactToastify.css';
             const jsonResponse = await response.json();
     
             console.log(jsonResponse.message);
-    
-            // setSSSinfo({
-            //     Application_Date: '',
-            //     Transaction_Number: '',
-            //     Pay_Slip: '',
-            //     Disclosure_Statement: ''
-            // });
-    
-            // Clear file input fields
-            // document.getElementById('loanApplicationDate').value = null;
-            // document.getElementById('TransactionNum').value = null;
-            // document.getElementById('PaySlip').value = null;
-            // document.getElementById('DisclosureStatement').value = null;
-    
-            // Emit success toast
-            toast.success('Submitted Successfully', {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
+             // Emit success toast
+             toast.success('Submitted Successfully', {
+              position: "bottom-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
             });
+          
+            setEmployeeData({
+              deliveryType: ''
+            });
+            setThisInfo({
+              Application_Form: '',
+              LiveBirthCert: '',
+              SoloParent: '',
+              ProofPregnancy: '',
+              HospitalRec: '',
+              DeathCert: ''
+            });
+      
+            // Clear file input fields
+            document.getElementById('deliveryType').value = null;
+
+            document.getElementById('Application_Form').value = null;
+            document.getElementById('LiveBirthCert').value = null;
+            document.getElementById('SoloParent').value = null;
+            document.getElementById('ProofPregnancy').value = null;
+            document.getElementById('HospitalRec').value = null;
+            document.getElementById('DeathCert').value = null;
+    
+           
           } else {
               console.error('Failed to upload PDF:', response.statusText);
               toast.error('Failed to Submit', {
@@ -183,6 +216,15 @@ import 'react-toastify/dist/ReactToastify.css';
     };
     const handleSoloParent = (e) => {
       setThisInfo({ ...thisInfo, SoloParent: e.target.files[0] });
+    };
+    const handleProofPregnancy = (e) => {
+      setThisInfo({ ...thisInfo, ProofPregnancy: e.target.files[0] });
+    };
+    const handleHospitalRec = (e) => {
+      setThisInfo({ ...thisInfo, HospitalRec: e.target.files[0] });
+    };
+    const handleDeathCert = (e) => {
+      setThisInfo({ ...thisInfo, DeathCert: e.target.files[0] });
     };
   
     if (!employeeData) {
@@ -214,7 +256,7 @@ import 'react-toastify/dist/ReactToastify.css';
                                 <div className="tab-content">
                                   <div className="card-body">
                                     <div className="d-flex justify-content-left">
-                                      <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handleApplicationForm} id='ApplicationForm'/>
+                                      <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handleApplicationForm} id='Application_Form'/>
                                       <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                     </div>
                                   </div>
@@ -267,7 +309,7 @@ import 'react-toastify/dist/ReactToastify.css';
                                           </div>
                                           <div className="form-group">
                                             <label style={{ fontSize: '14px' }}>Proof of Child's Birth (Live Birth Certificate)</label>
-                                            <input type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleLiveBirthCert}/>
+                                            <input id='LiveBirthCert' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleLiveBirthCert}/>
                                             <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                           </div>
 
@@ -275,7 +317,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
                                           <div className="form-group">
                                             <label style={{ fontSize: '14px' }}>Solo Parent ID or Certificate of Eligibility (Solo Parent only)</label> 
-                                            <input type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleSoloParent}/>
+                                            <input id='SoloParent' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleSoloParent}/>
                                             <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                           </div>
 
@@ -290,7 +332,7 @@ import 'react-toastify/dist/ReactToastify.css';
                                           </div>
                                           <div className="form-group">
                                             <label htmlFor="middleName">Proof of Pregnancy</label> 
-                                            <input type="file" className="form-control-file" aria-describedby="fileHelp"/>
+                                            <input id='ProofPregnancy' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleProofPregnancy}/>
                                             <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                           </div>
 
@@ -298,7 +340,7 @@ import 'react-toastify/dist/ReactToastify.css';
                                           
                                           <div className="form-group">
                                             <label htmlFor="middleName">Proof of Termination of Pregnancy/ Hospital Record</label> 
-                                            <input type="file" className="form-control-file" aria-describedby="fileHelp"/>
+                                            <input id='HospitalRec' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleHospitalRec}/>
                                             <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                           </div>
                                         </div>  
@@ -311,7 +353,7 @@ import 'react-toastify/dist/ReactToastify.css';
                                           </div>
                                           <div className="form-group">
                                             <label htmlFor="middleName">Fetal Certificate of Death/ Hospital/ Medical Records</label> 
-                                            <input type="file" className="form-control-file" aria-describedby="fileHelp"/>
+                                            <input id='DeathCert' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleDeathCert}/>
                                             <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                           </div>
                                         </div>  

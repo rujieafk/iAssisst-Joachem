@@ -258,6 +258,7 @@ function SSSLoan() {
                                                             aria-describedby="fileHelp"
                                                             onChange={handlePay_Slip}
                                                             id='PaySlip'
+                                                            accept=".pdf"
                                                         />
                                                         <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                                     </div>
@@ -283,7 +284,7 @@ function SSSLoan() {
                                             <div className="tab-content">
                                                 <div className="card-body">
                                                     <div className="d-flex justify-content-left">
-                                                        <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handleDisclosure_Statement} id='DisclosureStatement' />
+                                                        <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handleDisclosure_Statement} id='DisclosureStatement' accept=".pdf" />
                                                         <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                                     </div>
                                                 </div>

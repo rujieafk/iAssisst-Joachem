@@ -182,7 +182,7 @@ const InsertResubmitPdf = async (data,dataPDF) => {
 
 const sssLoan = (data, dataPDF) => {
     try {
-        const currentDate = data.currentDate + " " +data.currentTime;
+        const currentDate = data.currentDate;
 
         const TransactionType = data.TransactionType;
         const Status = data.Status;
@@ -190,9 +190,10 @@ const sssLoan = (data, dataPDF) => {
         const TurnAround = data.TurnAround;
         const Application_Date = data.Application_Date;
         const Transaction_Num = data.Transaction_Number;
+        const TypeOfDelivery = data.TypeOfDelivery;
         const EmpId = data.EmpId;
 
-        insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,EmpId, dataPDF)
+        insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num, TypeOfDelivery, EmpId, dataPDF)
       
     } catch (error) {
         console.error("Error inserting PDF:", error);
@@ -202,7 +203,7 @@ const sssLoan = (data, dataPDF) => {
 
 const insertPagIbig_Landbank = async (data, dataPDF) => {
     try {
-        const currentDate = data.currentDate + " " +data.currentTime;
+        const currentDate = data.currentDate;
 
         const TransactionType = data.TransactionType;
         const Status = data.Status;
@@ -210,9 +211,10 @@ const insertPagIbig_Landbank = async (data, dataPDF) => {
         const TurnAround = data.TurnAround;
         const Application_Date = data.Application_Date;
         const Transaction_Num = data.Transaction_Number;
+        const TypeOfDelivery = data.TypeOfDelivery;
         const EmpId = data.EmpId;
 
-        insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,EmpId, dataPDF)
+        insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,EmpId, dataPDF)
        
     } catch (error) {
         console.error("Error inserting PDF:", error);
@@ -223,7 +225,7 @@ const insertPagIbig_Landbank = async (data, dataPDF) => {
 
 const insertPagIbig_DBP = async (data, dataPDF) => {
     try {
-        const currentDate = data.currentDate + " " +data.currentTime;
+        const currentDate = data.currentDate;
 
         const TransactionType = data.TransactionType;
         const Status = data.Status;
@@ -231,9 +233,10 @@ const insertPagIbig_DBP = async (data, dataPDF) => {
         const TurnAround = data.TurnAround;
         const Application_Date = data.Application_Date;
         const Transaction_Num = data.Transaction_Number;
+        const TypeOfDelivery = data.TypeOfDelivery;
         const EmpId = data.EmpId;
 
-        insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,EmpId, dataPDF)
+        insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,EmpId, dataPDF)
        
     } catch (error) {
         console.error("Error inserting PDF:", error);
@@ -242,7 +245,7 @@ const insertPagIbig_DBP = async (data, dataPDF) => {
 }
 const insertPagIbig_VirtualAcc = async (data, dataPDF) => {
     try {
-        const currentDate = data.currentDate + " " +data.currentTime;
+        const currentDate = data.currentDate;
 
         const TransactionType = data.TransactionType;
         const Status = data.Status;
@@ -250,9 +253,10 @@ const insertPagIbig_VirtualAcc = async (data, dataPDF) => {
         const TurnAround = data.TurnAround;
         const Application_Date = data.Application_Date;
         const Transaction_Num = data.Transaction_Number;
+        const TypeOfDelivery = data.TypeOfDelivery;
         const EmpId = data.EmpId;
 
-        insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,EmpId, dataPDF)
+        insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,EmpId, dataPDF)
        
     } catch (error) {
         console.error("Error inserting PDF:", error);
@@ -261,7 +265,7 @@ const insertPagIbig_VirtualAcc = async (data, dataPDF) => {
 }
 const insertMaternityNotification = async (data, dataPDF) => {
     try {
-        const currentDate = data.currentDate + " " +data.currentTime;
+        const currentDate = data.currentDate;
 
         const TransactionType = data.TransactionType;
         const Status = data.Status;
@@ -269,9 +273,31 @@ const insertMaternityNotification = async (data, dataPDF) => {
         const TurnAround = data.TurnAround;
         const Application_Date = data.Application_Date;
         const Transaction_Num = data.Transaction_Number;
+        const TypeOfDelivery = data.TypeOfDelivery;
         const EmpId = data.EmpId;
 
-        insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,EmpId, dataPDF)
+        insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,EmpId, dataPDF)
+       
+    } catch (error) {
+        console.error("Error inserting PDF:", error);
+        throw error;
+    }
+}
+
+const MaternityBenefit = async (selectedNum, data, dataPDF) => {
+    try {
+        const currentDate = data.currentDate;
+
+        const TransactionType = data.TransactionType;
+        const Status = data.Status;
+        const DateTime = currentDate;
+        const TurnAround = data.TurnAround;
+        const Application_Date = data.Application_Date;
+        const Transaction_Num = data.Transaction_Number;
+        const TypeOfDelivery = data.TypeOfDelivery;
+        const EmpId = data.EmpId;
+
+        insertSubmissionMaternityBenefit(selectedNum,TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,EmpId, dataPDF)
        
     } catch (error) {
         console.error("Error inserting PDF:", error);
@@ -282,7 +308,7 @@ const insertMaternityNotification = async (data, dataPDF) => {
 
 
 //-----------------------------------------------------------------------
-const insertIntoSubmission = async (TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,EmpId, dataPDF) => {
+const insertIntoSubmission = async (TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num, TypeOfDelivery, EmpId, dataPDF) => {
     try {
         // Assuming you have already initialized SQL connection pool
         let pool = await sql.connect(config);
@@ -314,11 +340,12 @@ const insertIntoSubmission = async (TransactionType,Status,DateTime,TurnAround,A
             .input('TurnAround', TurnAround)
             .input('Application_Date', Application_Date)
             .input('Transaction_Num', Transaction_Num)
+            .input('TypeOfDelivery', TypeOfDelivery)
             .input('EmpId', EmpId) 
             .query(`
-                INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,EmpId)
+                INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,EmpId)
                 OUTPUT inserted.SubmissionID
-                VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@EmpId)
+                VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@TypeOfDelivery,@EmpId)
             `); 
 
             const SubmissionID = file.recordset[0].SubmissionID;
@@ -352,12 +379,66 @@ const insertIntoSubmission = async (TransactionType,Status,DateTime,TurnAround,A
         throw error;
     }
 }
+const insertSubmissionMaternityBenefit = async (selected, TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,EmpId, dataPDF) => {
+    try {
+        // Assuming you have already initialized SQL connection pool
+        let pool = await sql.connect(config);
+
+        const RequirementName16 = "Application Form";
+        const RequirementName17 = "Live Birth Certificate";
+        const RequirementName18 = "Solo Parent ID";
+
+        const RequirementName19 = "Application Form";
+        const RequirementName20 = "Proof of Pregnancy";
+        const RequirementName21 = "Proof of Termination of Pregnancy";
+
+        const RequirementName22 = "Application Form";
+        const RequirementName23 = "Fetal Certificate of Death";
+
+        const file = await pool.request()
+            
+            .input('TransactionType', TransactionType)
+            .input('Status', Status)
+            .input('DateTime', DateTime)
+            .input('TurnAround', TurnAround)
+            .input('Application_Date', Application_Date)
+            .input('Transaction_Num', Transaction_Num)
+            .input('DeliveryType', TypeOfDelivery)
+            .input('EmpId', EmpId) 
+            .query(`
+                INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,EmpId)
+                OUTPUT inserted.SubmissionID
+                VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@EmpId)
+            `); 
+
+            const SubmissionID = file.recordset[0].SubmissionID;
+
+            console.log(dataPDF);
+            if(TransactionType === "Maternity Benefit"){
+                if(selected === "1"){
+                    PdfFile(dataPDF.Application_Form,SubmissionID,RequirementName16);
+                    PdfFile(dataPDF.LiveBirthCert,SubmissionID,RequirementName17);
+                    PdfFile(dataPDF.SoloParent,SubmissionID,RequirementName18);
+                }else if(selected === "2"){
+                    PdfFile(dataPDF.Application_Form,SubmissionID,RequirementName19);
+                    PdfFile(dataPDF.ProofPregnancy,SubmissionID,RequirementName20);
+                    PdfFile(dataPDF.HospitalRec,SubmissionID,RequirementName21);
+                }else if(selected === "3"){
+                    PdfFile(dataPDF.Application_Form,SubmissionID,RequirementName22);
+                    PdfFile(dataPDF.DeathCert,SubmissionID,RequirementName23);
+                }
+            }
+            console.log("Successfully inserted: ",file);
+    } catch (error) {
+        console.error("Error inserting PDF:", error);
+        throw error;
+    }
+}
 
 const PdfFile = async (insertPDF,SubmissionID,RequirementName) => {
     try {
     
         const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
-        const currentTime = new Date().toLocaleTimeString('en-US', { hour12: true, hour: 'numeric', minute: 'numeric' }); // Format: HH:MM
 
         let pool = await sql.connect(config);
 
@@ -365,7 +446,7 @@ const PdfFile = async (insertPDF,SubmissionID,RequirementName) => {
         const Filename = insertPDF[0].originalname;
         const ContentType = "pdf";
         const Size = insertPDF[0].size;
-        const UploadDate = currentDate + " " + currentTime;
+        const UploadDate = currentDate;
 
         const pdf = fs.readFileSync(`uploads/${insertPDF[0].filename}`);
 
@@ -409,5 +490,6 @@ module.exports = {
     insertPagIbig_Landbank,
     insertPagIbig_DBP,
     insertPagIbig_VirtualAcc,
-    insertMaternityNotification
+    insertMaternityNotification,
+    MaternityBenefit
 };
