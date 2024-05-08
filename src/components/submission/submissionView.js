@@ -392,37 +392,8 @@ import { Document, Page,pdfjs } from 'react-pdf';
                     </div>
                 </div> */}
                 {/* Page content ends here */} 
-                
-                {/* page content begin here */}
-                <div className="container-fluid">
-                    <div className="row justify-content-center">
-                        <div className="col-xl-8 col-lg-7">
-                            <div className="card shadow mb-4">
-                                {/* Card Header - New Hire Upload */}
-                                <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 className="m-0 font-weight-bold text-primary">Remark</h6>
-                                </div>
-                                {/* Card Body - New Hire Options */}
-                                <div className="card-body">
-                                    <div className="tab-content">
-                                        <div className="card-body loan-row"> 
-                                            <div className="form-group"> <textarea 
-                                              className="form-control" 
-                                              id="remark" 
-                                              name="remark"
-                                              rows="3" 
-                                              style={{ resize: "vertical" }}
-                                            />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {/* Page content ends here */}
-                <button type="submit" className="btn btn-primary d-block mx-auto">Submit</button>
+
+                <button type="submit" className="btn btn-primary d-block mx-auto mb-4">Submit</button>
                 </form>
               </div>
 

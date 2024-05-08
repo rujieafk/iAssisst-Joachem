@@ -51,15 +51,7 @@ import { useState } from "react";
              <div className="sidebar-heading">
                  MAIN
              </div>
-             {/* Nav Item - New Hire Upload */}
-             <li className="nav-item">
-                 {/* <a className="nav-link" href="/newHireUpload"> */}
-                 <Link className="nav-link" to={{ pathname: "/newHireUpload"}} state={data}>
-                  <i className="fas fa-fw fa-upload"></i>
-                  <span>New Hire Upload</span>
-                </Link>
-                 {/* </a> */}
-             </li>
+             
              <li className="nav-item">
                  {/* <a className="nav-link" href="/newHireUpload"> */}
                  <Link className="nav-link" to={{ pathname: "/submissions"}} state={data}>
@@ -153,28 +145,9 @@ import { useState } from "react";
                 )}
                  {/* </a> */}
              </li> 
-             <li className="nav-item">
-                 {/* <a className="nav-link" href="/newHireUpload"> */}
-                 <Link className="nav-link" to={{ pathname: "/hriassist"}} state={data}>
-                  <i className="fas fa-fw fa-upload"></i>
-                  <span>HR iAssist</span>
-                </Link>
-                 {/* </a> */}
-             </li>
-             {/* Nav Item - Reports*/}
-             <li className="nav-item">
-             <Link className="nav-link" to={{ pathname: "/reports"}} state={data} >
-                <i className="fas fa-fw fa-chart-bar"></i>
-                <span>Report</span>
-              </Link>
-             </li>
-             {/* Nav Item - Reports*/}
-             <li className="nav-item">
-             <Link className="nav-link" to={{ pathname: "/test"}} state={data} >
-                <i className="fas fa-fw fa-chart-bar"></i>
-                <span>Test</span>
-              </Link>
-             </li>
+             
+             
+             
             
              {/* Sidebar Toggler (Sidebar) */}
              <div className="text-center d-none d-md-inline">

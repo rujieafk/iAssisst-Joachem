@@ -179,16 +179,12 @@ import 'react-toastify/dist/ReactToastify.css';
               HospitalRec: '',
               DeathCert: ''
             });
-      
+
+            
             // Clear file input fields
             document.getElementById('deliveryType').value = null;
-
+            setSelected("0");
             document.getElementById('Application_Form').value = null;
-            document.getElementById('LiveBirthCert').value = null;
-            document.getElementById('SoloParent').value = null;
-            document.getElementById('ProofPregnancy').value = null;
-            document.getElementById('HospitalRec').value = null;
-            document.getElementById('DeathCert').value = null;
     
            
           } else {
