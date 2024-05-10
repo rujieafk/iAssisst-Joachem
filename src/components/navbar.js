@@ -13,6 +13,7 @@ import { useState } from "react";
   const [showPages, setShowPages] = useState(false);
   const [showLoans, setShowLoans] = useState(false);
   const [showMaternity, setShowMaternity] = useState(false);
+  const [showCertReq, setShowCertReq] = useState(false);
 
   // Function to toggle the visibility of pages list
   const togglePages = () => {
@@ -24,6 +25,9 @@ import { useState } from "react";
   const toggleMaternity = () => {
         setShowMaternity(!showMaternity);
   };
+  const toggleCertReq = () => {
+    setShowCertReq(!showCertReq);
+};
 
      return (
          <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -115,7 +119,31 @@ import { useState } from "react";
                                     <li>
                                         <Link to="/benefit" className="dropdown-text" state={data}>
                                             Maternity Benefit 
-                                            <div className="list-padding">Reimbursement</div> 
+                                            
+                                        </Link>
+                                    </li>
+                                </ul>
+                            )}
+                        </li>
+
+                        <li onClick={toggleCertReq}> 
+                            <Link className="dropdown-text" state={data}>Certificate Request</Link>
+                            {showCertReq && (
+                                <ul className="custom-bullet-list sub-menu">
+                                    <li>
+                                        <Link to="/SSSrequest" className="dropdown-text" state= { data }> 
+                                            SSS   
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/PIrequest" className="dropdown-text"  state= { data }>
+                                            PAG-IBIG 
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/PHILHEALTHrequest" className="dropdown-text" state= { data }>
+                                            PHILHEALTH
+                                            <div className="list-padding" style={{ fontSize: '12px' }}>Certificate of Remittance</div>
                                         </Link>
                                     </li>
                                 </ul>

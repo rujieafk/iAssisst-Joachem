@@ -15,13 +15,15 @@ import PagIbigDBPCard from './components/loans/pagIbigDBPCard';
 import PagIbigVirtualAccount from './components/loans/pagIbigVirtualAccount';
 import MaternityNotification from './components/loans/MaternityNotification';
 import MaternityBenefit from './components/loans/MaternityBenefit';
+import SSSRequest from './components/request/SSSrequest';
+import PAGIBIGrequest from './components/request/PAG-IBIGrequest';
+import PHILHEALTHrequest from './components/request/PHILHEALTHrequest';
 
 import Submissions from './components/submission/submission';
 import SubmissionView from './components/submission/submissionView';
 
 import HRIAssist from './components/hriassist/hrIAssist';
 import RequestView from './components/hriassist/requestView';
-
 
 import Test from './components/test';
 
@@ -53,6 +55,9 @@ function App() {
             <Route path="/virtualaccount" element={<PagIbigVirtualAccount />} />
             <Route path="/notification" element={<MaternityNotification />} />
             <Route path="/benefit" element={<MaternityBenefit />} />
+
+            <Route path="/SSSrequest" element={<SSSRequest />} />
+            <Route path="/PIrequest" element={<PAGIBIGrequest />} />
 
           {/* HR iAssist Pages */}
           <Route path="/hriassist" element={<HRIAssist />} />
