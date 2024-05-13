@@ -13,13 +13,19 @@ const sssLoanPDF = require('./dbFiles/dbContructor/sssLoanPDF.js');
 const submissionResubmit = require('./dbFiles/dbContructor/submissionResubmit.js');
 const ResubmitPDFContructor = require('./dbFiles/dbContructor/ResubmitPDFContructor.js');
 
-
 const PagIbigVirtualAccountPDF = require('./dbFiles/dbContructor/PagIbigVirtualAccountPDF.js');
 const MaternityNotification = require('./dbFiles/dbContructor/MaternityNotification.js');
 
 const MaternityBenefit1PDF = require('./dbFiles/dbContructor/MaternityBenefit1PDF.js');
 const MaternityBenefit2PDF = require('./dbFiles/dbContructor/MaternityBenefit2PDF.js');
 const MaternityBenefit3PDF = require('./dbFiles/dbContructor/MaternityBenefit3PDF.js');
+
+
+const SSSrequesterPDF = require('./dbFiles/dbContructor/SSSrequesterPDF.js');
+const SSSrequesterPDF2 = require('./dbFiles//dbContructor/SSSrequesterPDF2.js')
+
+const SSSrequester3 = require('./dbFiles/dbContructor/SSSrequester3.js');
+const SSSrequesterPDF3 = require('./dbFiles/dbContructor/SSSrequesterPDF3.js');
 
 const app = express();
 const PORT = 5000;
@@ -28,8 +34,6 @@ app.use(cors());
 app.use(express.json());
 
 app.post('/upload', upload.single('sssloanPDF'), async (req, res) => {
-  console.log(req);
-  console.log("this");
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded' });
@@ -400,6 +404,68 @@ app.post('/MaternityBenefit', upload.fields([
         
         // Pass the required parameters to insertPDF function
         await dbOperation.MaternityBenefit(selectedNum,dbData,dbDataPDF);
+      }
+
+      
+      res.status(200).json({ message: 'Files uploaded successfully' });
+  } catch (error) {
+      console.error('Error uploading files:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/SSSrequest', upload.fields([
+  { name: 'selected' }, 
+  { name: 'StatementOfAccount' }, 
+  { name: 'VerificationRequestForm' },
+  { name: 'MonthlyContributions' },
+  { name: 'SpecifyOtherRequest' }
+]), async (req, res) => {
+  try {
+      const selectedNum = req.body.selected;
+      const StatementOfAccount = req.files['StatementOfAccount'];
+      const VerificationRequestForm = req.files['VerificationRequestForm'];
+      const MonthlyContributions = req.files['MonthlyContributions'];
+      const SpecifyOtherRequest = req.body.SpecifyOtherRequest;
+
+      // console.log(selectedNum);
+      // console.log("Application_Form: ",StatementOfAccount);
+      // console.log("LiveBirthCert: ",VerificationRequestForm);
+
+      const TransactionType = "Certification Request";
+      const Status = "Pending";
+      const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
+      const TurnAround = "5"
+      const Application_Date = "";
+      const Transaction_Number = "";
+      const OtherReq = "";
+
+      const EmpId = "10023";
+
+      if(selectedNum === "1"){
+        const TypeOfDelivery = "SSS Unposted Loan Payment";
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,OtherReq,EmpId);
+        const dbDataPDF = new SSSrequesterPDF(StatementOfAccount,VerificationRequestForm);
+        
+        // Pass the required parameters to insertPDF function
+        await dbOperation.SSSrequest(selectedNum,dbData,dbDataPDF);
+      }
+      else if(selectedNum === "2"){
+        const TypeOfDelivery = "SSS Unposted Contribution";
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,OtherReq,EmpId);
+        const dbDataPDF = new SSSrequesterPDF2(MonthlyContributions,VerificationRequestForm);
+
+        await dbOperation.SSSrequest(selectedNum,dbData,dbDataPDF);
+      
+      }else if(selectedNum === "3"){
+        const TypeOfDelivery = "SSS Other Information Update Request";
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,OtherReq,EmpId);
+        const dbDataPDF1 = new SSSrequester3(VerificationRequestForm);
+        const dbDataPDF2 = new SSSrequesterPDF3(SpecifyOtherRequest);
+
+
+        // Pass the required parameters to insertPDF function
+        await dbOperation.SSSOtherRequest(selectedNum,dbData,dbDataPDF1,dbDataPDF2);
       }
 
       

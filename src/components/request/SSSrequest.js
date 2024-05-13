@@ -34,8 +34,11 @@ import 'react-toastify/dist/ReactToastify.css';
     });
     
     const [selected, setSelected] = useState("0")
+    const [specifyOtherRequest, setSpecifyOtherRequest] = useState("");
     const [thisInfo, setThisInfo] = useState({
-      
+      StatementOfAccount: '',
+      VerificationRequestForm: '',
+      MonthlyContributions: '',
     });
 
     useEffect(() => {
@@ -69,150 +72,143 @@ import 'react-toastify/dist/ReactToastify.css';
     const handleFormSubmit = async (e) => {
       e.preventDefault();
 
-      console.log(selected);
-
-    //   if(selected === '1'){
-    //     if (!thisInfo.Application_Form || !thisInfo.LiveBirthCert || !thisInfo.SoloParent) {
-    //       toast.warn('Please fill in all required fields', {
-    //           position: "bottom-right",
-    //           autoClose: 5000,
-    //           hideProgressBar: false,
-    //           closeOnClick: true,
-    //           pauseOnHover: true,
-    //           draggable: true,
-    //           progress: undefined,
-    //           theme: "light",
-    //         });
-    //       return; // Stop form submission
-    //     }
-    //   } else if(selected === '2'){
-    //     if (!thisInfo.ProofPregnancy || !thisInfo.HospitalRec) {
-    //       toast.warn('Please fill in all required fields', {
-    //           position: "bottom-right",
-    //           autoClose: 5000,
-    //           hideProgressBar: false,
-    //           closeOnClick: true,
-    //           pauseOnHover: true,
-    //           draggable: true,
-    //           progress: undefined,
-    //           theme: "light",
-    //         });
-    //       return; // Stop form submission
-    //     }
-    //   } else if(selected === '3'){
-    //     if (!thisInfo.DeathCert) {
-    //       toast.warn('Please fill in all required fields', {
-    //           position: "bottom-right",
-    //           autoClose: 5000,
-    //           hideProgressBar: false,
-    //           closeOnClick: true,
-    //           pauseOnHover: true,
-    //           draggable: true,
-    //           progress: undefined,
-    //           theme: "light",
-    //         });
-    //       return; // Stop form submission
-    //     }
-    //   }else{
-    //     toast.warn('Please fill in all required fields', {
-    //       position: "bottom-right",
-    //       autoClose: 5000,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //       theme: "light",
-    //     });
-    //     return; 
-    //   }
+      // if(selected === '1'){
+      //   if (!thisInfo.StatementOfAccount || !thisInfo.VerificationRequestForm) {
+      //     toast.warn('Please fill in all required fields', {
+      //         position: "bottom-right",
+      //         autoClose: 5000,
+      //         hideProgressBar: false,
+      //         closeOnClick: true,
+      //         pauseOnHover: true,
+      //         draggable: true,
+      //         progress: undefined,
+      //         theme: "light",
+      //       });
+      //     return; // Stop form submission
+      //   }
+      // } 
+      // else if(selected === '2'){
+      //   if (!thisInfo.ProofPregnancy || !thisInfo.HospitalRec) {
+      //     toast.warn('Please fill in all required fields', {
+      //         position: "bottom-right",
+      //         autoClose: 5000,
+      //         hideProgressBar: false,
+      //         closeOnClick: true,
+      //         pauseOnHover: true,
+      //         draggable: true,
+      //         progress: undefined,
+      //         theme: "light",
+      //       });
+      //     return; // Stop form submission
+      //   }
+      // } else if(selected === '3'){
+      //   if (!thisInfo.DeathCert) {
+      //     toast.warn('Please fill in all required fields', {
+      //         position: "bottom-right",
+      //         autoClose: 5000,
+      //         hideProgressBar: false,
+      //         closeOnClick: true,
+      //         pauseOnHover: true,
+      //         draggable: true,
+      //         progress: undefined,
+      //         theme: "light",
+      //       });
+      //     return; // Stop form submission
+      //   }
+      // }else{
+      //   toast.warn('Please fill in all required fields', {
+      //     position: "bottom-right",
+      //     autoClose: 5000,
+      //     hideProgressBar: false,
+      //     closeOnClick: true,
+      //     pauseOnHover: true,
+      //     draggable: true,
+      //     progress: undefined,
+      //     theme: "light",
+      //   });
+      //   return; 
+      // }
       
 
-    //   const formData = new FormData();
-    //   formData.append("selected", selected); // Assuming selected is defined
-    //   formData.append('Application_Form', thisInfo.Application_Form); // Assuming thisInfo.Application_Form is defined
+      const formData = new FormData();
+      formData.append("selected", selected); // Assuming selected is define
   
-    //   // Append other files based on selected option
-    //   if(selected === '1'){
-    //       formData.append('LiveBirthCert', thisInfo.LiveBirthCert);
-    //       formData.append('SoloParent', thisInfo.SoloParent);
-    //   } else if(selected === '2'){
-    //       formData.append('ProofPregnancy', thisInfo.ProofPregnancy);
-    //       formData.append('HospitalRec', thisInfo.HospitalRec);
-    //   } else if(selected === '3'){
-    //       formData.append('DeathCert', thisInfo.DeathCert);
-    //   }
+      // Append other files based on selected option
+      if(selected === '1'){
+          formData.append('StatementOfAccount', thisInfo.StatementOfAccount);
+          formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
+      } 
+      else if(selected === '2'){
+          formData.append('MonthlyContributions', thisInfo.MonthlyContributions);
+          formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
+        } 
+        else if(selected === '3'){
+          formData.append('SpecifyOtherRequest', specifyOtherRequest);
+          formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
+      }
 
-    //   try {
-    //     const response = await fetch('/MaternityBenefit', {
-    //         method: 'POST',
-    //         body: formData,
-    //     });
+      try {
+        const response = await fetch('/SSSrequest', {
+            method: 'POST',
+            body: formData,
+        });
     
-    //     if (response.ok) {
-    //         const jsonResponse = await response.json();
+        if (response.ok) {
+            const jsonResponse = await response.json();
     
-    //         console.log(jsonResponse.message);
-    //          // Emit success toast
-    //          toast.success('Submitted Successfully', {
-    //           position: "bottom-right",
-    //           autoClose: 5000,
-    //           hideProgressBar: false,
-    //           closeOnClick: true,
-    //           pauseOnHover: true,
-    //           draggable: true,
-    //           progress: undefined,
-    //           theme: "light",
-    //         });
+            console.log(jsonResponse.message);
+             // Emit success toast
+             toast.success('Submitted Successfully', {
+              position: "bottom-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
           
-    //         setEmployeeData({
-    //           deliveryType: ''
-    //         });
-    //         setThisInfo({
-    //           Application_Form: '',
-    //           LiveBirthCert: '',
-    //           SoloParent: '',
-    //           ProofPregnancy: '',
-    //           HospitalRec: '',
-    //           DeathCert: ''
-    //         });
-
+            setEmployeeData({
+              deliveryType: ''
+            });
             
-    //         // Clear file input fields
-    //         document.getElementById('deliveryType').value = null;
-    //         setSelected("0");
-    //         document.getElementById('Application_Form').value = null;
+            // Clear file input fields
+            document.getElementById('deliveryType').value = null;
+            setSelected("0");
+            document.getElementById('Application_Form').value = null;
     
            
-    //       } else {
-    //           console.error('Failed to upload PDF:', response.statusText);
-    //           toast.error('Failed to Submit', {
-    //               position: "bottom-right",
-    //               autoClose: 5000,
-    //               hideProgressBar: false,
-    //               closeOnClick: true,
-    //               pauseOnHover: true,
-    //               draggable: true,
-    //               progress: undefined,
-    //               theme: "light",
-    //           });
-    //       }
-    //   } catch (error) {
-    //       console.error('Error uploading PDF:', error);
-    //   }
+          } else {
+              console.error('Failed to upload PDF:', response.statusText);
+              toast.error('Failed to Submit', {
+                  position: "bottom-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+              });
+          }
+      } catch (error) {
+          console.error('Error uploading PDF:', error);
+      }
     };
-    const handleLiveBirthCert = (e) => {
-      setThisInfo({ ...thisInfo, LiveBirthCert: e.target.files[0] });
+    const handleStatementOFAccount = (e) => {
+      setThisInfo({ ...thisInfo, StatementOfAccount: e.target.files[0] });
     };
-    const handleSoloParent = (e) => {
-      setThisInfo({ ...thisInfo, SoloParent: e.target.files[0] });
+    const handleVerificationRequestForm = (e) => {
+      setThisInfo({ ...thisInfo, VerificationRequestForm: e.target.files[0] });
     };
-    const handleProofPregnancy = (e) => {
-      setThisInfo({ ...thisInfo, ProofPregnancy: e.target.files[0] });
+    const handleMonthlyContributions = (e) => {
+      setThisInfo({ ...thisInfo, MonthlyContributions: e.target.files[0] });
     };
-    const handleDeathCert = (e) => {
-      setThisInfo({ ...thisInfo, DeathCert: e.target.files[0] });
+    const handleOtherRequestChange = (event) => {
+      setSpecifyOtherRequest(event.target.value);
     };
+    
   
     if (!employeeData) {
       return <div>Loading...</div>;
@@ -267,7 +263,7 @@ import 'react-toastify/dist/ReactToastify.css';
                                           </div>
                                           <div className="form-group">
                                             <label style={{ fontSize: '14px' }}>Upload Latest Statement of Account (Non-anonymous question) *</label>
-                                            <input id='LiveBirthCert' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleLiveBirthCert}/>
+                                            <input id='' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleStatementOFAccount}/>
                                             <button style={{ fontSize: '12px', border: 'none', background: 'none'}}>
                                                 <a href="https://innodata.sharepoint.com/:w:/s/HR-TOOLS/EeIZSXnDEa1PgSYB9UNHSSIBs1YOqm4xZPPGESXLB-EOJA?e=SD9ISX" target="_blank" rel="noopener noreferrer">How to download SSS SOA</a>
                                             </button>
@@ -277,7 +273,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
                                           <div className="form-group">
                                             <label style={{ fontSize: '14px' }}>Upload "Request/Verification Form" (Non-anonymous question) *</label> 
-                                            <input id='SoloParent' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleSoloParent}/>
+                                            <input id='' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleVerificationRequestForm}/>
                                             <button style={{ fontSize: '12px', border: 'none', background: 'none'}}>
                                                 <a href="https://www.sss.gov.ph/sss/DownloadContent?fileName=cov-01205-052015.pdf" download target="_blank" rel="noopener noreferrer">View Form</a>
                                             </button>
@@ -293,14 +289,14 @@ import 'react-toastify/dist/ReactToastify.css';
                                           </div>
                                           <div className="form-group">
                                             <label htmlFor="middleName">Upload Latest Monthly Contributions (Non-anonymous question) *</label> 
-                                            <input id='ProofPregnancy' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleProofPregnancy}/>
+                                            <input id='' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleMonthlyContributions}/>
                                           </div>
 
                                           <div style={{ border: '1px solid #ccc', marginTop: '5px', marginBottom: '5px' }} />
                                           
                                           <div className="form-group">
                                             <label style={{ fontSize: '14px' }}>Upload "Request/Verification Form" (Non-anonymous question) *</label> 
-                                            <input id='SoloParent' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleSoloParent}/>
+                                            <input id='' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleVerificationRequestForm}/>
                                             <button style={{ fontSize: '12px', border: 'none', background: 'none'}}>
                                                 <a href="https://www.sss.gov.ph/sss/DownloadContent?fileName=cov-01205-052015.pdf" download target="_blank" rel="noopener noreferrer">View Form</a>
                                             </button>
@@ -315,14 +311,14 @@ import 'react-toastify/dist/ReactToastify.css';
                                           </div>
                                           <div className="form-group">
                                             <label htmlFor="middleName">Specify Other Request *</label> 
-                                            <input id='DeathCert' type="text" className="form-control-file" aria-describedby="fileHelp" onChange={handleDeathCert} placeholder='Type here...'/>
+                                            <input id='DeathCert' type="text" className="form-control-file" aria-describedby="fileHelp" onChange={handleOtherRequestChange} value={specifyOtherRequest} placeholder='Type here...'/>
                                           </div>
 
                                           <div style={{ border: '1px solid #ccc', marginTop: '5px', marginBottom: '5px' }} />
                                           
                                           <div className="form-group">
                                             <label style={{ fontSize: '14px' }}>Upload "Request/Verification Form" (Non-anonymous question) *</label> 
-                                            <input id='SoloParent' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleSoloParent}/>
+                                            <input id='' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleVerificationRequestForm}/>
                                             <button style={{ fontSize: '12px', border: 'none', background: 'none'}}>
                                                 <a href="https://www.sss.gov.ph/sss/DownloadContent?fileName=cov-01205-052015.pdf" download target="_blank" rel="noopener noreferrer">View Form</a>
                                             </button>

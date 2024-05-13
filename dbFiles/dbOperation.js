@@ -304,6 +304,50 @@ const MaternityBenefit = async (selectedNum, data, dataPDF) => {
         throw error;
     }
 }
+const SSSrequest = async (selectedNum, data, dataPDF) => {
+    try {
+        console.log(data.SpecifyOtherRequest);
+        console.log(data.VerificationRequestForm);
+        const currentDate = data.currentDate;
+
+        const TransactionType = data.TransactionType;
+        const Status = data.Status;
+        const DateTime = currentDate;
+        const TurnAround = data.TurnAround;
+        const Application_Date = data.Application_Date;
+        const Transaction_Num = data.Transaction_Number;
+        const TypeOfDelivery = data.TypeOfDelivery;
+        const OtherReq = data.OtherReq;
+        const EmpId = data.EmpId;
+
+        insertCertificationRequest(selectedNum,TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,OtherReq,EmpId, dataPDF)
+       
+    } catch (error) {
+        console.error("Error inserting PDF:", error);
+        throw error;
+    }
+}
+const SSSOtherRequest = async (selectedNum, data,dbDataMessage,dbDataPDF) => {
+    try {
+
+        const currentDate = data.currentDate;
+
+        const TransactionType = data.TransactionType;
+        const Status = data.Status;
+        const DateTime = currentDate;
+        const TurnAround = data.TurnAround;
+        const Application_Date = data.Application_Date;
+        const Transaction_Num = data.Transaction_Number;
+        const TypeOfDelivery = data.TypeOfDelivery;
+        const EmpId = data.EmpId;
+
+        insertCertificationRequest(selectedNum,TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,dbDataMessage,EmpId,dbDataPDF)
+       
+    } catch (error) {
+        console.error("Error inserting PDF:", error);
+        throw error;
+    }
+}
 
 
 
@@ -434,6 +478,56 @@ const insertSubmissionMaternityBenefit = async (selected, TransactionType,Status
         throw error;
     }
 }
+const insertCertificationRequest = async (selected, TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,OtherReq,EmpId, dataPDF) => {
+    try {
+        // Assuming you have already initialized SQL connection pool
+        let pool = await sql.connect(config);
+
+        const RequirementName16 = "Latest Statement of Account";
+        const RequirementName17 = "Request/Verification Form";
+
+        const RequirementName18 = "Latest Monthly Contributions";
+
+
+        console.log(dataPDF);
+
+        const file = await pool.request()
+            
+            .input('TransactionType', TransactionType)
+            .input('Status', Status)
+            .input('DateTime', DateTime)
+            .input('TurnAround', TurnAround)
+            .input('Application_Date', Application_Date)
+            .input('Transaction_Num', Transaction_Num)
+            .input('DeliveryType', TypeOfDelivery)
+            .input('OtherReq', OtherReq)
+            .input('EmpId', EmpId) 
+            .query(`
+                INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,OtherReq,EmpId)
+                OUTPUT inserted.SubmissionID
+                VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@OtherReq,@EmpId)
+            `); 
+
+            const SubmissionID = file.recordset[0].SubmissionID;
+
+            console.log(dataPDF);
+            if(TransactionType === "Certification Request"){
+                if(selected === "1"){
+                    PdfFile(dataPDF.StatementOfAccount,SubmissionID,RequirementName16);
+                    PdfFile(dataPDF.VerificationRequestForm,SubmissionID,RequirementName17);
+                }else if(selected === "2"){
+                    PdfFile(dataPDF.MonthlyContributions,SubmissionID,RequirementName18);
+                    PdfFile(dataPDF.VerificationRequestForm,SubmissionID,RequirementName17);
+                }else if(selected === "3"){
+                    
+                }
+            }
+            console.log("Successfully inserted: ",file);
+    } catch (error) {
+        console.error("Error inserting PDF:", error);
+        throw error;
+    }
+}
 
 const PdfFile = async (insertPDF,SubmissionID,RequirementName) => {
     try {
@@ -491,5 +585,7 @@ module.exports = {
     insertPagIbig_DBP,
     insertPagIbig_VirtualAcc,
     insertMaternityNotification,
-    MaternityBenefit
+    MaternityBenefit,
+    SSSrequest,
+    SSSOtherRequest
 };
