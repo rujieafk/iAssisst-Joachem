@@ -1,6 +1,6 @@
-class sssLoanPDF3{
-    constructor(SpecifyOtherRequest){
-        this.SpecifyOtherRequest = SpecifyOtherRequest;
+class SSSrequesterPDF3{
+    constructor(VerificationRequestForm){
+        this.VerificationRequestForm = VerificationRequestForm;
     }
 }
-module.exports = sssLoanPDF3;
+module.exports = SSSrequesterPDF3;

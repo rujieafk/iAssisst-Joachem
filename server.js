@@ -201,9 +201,12 @@ app.post('/SSS_upload', upload.fields([{ name: 'Pay_Slip' }, { name: 'Disclosure
       const TypeOfDelivery = "";
       const paySlipFiles = req.files['Pay_Slip']; // Assuming Pay_Slip can have multiple files
       const disclosureStatementFiles = req.files['Disclosure_Statement']; // Assuming Disclosure_Statement can have multiple files
+      const RequestType = "";
+      const OtherReq = "";
+      
       const EmpId = "10023";
       
-      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery, EmpId);
+      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId);
       const dbDataPDF = new sssLoanPDF(paySlipFiles,disclosureStatementFiles);
 
       // Pass the required parameters to insertPDF function
@@ -227,6 +230,8 @@ app.post('/Landbank_upload', upload.fields([{ name: 'Application_Form' }, { name
       const Application_Date = "";
       const Transaction_Number = "";
       const TypeOfDelivery = "";
+      const RequestType = "";
+      const OtherReq = "";
       
       const EmpId = "10023";
 
@@ -234,7 +239,7 @@ app.post('/Landbank_upload', upload.fields([{ name: 'Application_Form' }, { name
       const paySlipFiles = req.files['paySlipFiles'];
       const Valid_ID= req.files['Valid_ID'];
 
-      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,EmpId);
+      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId);
       const dbDataPDF = new DefaultPdfFile(ApplicationFormFile,paySlipFiles,Valid_ID);
 
       // Pass the required parameters to insertPDF function
@@ -257,6 +262,8 @@ app.post('/DBP_upload', upload.fields([{ name: 'Application_Form' }, { name: 'pa
       const Application_Date = "";
       const Transaction_Number = "";
       const TypeOfDelivery = "";
+      const RequestType = "";
+      const OtherReq = "";
 
       const EmpId = "10023";
 
@@ -264,7 +271,7 @@ app.post('/DBP_upload', upload.fields([{ name: 'Application_Form' }, { name: 'pa
       const paySlipFiles = req.files['paySlipFiles'];
       const Valid_ID= req.files['Valid_ID'];
 
-      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,EmpId);
+      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId);
       const dbDataPDF = new DefaultPdfFile(ApplicationFormFile,paySlipFiles,Valid_ID);
 
       // Pass the required parameters to insertPDF function
@@ -287,6 +294,8 @@ app.post('/VirtualAcc_upload', upload.fields([ { name: 'paySlip' }, { name: 'Scr
       const Application_Date = "";
       const Transaction_Number = "";
       const TypeOfDelivery = "";
+      const RequestType = "";
+      const OtherReq = "";
 
       const EmpId = "10023";
 
@@ -294,7 +303,7 @@ app.post('/VirtualAcc_upload', upload.fields([ { name: 'paySlip' }, { name: 'Scr
       const Screenshot_Virtual = req.files['Screenshot_Virtual'];
       const GrossIncome= req.files['GrossIncome'];
 
-      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,EmpId);
+      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId);
       const dbDataPDF = new PagIbigVirtualAccountPDF(paySlip,Screenshot_Virtual,GrossIncome);
 
       // Pass the required parameters to insertPDF function
@@ -317,6 +326,8 @@ app.post('/Maternity_upload', upload.fields([ { name: 'Notication_Form' }, { nam
     const Application_Date = "";
     const Transaction_Number = "";
     const TypeOfDelivery = "";
+    const RequestType = "";
+    const OtherReq = "";
 
     const EmpId = "10023";
     
@@ -325,7 +336,7 @@ app.post('/Maternity_upload', upload.fields([ { name: 'Notication_Form' }, { nam
     const Credit_Form= req.files['Credit_Form'];
     const Medical_Reports= req.files['Medical_Reports'];
 
-    const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,EmpId);
+    const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId);
     const dbDataPDF = new MaternityNotification(Notication_Form,Maternity_Eligibility,Credit_Form,Medical_Reports);
       
       // console.log(dbData);
@@ -371,20 +382,14 @@ app.post('/MaternityBenefit', upload.fields([
       const TurnAround = "5"
       const Application_Date = "";
       const Transaction_Number = "";
+      const RequestType = "";
+      const OtherReq = "";
 
       const EmpId = "10023";
-      
-      // if(selected === "1"){
-      //   DeliveryType = "Live Child Birth";
-      // } else if(selected === "2"){
-      //     DeliveryType = "Miscarriage/ Emergency Termination of Pregnancy / Ectopic Pregnancy";
-      // } else if(selected === "3"){
-      //     DeliveryType = "Still Birth/Fetal Death";
-      // }
 
       if(selectedNum === "1"){
         const TypeOfDelivery = "Live Child Birth";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,EmpId);
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId);
         const dbDataPDF = new MaternityBenefit1PDF(Application_Form,LiveBirthCert,SoloParent);
         
         // Pass the required parameters to insertPDF function
@@ -392,14 +397,14 @@ app.post('/MaternityBenefit', upload.fields([
       }
       else if(selectedNum === "2"){
         const TypeOfDelivery = "Miscarriage / Emergency Termination of Pregnancy / Ectopic Pregnancy";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,EmpId);
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId);
         const dbDataPDF = new MaternityBenefit2PDF(Application_Form,ProofPregnancy,HospitalRec);
         
         // Pass the required parameters to insertPDF function
         await dbOperation.MaternityBenefit(selectedNum,dbData,dbDataPDF);
       }else if(selectedNum === "3"){
         const TypeOfDelivery = "Still Birth / Fetal Death";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,EmpId);
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId);
         const dbDataPDF = new MaternityBenefit3PDF(Application_Form,DeathCert);
         
         // Pass the required parameters to insertPDF function
@@ -438,31 +443,31 @@ app.post('/SSSrequest', upload.fields([
       const TurnAround = "5"
       const Application_Date = "";
       const Transaction_Number = "";
+      const TypeOfDelivery = "";
       const OtherReq = "";
 
       const EmpId = "10023";
 
       if(selectedNum === "1"){
-        const TypeOfDelivery = "SSS Unposted Loan Payment";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,OtherReq,EmpId);
+        const RequestType = "SSS Unposted Loan Payment";
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,RequestType,OtherReq,EmpId);
         const dbDataPDF = new SSSrequesterPDF(StatementOfAccount,VerificationRequestForm);
         
         // Pass the required parameters to insertPDF function
         await dbOperation.SSSrequest(selectedNum,dbData,dbDataPDF);
       }
       else if(selectedNum === "2"){
-        const TypeOfDelivery = "SSS Unposted Contribution";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,OtherReq,EmpId);
+        const RequestType = "SSS Unposted Contribution";
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,RequestType,OtherReq,EmpId);
         const dbDataPDF = new SSSrequesterPDF2(MonthlyContributions,VerificationRequestForm);
 
         await dbOperation.SSSrequest(selectedNum,dbData,dbDataPDF);
       
       }else if(selectedNum === "3"){
-        const TypeOfDelivery = "SSS Other Information Update Request";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,OtherReq,EmpId);
-        const dbDataPDF1 = new SSSrequester3(VerificationRequestForm);
-        const dbDataPDF2 = new SSSrequesterPDF3(SpecifyOtherRequest);
-
+        const RequestType = "SSS Other Information Update Request";
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,RequestType,OtherReq,EmpId);
+        const dbDataPDF1 = new SSSrequester3(SpecifyOtherRequest);
+        const dbDataPDF2 = new SSSrequesterPDF3(VerificationRequestForm);
 
         // Pass the required parameters to insertPDF function
         await dbOperation.SSSOtherRequest(selectedNum,dbData,dbDataPDF1,dbDataPDF2);

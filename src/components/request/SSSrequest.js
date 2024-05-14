@@ -142,7 +142,7 @@ import 'react-toastify/dist/ReactToastify.css';
           formData.append('MonthlyContributions', thisInfo.MonthlyContributions);
           formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
         } 
-        else if(selected === '3'){
+      else if(selected === '3'){
           formData.append('SpecifyOtherRequest', specifyOtherRequest);
           formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
       }

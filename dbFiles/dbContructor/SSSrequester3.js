@@ -1,6 +1,6 @@
 class SSSrequester3{
-    constructor(VerificationRequestForm){
-        this.VerificationRequestForm = VerificationRequestForm;
+    constructor(SpecifyOtherRequest){
+        this.SpecifyOtherRequest = SpecifyOtherRequest;
     }
 }
 module.exports = SSSrequester3;
