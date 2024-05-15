@@ -253,7 +253,7 @@ import 'react-toastify/dist/ReactToastify.css';
                                       <div className="d-flex justify-content-left ">
                                         { selected === "0" && (
                                           <div className="no-selected">
-                                            <label >Select a type of delivery</label>  
+                                            <label >Select a type of request.</label>  
                                           </div>
                                         )}
                                         { selected === "1" && selected  !== "0" && (
