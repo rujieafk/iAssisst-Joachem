@@ -1,5 +1,5 @@
 class thisDefaultContructor{
-    constructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,RequestType,OtherReq,EmpId){
+    constructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName){
         this.TransactionType = TransactionType;
         this.Status = Status;
         this.currentDate = currentDate;
@@ -10,6 +10,8 @@ class thisDefaultContructor{
         this.RequestType = RequestType;
         this.OtherReq = OtherReq;
         this.EmpId = EmpId;
+        this.ErroneousName = ErroneousName;
+        this.CorrectName = CorrectName;
     }
 }
 module.exports = thisDefaultContructor;

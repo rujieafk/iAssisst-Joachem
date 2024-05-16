@@ -34,11 +34,11 @@ import 'react-toastify/dist/ReactToastify.css';
     });
     
     const [selected, setSelected] = useState("0")
-    const [specifyOtherRequest, setSpecifyOtherRequest] = useState("");
+    const [ErroneousName, setErroneousName] = useState("");
+    const [CorrectName, setCorrectName] = useState("");
     const [thisInfo, setThisInfo] = useState({
       StatementOfAccount: '',
-      VerificationRequestForm: '',
-      MonthlyContributions: '',
+      FormFromPagIbig: ''
     });
 
     useEffect(() => {
@@ -72,83 +72,20 @@ import 'react-toastify/dist/ReactToastify.css';
     const handleFormSubmit = async (e) => {
       e.preventDefault();
 
-      // if(selected === '1'){
-      //   if (!thisInfo.StatementOfAccount || !thisInfo.VerificationRequestForm) {
-      //     toast.warn('Please fill in all required fields', {
-      //         position: "bottom-right",
-      //         autoClose: 5000,
-      //         hideProgressBar: false,
-      //         closeOnClick: true,
-      //         pauseOnHover: true,
-      //         draggable: true,
-      //         progress: undefined,
-      //         theme: "light",
-      //       });
-      //     return; // Stop form submission
-      //   }
-      // } 
-      // else if(selected === '2'){
-      //   if (!thisInfo.ProofPregnancy || !thisInfo.HospitalRec) {
-      //     toast.warn('Please fill in all required fields', {
-      //         position: "bottom-right",
-      //         autoClose: 5000,
-      //         hideProgressBar: false,
-      //         closeOnClick: true,
-      //         pauseOnHover: true,
-      //         draggable: true,
-      //         progress: undefined,
-      //         theme: "light",
-      //       });
-      //     return; // Stop form submission
-      //   }
-      // } else if(selected === '3'){
-      //   if (!thisInfo.DeathCert) {
-      //     toast.warn('Please fill in all required fields', {
-      //         position: "bottom-right",
-      //         autoClose: 5000,
-      //         hideProgressBar: false,
-      //         closeOnClick: true,
-      //         pauseOnHover: true,
-      //         draggable: true,
-      //         progress: undefined,
-      //         theme: "light",
-      //       });
-      //     return; // Stop form submission
-      //   }
-      // }else{
-      //   toast.warn('Please fill in all required fields', {
-      //     position: "bottom-right",
-      //     autoClose: 5000,
-      //     hideProgressBar: false,
-      //     closeOnClick: true,
-      //     pauseOnHover: true,
-      //     draggable: true,
-      //     progress: undefined,
-      //     theme: "light",
-      //   });
-      //   return; 
-      // }
-      
-
       const formData = new FormData();
       formData.append("selected", selected); // Assuming selected is define
   
       // Append other files based on selected option
       if(selected === '1'){
           formData.append('StatementOfAccount', thisInfo.StatementOfAccount);
-          formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
       } 
       else if(selected === '2'){
-          formData.append('MonthlyContributions', thisInfo.MonthlyContributions);
-          formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
+          formData.append('FormFromPagIbig', thisInfo.FormFromPagIbig);
+          formData.append('ErroneousName', ErroneousName);
+          formData.append('CorrectName', CorrectName);
         } 
-      else if(selected === '3'){
-          formData.append('SpecifyOtherRequest', specifyOtherRequest);
-          formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
-      }
-
       try {
-        const response = await fetch('/SSSrequest', {
+        const response = await fetch('/PAG_IBIGrequest', {
             method: 'POST',
             body: formData,
         });
@@ -199,14 +136,15 @@ import 'react-toastify/dist/ReactToastify.css';
     const handleStatementOFAccount = (e) => {
       setThisInfo({ ...thisInfo, StatementOfAccount: e.target.files[0] });
     };
-    const handleVerificationRequestForm = (e) => {
-      setThisInfo({ ...thisInfo, VerificationRequestForm: e.target.files[0] });
+    const handleFormFromPagIbig = (e) => {
+      setThisInfo({ ...thisInfo, FormFromPagIbig: e.target.files[0] });
     };
-    const handleMonthlyContributions = (e) => {
-      setThisInfo({ ...thisInfo, MonthlyContributions: e.target.files[0] });
+    
+    const handleErroneousName = (event) => {
+      setErroneousName(event.target.value);
     };
-    const handleOtherRequestChange = (event) => {
-      setSpecifyOtherRequest(event.target.value);
+    const handleCorrectName = (event) => {
+      setCorrectName(event.target.value);
     };
     
   
@@ -270,22 +208,22 @@ import 'react-toastify/dist/ReactToastify.css';
                                          { selected === '2' && selected !== '0' && selected !== '1'&& (
                                         <div className="row justify-content-left content-holder">
                                           <div className="form-group">
-                                            <label htmlFor="middleName">Other Information Update Request</label> 
+                                            <label htmlFor="middleName">Certificate of Oneness</label> 
                                           </div>
                                           <div className="form-group">
                                             <label style={{ fontSize: '14px' }}>Upload Printout Form From Pag-Ibig (Non-anonymous question) *</label> 
-                                            <input id='' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleVerificationRequestForm}/>
+                                            <input id='' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleFormFromPagIbig}/>
                                           </div>
                                           <div style={{ border: '1px solid #ccc', marginTop: '5px', marginBottom: '5px' }} />
                                           <div className="form-group">
                                             <label htmlFor="middleName">ERRONEOUS NAME *</label> 
-                                            <input id='DeathCert' type="text" className="form-control-file" aria-describedby="fileHelp" onChange={handleOtherRequestChange} value={specifyOtherRequest} placeholder='Type here...'/>
+                                            <input id='DeathCert' type="text" className="form-control-file" aria-describedby="fileHelp" onChange={handleErroneousName} value={ErroneousName} placeholder='Type here...'/>
                                           </div>
 
                                           <div style={{ border: '1px solid #ccc', marginTop: '5px', marginBottom: '5px' }} />
                                           <div className="form-group">
                                             <label htmlFor="middleName">CORRECT NAME *</label> 
-                                            <input id='DeathCert' type="text" className="form-control-file" aria-describedby="fileHelp" onChange={handleOtherRequestChange} value={specifyOtherRequest} placeholder='Type here...'/>
+                                            <input id='DeathCert' type="text" className="form-control-file" aria-describedby="fileHelp" onChange={handleCorrectName} value={CorrectName} placeholder='Type here...'/>
                                           </div>
                                         </div>  
                                         )}

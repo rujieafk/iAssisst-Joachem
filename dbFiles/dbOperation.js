@@ -192,8 +192,10 @@ const sssLoan = (data, dataPDF) => {
         const RequestType = data.RequestType;
         const OtherReq = data.OtherReq;
         const EmpId = data.EmpId;
+        const ErroneousName = data.ErroneousName;
+        const CorrectName = data.CorrectName;
 
-        insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId, dataPDF)
+        insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName, dataPDF)
 
     } catch (error) {
         console.error("Error inserting PDF:", error);
@@ -213,8 +215,10 @@ const insertPagIbig_Landbank = async (data, dataPDF) => {
         const RequestType = data.RequestType;
         const OtherReq = data.OtherReq;
         const EmpId = data.EmpId;
+        const ErroneousName = data.ErroneousName;
+        const CorrectName = data.CorrectName;
 
-        insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId, dataPDF)
+        insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName, dataPDF)
 
     } catch (error) {
         console.error("Error inserting PDF:", error);
@@ -235,8 +239,10 @@ const insertPagIbig_DBP = async (data, dataPDF) => {
         const RequestType = data.RequestType;
         const OtherReq = data.OtherReq;
         const EmpId = data.EmpId;
+        const ErroneousName = data.ErroneousName;
+        const CorrectName = data.CorrectName;
 
-        insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId, dataPDF)
+        insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId, ErroneousName,CorrectName, dataPDF)
 
     } catch (error) {
         console.error("Error inserting PDF:", error);
@@ -255,8 +261,10 @@ const insertPagIbig_VirtualAcc = async (data, dataPDF) => {
         const RequestType = data.RequestType;
         const OtherReq = data.OtherReq;
         const EmpId = data.EmpId;
+        const ErroneousName = data.ErroneousName;
+        const CorrectName = data.CorrectName;
 
-        insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId, dataPDF)
+        insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName, CorrectName, dataPDF)
 
     } catch (error) {
         console.error("Error inserting PDF:", error);
@@ -275,8 +283,10 @@ const insertMaternityNotification = async (data, dataPDF) => {
         const RequestType = data.RequestType;
         const OtherReq = data.OtherReq;
         const EmpId = data.EmpId;
+        const ErroneousName = data.ErroneousName;
+        const CorrectName = data.CorrectName;
 
-        insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId, dataPDF)
+        insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId, ErroneousName,CorrectName, dataPDF)
 
     } catch (error) {
         console.error("Error inserting PDF:", error);
@@ -296,8 +306,10 @@ const MaternityBenefit = async (selectedNum, data, dataPDF) => {
         const RequestType = data.RequestType;
         const OtherReq = data.OtherReq;
         const EmpId = data.EmpId;
+        const ErroneousName = data.ErroneousName;
+        const CorrectName = data.CorrectName;
 
-       insertSubmissionMaternityBenefit(selectedNum,TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId, dataPDF)
+       insertSubmissionMaternityBenefit(selectedNum,TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName, dataPDF)
        
     } catch (error) {
         console.error("Error inserting PDF:", error);
@@ -316,8 +328,10 @@ const SSSrequest = async (selectedNum, data, dataPDF) => {
         const TypeOfDelivery = data.TypeOfDelivery;
         const OtherReq = data.OtherReq;
         const EmpId = data.EmpId;
+        const ErroneousName = data.ErroneousName;
+        const CorrectName = data.CorrectName;
 
-        insertCertificationRequest(selectedNum,TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId, dataPDF)
+        insertCertificationRequestSSS(selectedNum,TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName, dataPDF)
        
     } catch (error) {
         console.error("Error inserting PDF:", error);
@@ -336,8 +350,54 @@ const SSSOtherRequest = async (selectedNum, data, dbDataMessage, dbDataPDF) => {
         const RequestType = data.RequestType;
         const OtherReq = dbDataMessage.SpecifyOtherRequest;
         const EmpId = data.EmpId;
+        const ErroneousName = data.ErroneousName;
+        const CorrectName = data.CorrectName;
 
-        insertCertificationRequest(selectedNum,TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId, dbDataPDF)
+        insertCertificationRequestSSS(selectedNum,TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName, dbDataPDF)
+       
+    } catch (error) {
+        console.error("Error inserting PDF:", error);
+        throw error;
+    }
+}
+const PAG_IBIGrequest = async (selectedNum, data, dataPDF) => {
+    try {
+        const TransactionType = data.TransactionType;
+        const Status = data.Status;
+        const DateTime = data.currentDate;
+        const TurnAround = data.TurnAround;
+        const Application_Date = data.Application_Date;
+        const Transaction_Num = data.Transaction_Number;
+        const RequestType = data.RequestType;
+        const TypeOfDelivery = data.TypeOfDelivery;
+        const OtherReq = data.OtherReq;
+        const EmpId = data.EmpId;
+        const ErroneousName = data.ErroneousName;
+        const CorrectName = data.CorrectName;
+
+        insertCertificationRequestPAG_IBIG(selectedNum,TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName, dataPDF)
+       
+    } catch (error) {
+        console.error("Error inserting PDF:", error);
+        throw error;
+    }
+}
+const CertificateOfOneness = async (selectedNum, data, dataPDF) => {
+    try {
+        const TransactionType = data.TransactionType;
+        const Status = data.Status;
+        const DateTime = data.currentDate;
+        const TurnAround = data.TurnAround;
+        const Application_Date = data.Application_Date;
+        const Transaction_Num = data.Transaction_Number;
+        const RequestType = data.RequestType;
+        const TypeOfDelivery = data.TypeOfDelivery;
+        const OtherReq = data.OtherReq;
+        const EmpId = data.EmpId;
+        const ErroneousName = data.ErroneousName;
+        const CorrectName = data.CorrectName;
+
+        insertCertificationRequestPAG_IBIG(selectedNum,TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,dataPDF)
        
     } catch (error) {
         console.error("Error inserting PDF:", error);
@@ -346,9 +406,8 @@ const SSSOtherRequest = async (selectedNum, data, dbDataMessage, dbDataPDF) => {
 }
 
 
-
 //-----------------------------------------------------------------------
-const insertIntoSubmission = async (TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId, dataPDF) => {
+const insertIntoSubmission = async (TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,dataPDF) => {
     try {
         // Assuming you have already initialized SQL connection pool
         let pool = await sql.connect(config);
@@ -384,10 +443,12 @@ const insertIntoSubmission = async (TransactionType,Status,DateTime,TurnAround,A
             .input('RequestType', RequestType)
             .input('OtherReq', OtherReq)
             .input('EmpId', EmpId) 
+            .input('ErroneousName', ErroneousName) 
+            .input('CorrectName', CorrectName) 
             .query(`
-                INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,RequestType,OtherReq,EmpId)
+                INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName)
                 OUTPUT inserted.SubmissionID
-                VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@RequestType,@OtherReq,@EmpId)
+                VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@RequestType,@OtherReq,@EmpId,@ErroneousName,@CorrectName)
             `); 
 
             const SubmissionID = file.recordset[0].SubmissionID;
@@ -421,7 +482,7 @@ const insertIntoSubmission = async (TransactionType,Status,DateTime,TurnAround,A
         throw error;
     }
 }
-const insertSubmissionMaternityBenefit = async (selected, TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId, dataPDF) => {
+const insertSubmissionMaternityBenefit = async (selected, TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName, dataPDF) => {
     try {
         // Assuming you have already initialized SQL connection pool
         let pool = await sql.connect(config);
@@ -449,10 +510,12 @@ const insertSubmissionMaternityBenefit = async (selected, TransactionType,Status
             .input('RequestType', RequestType)
             .input('OtherReq', OtherReq)
             .input('EmpId', EmpId) 
+            .input('ErroneousName', ErroneousName) 
+            .input('CorrectName', CorrectName) 
             .query(`
-                INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,RequestType,OtherReq,EmpId)
+                INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName)
                 OUTPUT inserted.SubmissionID
-                VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@RequestType,@OtherReq,@EmpId)
+                VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@RequestType,@OtherReq,@EmpId,@ErroneousName,@CorrectName)
             `); 
 
             const SubmissionID = file.recordset[0].SubmissionID;
@@ -478,7 +541,7 @@ const insertSubmissionMaternityBenefit = async (selected, TransactionType,Status
         throw error;
     }
 }
-const insertCertificationRequest = async (selected, TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId, dataPDF) => {
+const insertCertificationRequestSSS = async (selected, TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName, dataPDF) => {
     try {
         // Assuming you have already initialized SQL connection pool
         let pool = await sql.connect(config);
@@ -502,10 +565,12 @@ const insertCertificationRequest = async (selected, TransactionType,Status,DateT
             .input('RequestType', RequestType)
             .input('OtherReq', OtherReq)
             .input('EmpId', EmpId) 
+            .input('ErroneousName', ErroneousName) 
+            .input('CorrectName', CorrectName) 
             .query(`
-                INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,RequestType,OtherReq,EmpId)
+                INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName)
                 OUTPUT inserted.SubmissionID
-                VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@RequestType,@OtherReq,@EmpId)
+                VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@RequestType,@OtherReq,@EmpId,@ErroneousName,@CorrectName)
             `); 
 
             const SubmissionID = file.recordset[0].SubmissionID;
@@ -527,7 +592,50 @@ const insertCertificationRequest = async (selected, TransactionType,Status,DateT
         throw error;
     }
 }
+const insertCertificationRequestPAG_IBIG = async (selected, TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName, dataPDF) => {
+    try {
+        // Assuming you have already initialized SQL connection pool
+        let pool = await sql.connect(config);
 
+        const RequirementName16 = "Latest Statement of Account";
+
+        const RequirementName17 = "Form from Pag-Ibig";
+
+        const file = await pool.request()
+            
+            .input('TransactionType', TransactionType)
+            .input('Status', Status)
+            .input('DateTime', DateTime)
+            .input('TurnAround', TurnAround)
+            .input('Application_Date', Application_Date)
+            .input('Transaction_Num', Transaction_Num)
+            .input('DeliveryType', TypeOfDelivery)
+            .input('RequestType', RequestType)
+            .input('OtherReq', OtherReq)
+            .input('EmpId', EmpId) 
+            .input('ErroneousName', ErroneousName) 
+            .input('CorrectName', CorrectName) 
+            .query(`
+                INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName)
+                OUTPUT inserted.SubmissionID
+                VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@RequestType,@OtherReq,@EmpId,@ErroneousName,@CorrectName)
+            `); 
+
+            const SubmissionID = file.recordset[0].SubmissionID;
+
+            if(TransactionType === "Certification Request"){
+                if(selected === "1"){
+                    PdfFile(dataPDF.RequestedDocument,SubmissionID,RequirementName16);
+                }else if(selected === "2"){
+                    PdfFile(dataPDF.RequestedDocument,SubmissionID,RequirementName17);
+                }
+            }
+            console.log("Successfully inserted: ",file);
+    } catch (error) {
+        console.error("Error inserting PDF:", error);
+        throw error;
+    }
+}
 const PdfFile = async (insertPDF,SubmissionID,RequirementName) => {
     try {
     
@@ -586,5 +694,7 @@ module.exports = {
     insertMaternityNotification,
     MaternityBenefit,
     SSSrequest,
-    SSSOtherRequest
+    SSSOtherRequest,
+    PAG_IBIGrequest,
+    CertificateOfOneness
 };

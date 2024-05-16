@@ -149,6 +149,26 @@ import { useState } from "react";
                                 </ul>
                             )}
                         </li>
+                        <li onClick={""}> 
+                        {/* <li onClick={toggleOtherRequest}>  */}
+                            <Link className="dropdown-text" state={data}>Other Request</Link>
+                            {showMaternity && (
+                                <ul className="custom-bullet-list sub-menu">
+                                    <li>
+                                        <Link to="/notification" className="dropdown-text" state={data}>
+                                            Maternity   
+                                            <div className="list-padding">Notification</div>
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/benefit" className="dropdown-text" state={data}>
+                                            Maternity Benefit 
+                                            
+                                        </Link>
+                                    </li>
+                                </ul>
+                            )}
+                        </li>
                         
                         {/* <li onClick={toggleMaternity}>
                             <Link className="dropdown-text" state={data} > 
