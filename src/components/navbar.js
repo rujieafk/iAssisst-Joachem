@@ -14,6 +14,7 @@ import { useState } from "react";
   const [showLoans, setShowLoans] = useState(false);
   const [showMaternity, setShowMaternity] = useState(false);
   const [showCertReq, setShowCertReq] = useState(false);
+  const [OtherRequest, setOtherRequest] = useState(false);
 
   // Function to toggle the visibility of pages list
   const togglePages = () => {
@@ -27,7 +28,10 @@ import { useState } from "react";
   };
   const toggleCertReq = () => {
     setShowCertReq(!showCertReq);
-};
+  };
+  const toggleOtherRequest = () => {
+    setOtherRequest(!OtherRequest);
+  };
 
      return (
          <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -149,25 +153,8 @@ import { useState } from "react";
                                 </ul>
                             )}
                         </li>
-                        <li onClick={""}> 
-                        {/* <li onClick={toggleOtherRequest}>  */}
-                            <Link className="dropdown-text" state={data}>Other Request</Link>
-                            {showMaternity && (
-                                <ul className="custom-bullet-list sub-menu">
-                                    <li>
-                                        <Link to="/notification" className="dropdown-text" state={data}>
-                                            Maternity   
-                                            <div className="list-padding">Notification</div>
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/benefit" className="dropdown-text" state={data}>
-                                            Maternity Benefit 
-                                            
-                                        </Link>
-                                    </li>
-                                </ul>
-                            )}
+                        <li onClick={toggleOtherRequest}> 
+                            <Link to="/OtherRequest" className="dropdown-text" state={data}>Other Request</Link>
                         </li>
                         
                         {/* <li onClick={toggleMaternity}>

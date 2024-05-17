@@ -26,6 +26,7 @@ import HRIAssist from './components/hriassist/hrIAssist';
 import RequestView from './components/hriassist/requestView';
 
 import Test from './components/test';
+import OtherRequest from './components/hriassist/OtherRequest';
 
 
 function App() {
@@ -58,6 +59,9 @@ function App() {
 
             <Route path="/SSSrequest" element={<SSSRequest />} />
             <Route path="/PIrequest" element={<PAGIBIGrequest />} />
+            <Route path="/PHILHEALTHrequest" element={<PHILHEALTHrequest />} />
+
+            <Route path="/OtherRequest" element={<OtherRequest />} />
 
           {/* HR iAssist Pages */}
           <Route path="/hriassist" element={<HRIAssist />} />
