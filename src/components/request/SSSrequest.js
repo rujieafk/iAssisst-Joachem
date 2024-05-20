@@ -277,7 +277,6 @@ import 'react-toastify/dist/ReactToastify.css';
                                             <button style={{ fontSize: '12px', border: 'none', background: 'none'}}>
                                                 <a href="https://www.sss.gov.ph/sss/DownloadContent?fileName=cov-01205-052015.pdf" download target="_blank" rel="noopener noreferrer">View Form</a>
                                             </button>
-
                                           </div>
                                         </div> 
                                         )}

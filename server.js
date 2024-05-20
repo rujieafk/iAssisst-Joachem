@@ -143,54 +143,6 @@ app.post('/resubmitPDF', upload.fields([{ name: 'newPDF' }, { name: 'requirement
   }
 });
 
-
-// app.post('/resubmitPDF', upload.fields([{ name: 'newPDF' }, { name: 'requirementName' }, {name: 'PdfFileID'}, {name: 'SubmissionID'}]), async (req, res) => {
-//   try {
-    
-
-//     const uploadedFiles = req.files;
-//     const { requirementName }  = req.body; 
-//     const { PdfFileID } = req.body; 
-//     const { SubmissionID } = req.body; 
-
-//     uploadedFiles.newPDF.forEach((file, index) => {
-
-//       const setrequirementName = requirementName[index];
-//       const setrequirementName = requirementName;
-      
-//       console.log("SubmissionID:", SubmissionID[index]);
-//       console.log("PdfFileID:", PdfFileID[index]);
-//       console.log("Requirement Name:", fileRequirementName); 
-//       console.log("File:", file);
-
-//       const FileName = file.originalname;
-//       const ContentType = "pdf";
-//       const setFileSize = file.size;
-
-//       const now = new Date();
-//       const UploadDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
-
-//       const PdfData = file;
-//       const Resubmit = "0";
-//       const ResubmitReason = "";
-//       const setSubmissionID = SubmissionID[index];
-
-//       const setPdfFileID = PdfFileID[index];
-
-//       const dbData = new submissionResubmit(setrequirementName,FileName,ContentType,setFileSize,UploadDate, Resubmit,ResubmitReason,setSubmissionID,setPdfFileID);
-//       const dbDataPDF = new ResubmitPDFContructor(PdfData);
-
-//       dbOperation.updateResubmit(dbData,dbDataPDF);
-//     });
-
-//     res.status(200).json({ message: 'Files uploaded successfully' });
-//   } catch (error) {
-//     console.error('Error:', error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// });
-
-
 //SSS Loan
 app.post('/SSS_upload', upload.fields([{ name: 'Pay_Slip' }, { name: 'Disclosure_Statement' }, { name: 'Application_Date' }, { name: 'Transaction_Number' }]), async (req, res) => {
   try {
@@ -209,8 +161,10 @@ app.post('/SSS_upload', upload.fields([{ name: 'Pay_Slip' }, { name: 'Disclosure
       const EmpId = "10023";
       const ErroneousName = "";
       const CorrectName = "";
-      
-      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName);
+      const RequestTitle = "";
+      const Description = "";
+
+      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName,RequestTitle, Description);
       const dbDataPDF = new sssLoanPDF(paySlipFiles,disclosureStatementFiles);
 
       // Pass the required parameters to insertPDF function
@@ -240,12 +194,14 @@ app.post('/Landbank_upload', upload.fields([{ name: 'Application_Form' }, { name
       const EmpId = "10023";
       const ErroneousName = "";
       const CorrectName = "";
+      const RequestTitle = "";
+      const Description = "";
 
       const ApplicationFormFile = req.files['Application_Form'];
       const paySlipFiles = req.files['paySlipFiles'];
       const Valid_ID= req.files['Valid_ID'];
 
-      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId,ErroneousName,CorrectName);
+      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName,RequestTitle, Description);
       const dbDataPDF = new DefaultPdfFile(ApplicationFormFile,paySlipFiles,Valid_ID);
 
       // Pass the required parameters to insertPDF function
@@ -274,12 +230,14 @@ app.post('/DBP_upload', upload.fields([{ name: 'Application_Form' }, { name: 'pa
       const EmpId = "10023";
       const ErroneousName = "";
       const CorrectName = "";
+      const RequestTitle = "";
+      const Description = "";
 
       const ApplicationFormFile = req.files['Application_Form'];
       const paySlipFiles = req.files['paySlipFiles'];
       const Valid_ID= req.files['Valid_ID'];
 
-      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName);
+      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName,RequestTitle, Description);
       const dbDataPDF = new DefaultPdfFile(ApplicationFormFile,paySlipFiles,Valid_ID);
 
       // Pass the required parameters to insertPDF function
@@ -308,12 +266,14 @@ app.post('/VirtualAcc_upload', upload.fields([ { name: 'paySlip' }, { name: 'Scr
       const EmpId = "10023";
       const ErroneousName = "";
       const CorrectName = "";
+      const RequestTitle = "";
+      const Description = "";
 
       const paySlip = req.files['paySlip'];
       const Screenshot_Virtual = req.files['Screenshot_Virtual'];
       const GrossIncome= req.files['GrossIncome'];
 
-      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName);
+      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName,RequestTitle, Description);
       const dbDataPDF = new PagIbigVirtualAccountPDF(paySlip,Screenshot_Virtual,GrossIncome);
 
       // Pass the required parameters to insertPDF function
@@ -342,13 +302,15 @@ app.post('/Maternity_upload', upload.fields([ { name: 'Notication_Form' }, { nam
     const EmpId = "10023";
     const ErroneousName = "";
     const CorrectName = "";
+    const RequestTitle = "";
+    const Description = "";
     
     const Notication_Form = req.files['Notication_Form'];
     const Maternity_Eligibility = req.files['Maternity_Eligibility'];
     const Credit_Form= req.files['Credit_Form'];
     const Medical_Reports= req.files['Medical_Reports'];
 
-    const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName,CorrectName);
+    const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName,RequestTitle, Description);
     const dbDataPDF = new MaternityNotification(Notication_Form,Maternity_Eligibility,Credit_Form,Medical_Reports);
       
       // console.log(dbData);
@@ -390,12 +352,15 @@ app.post('/MaternityBenefit', upload.fields([
       const OtherReq = "";
       const ErroneousName = "";
       const CorrectName = "";
+      const RequestTitle = "";
+      const Description = "";
 
       const EmpId = "10023";
 
       if(selectedNum === "1"){
         const TypeOfDelivery = "Live Child Birth";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId,ErroneousName,CorrectName);
+        
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId,ErroneousName,CorrectName,RequestTitle, Description);
         const dbDataPDF = new MaternityBenefit1PDF(Application_Form,LiveBirthCert,SoloParent);
         
         // Pass the required parameters to insertPDF function
@@ -403,14 +368,14 @@ app.post('/MaternityBenefit', upload.fields([
       }
       else if(selectedNum === "2"){
         const TypeOfDelivery = "Miscarriage / Emergency Termination of Pregnancy / Ectopic Pregnancy";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId,ErroneousName,CorrectName);
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId,ErroneousName,CorrectName,RequestTitle, Description);
         const dbDataPDF = new MaternityBenefit2PDF(Application_Form,ProofPregnancy,HospitalRec);
         
         // Pass the required parameters to insertPDF function
         await dbOperation.MaternityBenefit(selectedNum,dbData,dbDataPDF);
       }else if(selectedNum === "3"){
         const TypeOfDelivery = "Still Birth / Fetal Death";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId,ErroneousName,CorrectName);
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId,ErroneousName,CorrectName,RequestTitle, Description);
         const dbDataPDF = new MaternityBenefit3PDF(Application_Form,DeathCert);
         
         // Pass the required parameters to insertPDF function
@@ -455,10 +420,12 @@ app.post('/SSSrequest', upload.fields([
       const EmpId = "10023";
       const ErroneousName = "";
       const CorrectName = "";
+      const RequestTitle = "";
+      const Description = "";
 
       if(selectedNum === "1"){
         const RequestType = "SSS Unposted Loan Payment";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName);
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, RequestType,TypeOfDelivery,OtherReq, EmpId,ErroneousName,CorrectName,RequestTitle, Description);
         const dbDataPDF = new SSSrequesterPDF(StatementOfAccount,VerificationRequestForm);
         
         // Pass the required parameters to insertPDF function
@@ -466,14 +433,14 @@ app.post('/SSSrequest', upload.fields([
       }
       else if(selectedNum === "2"){
         const RequestType = "SSS Unposted Contribution";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName);
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, RequestType,TypeOfDelivery,OtherReq, EmpId,ErroneousName,CorrectName,RequestTitle, Description);
         const dbDataPDF = new SSSrequesterPDF2(MonthlyContributions,VerificationRequestForm);
 
         await dbOperation.SSSrequest(selectedNum,dbData,dbDataPDF);
       
       }else if(selectedNum === "3"){
         const RequestType = "SSS Other Information Update Request";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName);
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, RequestType,TypeOfDelivery,OtherReq, EmpId,ErroneousName,CorrectName,RequestTitle, Description);
         const dbDataPDF1 = new SSSrequester3(SpecifyOtherRequest);
         const dbDataPDF2 = new SSSrequesterPDF3(VerificationRequestForm);
 
@@ -512,6 +479,8 @@ app.post('/PAG_IBIGrequest', upload.fields([
       const Transaction_Number = "";
       const TypeOfDelivery = "";
       const OtherReq = "";
+      const RequestTitle = "";
+      const Description = "";
 
       const EmpId = "10023";
 
@@ -519,23 +488,54 @@ app.post('/PAG_IBIGrequest', upload.fields([
         const ErroneousName = "";
         const CorrectName = "";
         const RequestType = "PAG-IBIG Certificate of Remittance";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName);
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description);
         const dbDataPDF = new PAG_IBIGrequesterPDF(StatementOfAccount);
         
         // Pass the required parameters to insertPDF function
-        await dbOperation.PAG_IBIGrequest(selectedNum,dbData,dbDataPDF);
+        await dbOperation.CertificateOfRemittance(selectedNum,dbData,dbDataPDF);
       }
       else if(selectedNum === "2"){
         const ErroneousName = req.body.ErroneousName;
         const CorrectName = req.body.CorrectName;
         const RequestType = "PAG-IBIG Certificate of Oneness";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName);
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description);
         const dbDataPDF = new PAG_IBIGrequesterPDF(FormFromPagIbig);
 
 
         await dbOperation.CertificateOfOneness(selectedNum,dbData,dbDataPDF);
       
       }
+      res.status(200).json({ message: 'Files uploaded successfully' });
+  } catch (error) {
+      console.error('Error uploading files:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/OtherRequest', upload.fields([
+  { name: 'RequestTitle' },
+  { name: 'Description' }
+]), async (req, res) => {
+  try {
+
+      const { RequestTitle, Description } = req.body;
+      
+      const TransactionType = "Other Request";
+      const Status = "Pending";
+      const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
+      const TurnAround = "5";
+      const Application_Date = "";
+      const Transaction_Number = "";
+      const thisRequestType = "Other Request";
+      const TypeOfDelivery = "";
+      const OtherReq = "";
+      const EmpId = "10023";
+      const ErroneousName = "";
+      const CorrectName = "";
+
+      const dbData = new thisDefaultContructor(TransactionType, Status, currentDate, TurnAround, Application_Date, Transaction_Number, thisRequestType, TypeOfDelivery, OtherReq, EmpId, ErroneousName, CorrectName, RequestTitle, Description);
+      await dbOperation.OtherRequest(dbData);
+
       res.status(200).json({ message: 'Files uploaded successfully' });
   } catch (error) {
       console.error('Error uploading files:', error);

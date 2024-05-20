@@ -33,10 +33,8 @@ function OtherRequest() {
     });
 
     const [thisInfo, setSSSinfo] = useState({
-        Application_Date: '',
-        Transaction_Number: '',
-        Pay_Slip: '',
-        Disclosure_Statement: ''
+        RequestTitle: "",
+        Description: ""
     });
 
     useEffect(() => {
@@ -59,38 +57,31 @@ function OtherRequest() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        
+    
         // Proceed with the file upload
         const formData = new FormData();
-        formData.append('Application_Date', thisInfo.Application_Date);
-        formData.append('Transaction_Number', thisInfo.Transaction_Number);
-        formData.append('Pay_Slip', thisInfo.Pay_Slip);
-        formData.append('Disclosure_Statement', thisInfo.Disclosure_Statement);
+        formData.append('RequestTitle', thisInfo.RequestTitle);
+        formData.append('Description', thisInfo.Description);
         
         try {
             const response = await fetch('/OtherRequest', {
                 method: 'POST',
                 body: formData,
             });
-        
+    
             if (response.ok) {
                 const jsonResponse = await response.json();
-        
                 console.log(jsonResponse.message);
-        
+    
                 setSSSinfo({
-                    Application_Date: '',
-                    Transaction_Number: '',
-                    Pay_Slip: '',
-                    Disclosure_Statement: ''
+                    RequestTitle: '',
+                    Description: ''
                 });
-        
+    
                 // Clear file input fields
-                document.getElementById('loanApplicationDate').value = null;
-                document.getElementById('TransactionNum').value = null;
-                document.getElementById('PaySlip').value = null;
-                document.getElementById('DisclosureStatement').value = null;
-        
+                document.getElementById('RequestTitle').value = null;
+                document.getElementById('Description').value = null;
+    
                 // Emit success toast
                 toast.success('Thank you! Your request has been submitted.', {
                     position: "bottom-right",
@@ -102,7 +93,7 @@ function OtherRequest() {
                     progress: undefined,
                     theme: "light",
                 });
-        
+    
             } else {
                 console.error('Failed to upload PDF:', response.statusText);
                 toast.error('Failed to Submit', {
@@ -119,41 +110,20 @@ function OtherRequest() {
         } catch (error) {
             console.error('Error uploading PDF:', error);
         }
-        
     }
-
-    const handlePay_Slip = (e) => {
-        setSSSinfo({ ...thisInfo, Pay_Slip: e.target.files[0] });
+    
+    const handleRequestTitle = (e) => {
+        setSSSinfo({ ...thisInfo, RequestTitle: e.target.value });
     };
 
-    const handleDisclosure_Statement = (e) => {
-        setSSSinfo({ ...thisInfo, Disclosure_Statement: e.target.files[0] });
+    const handleDescription = (e) => {
+        setSSSinfo({ ...thisInfo, Description: e.target.value });
     };
 
-    const handleLoanApplicationDateChange = (e) => {
-        setSSSinfo({ ...thisInfo, Application_Date: e.target.value });
-    };
 
     if (!employeeData) {
         return <div>Loading...</div>;
     }
-
-    const getCurrentDate = () => {
-        const now = new Date();
-        const year = now.getFullYear();
-        let month = now.getMonth() + 1;
-        let day = now.getDate();
-
-        if (month < 10) {
-            month = '0' + month;
-        }
-        if (day < 10) {
-            day = '0' + day;
-        }
-
-        return `${year}-${month}-${day}`;
-    };
-
 
     return (
         <div id="wrapper">
@@ -185,10 +155,10 @@ function OtherRequest() {
                                                         <input
                                                             type="text"
                                                             className="form-control text-gray-700"
-                                                            id="loanApplicationDate"
-                                                            name="loanApplicationDate"
-                                                            value={thisInfo.Application_Date}
-                                                            onChange={handleLoanApplicationDateChange}
+                                                            id="RequestTitle"
+                                                            name="RequestTitle"
+                                                            value={thisInfo.RequestTitle}
+                                                            onChange={handleRequestTitle}
                                                             placeholder="Type here..."
                                                         />
                                                     </div>
@@ -217,10 +187,10 @@ function OtherRequest() {
                                                         <textarea
                                                             className="form-control text-gray-700"
                                                             style={{ height: '200px' }} // This line sets the height to 100px
-                                                            id="loanApplicationDate"
-                                                            name="loanApplicationDate"
-                                                            value={thisInfo.Application_Date}
-                                                            onChange={handleLoanApplicationDateChange}
+                                                            id="Description"
+                                                            name="Description"
+                                                            value={thisInfo.Description}
+                                                            onChange={handleDescription}
                                                             placeholder="Type here..."
                                                         />
                                                     </div>
