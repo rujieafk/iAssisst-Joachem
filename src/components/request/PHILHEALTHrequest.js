@@ -35,12 +35,10 @@ import 'react-toastify/dist/ReactToastify.css';
     
     const [selected, setSelected] = useState("0")
     const [selectedReason, setSelectedReason] = useState("0");
-    
-    const [specifyOtherRequest, setSpecifyOtherRequest] = useState("");
+
     const [thisInfo, setThisInfo] = useState({
-      StatementOfAccount: '',
-      VerificationRequestForm: '',
-      MonthlyContributions: '',
+      EmailNotification: '',
+      ProvidentApplicationForm: ''
     });
 
     useEffect(() => {
@@ -130,24 +128,24 @@ import 'react-toastify/dist/ReactToastify.css';
       
 
       const formData = new FormData();
-      formData.append("selected", selected); // Assuming selected is define
+      formData.append("selected", selected); 
+      formData.append("selectedReason", selectedReason); 
   
       // Append other files based on selected option
       if(selected === '1'){
-          formData.append('StatementOfAccount', thisInfo.StatementOfAccount);
-          formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
+          formData.append('EmailNotification', thisInfo.EmailNotification);
       } 
-      else if(selected === '2'){
-          formData.append('MonthlyContributions', thisInfo.MonthlyContributions);
-          formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
-        } 
-      else if(selected === '3'){
-          formData.append('SpecifyOtherRequest', specifyOtherRequest);
-          formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
-      }
+      // else if(selected === '2'){
+      //     formData.append('MonthlyContributions', thisInfo.MonthlyContributions);
+      //     formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
+      //   } 
+      // else if(selected === '3'){
+      //     formData.append('SpecifyOtherRequest', specifyOtherRequest);
+      //     formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
+      // }
 
       try {
-        const response = await fetch('/SSSrequest', {
+        const response = await fetch('/PHILHEALTHrequest', {
             method: 'POST',
             body: formData,
         });
@@ -169,13 +167,14 @@ import 'react-toastify/dist/ReactToastify.css';
             });
           
             setEmployeeData({
-              deliveryType: ''
+              EmailNotification: '',
+              ProvidentApplicationForm: ''
             });
             
             // Clear file input fields
-            document.getElementById('deliveryType').value = null;
+            document.getElementById('EmailNotification').value = null;
             setSelected("0");
-            document.getElementById('Application_Form').value = null;
+            document.getElementById('ProvidentApplicationForm').value = null;
     
            
           } else {
@@ -195,17 +194,11 @@ import 'react-toastify/dist/ReactToastify.css';
           console.error('Error uploading PDF:', error);
       }
     };
-    const handleStatementOFAccount = (e) => {
-      setThisInfo({ ...thisInfo, StatementOfAccount: e.target.files[0] });
+    const handleEmailNotification = (e) => {
+      setThisInfo({ ...thisInfo, EmailNotification: e.target.files[0] });
     };
-    const handleVerificationRequestForm = (e) => {
-      setThisInfo({ ...thisInfo, VerificationRequestForm: e.target.files[0] });
-    };
-    const handleMonthlyContributions = (e) => {
-      setThisInfo({ ...thisInfo, MonthlyContributions: e.target.files[0] });
-    };
-    const handleOtherRequestChange = (event) => {
-      setSpecifyOtherRequest(event.target.value);
+    const handleProvidentApplicationForm = (e) => {
+      setThisInfo({ ...thisInfo, ProvidentApplicationForm: e.target.files[0] });
     };
     
   
@@ -301,11 +294,11 @@ import 'react-toastify/dist/ReactToastify.css';
                                                         <div className="form-group">
                                                             <label style={{ fontSize: '14px' }}>Email Notification from SSS (Non-anonymous question) *</label>
                                                             <input 
-                                                                id="fileInput1" 
+                                                                id="EmailNotification" 
                                                                 type="file" 
                                                                 className="form-control-file" 
                                                                 aria-describedby="fileHelp" 
-                                                                onChange={""} 
+                                                                onChange={handleEmailNotification} 
                                                             />
                                                         </div>
                                                     </div>
@@ -315,64 +308,64 @@ import 'react-toastify/dist/ReactToastify.css';
                                                         <div className="form-group">
                                                             <label style={{ fontSize: '14px' }}>Email Notification from SSS (Non-anonymous question) *</label>
                                                             <input 
-                                                                id="fileInput1" 
+                                                                id="EmailNotification" 
                                                                 type="file" 
                                                                 className="form-control-file" 
                                                                 aria-describedby="fileHelp" 
-                                                                onChange={""} 
+                                                                onChange={handleEmailNotification} 
                                                             />
                                                         </div>
                                                     </div>
                                                 )}
                                             </div>
                                           )}
-                                        { selected === "2" && selected  !== "0" && (
+                                        { selected === "2" && selected !== "0" && (
                                             <div className="">
-                                              <div className="form-group">
-                                                  <label htmlFor="deliveryType">Reason for Loan Deletion *</label>
-                                                  <select 
-                                                      className="form-control" 
-                                                      id="deliveryType" 
-                                                      name="deliveryType" 
-                                                      value={selectedReason} 
-                                                      onChange={handleReasonChange}
-                                                  >
-                                                      <option value="0">Select Type</option>
-                                                      <option value="1">Loan is Fully-Paid</option>
-                                                      <option value="2">Due to Re-Loan</option>
-                                                  </select>
-                                              </div>
-                                              
-                                              {selectedReason === "1" && selectedReason !== "0" && (
-                                                  <div>
-                                                      <div className="form-group">
-                                                          <label style={{ fontSize: '14px' }}>Email Notification from SSS (Non-anonymous question) *</label>
-                                                          <input 
-                                                              id="fileInput1" 
-                                                              type="file" 
-                                                              className="form-control-file" 
-                                                              aria-describedby="fileHelp" 
-                                                              onChange={""} 
-                                                          />
-                                                      </div>
-                                                  </div>
-                                              )}
-                                              {selectedReason === "2" && selectedReason !== "0" && (
-                                                  <div>
-                                                      <div className="form-group">
-                                                          <label style={{ fontSize: '14px' }}>Email Notification from SSS (Non-anonymous question) *</label>
-                                                          <input 
-                                                              id="fileInput1" 
-                                                              type="file" 
-                                                              className="form-control-file" 
-                                                              aria-describedby="fileHelp" 
-                                                              onChange={""} 
-                                                          />
-                                                      </div>
-                                                  </div>
-                                              )}
-                                          </div>
-                                        )}
+                                                <div className="form-group">
+                                                    <label htmlFor="deliveryType">Reason for Loan Deletion *</label>
+                                                    <select 
+                                                        className="form-control" 
+                                                        id="deliveryType" 
+                                                        name="deliveryType" 
+                                                        value={selectedReason} 
+                                                        onChange={handleReasonChange}
+                                                    >
+                                                        <option value="0">Select Type</option>
+                                                        <option value="1">Loan is Fully-Paid</option>
+                                                        <option value="2">Due to Re-Loan</option>
+                                                    </select>
+                                                </div>
+                                                
+                                                {selectedReason === "1" && selectedReason !== "0" && (
+                                                    <div>
+                                                        <div className="form-group">
+                                                            <label style={{ fontSize: '14px' }}>Email Notification from SSS (Non-anonymous question) *</label>
+                                                            <input 
+                                                                id="EmailNotification" 
+                                                                type="file" 
+                                                                className="form-control-file" 
+                                                                aria-describedby="fileHelp" 
+                                                                onChange={handleEmailNotification} 
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                {selectedReason === "2" && selectedReason !== "0" && (
+                                                    <div>
+                                                        <div className="form-group">
+                                                            <label style={{ fontSize: '14px' }}>Email Notification from SSS (Non-anonymous question) *</label>
+                                                            <input 
+                                                                id="EmailNotification" 
+                                                                type="file" 
+                                                                className="form-control-file" 
+                                                                aria-describedby="fileHelp" 
+                                                                onChange={handleEmailNotification} 
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                          )}
                                         { selected === "3" && selected  !== "0" && (
                                             <div className="">
                                               <div className="form-group">
@@ -395,11 +388,11 @@ import 'react-toastify/dist/ReactToastify.css';
                                                       <div className="form-group">
                                                           <label style={{ fontSize: '14px' }}>Provident Application Form duly received by PAG-IBIG (Non-anonymous question)*</label>
                                                           <input 
-                                                              id="fileInput1" 
+                                                              id="ProvidentApplicationForm" 
                                                               type="file" 
                                                               className="form-control-file" 
                                                               aria-describedby="fileHelp" 
-                                                              onChange={""} 
+                                                              onChange={handleProvidentApplicationForm} 
                                                           />
                                                           <button style={{ fontSize: '12px', border: 'none', background: 'none'}}>
                                                               <a href="https://www.pagibigfund.gov.ph/document/pdf/diforms/providentrelated/PFF285_Application%20Provident%20BenefitsCla%20im_V07.pdf" target="_blank" rel="noopener noreferrer">Download Form here.</a>
@@ -412,11 +405,11 @@ import 'react-toastify/dist/ReactToastify.css';
                                                       <div className="form-group">
                                                           <label style={{ fontSize: '14px' }}>Screenshot/Image of Text Notification from PAG-IBIG (Non-anonymous question) *</label>
                                                           <input 
-                                                              id="fileInput1" 
+                                                              id="ProvidentApplicationForm" 
                                                               type="file" 
                                                               className="form-control-file" 
                                                               aria-describedby="fileHelp" 
-                                                              onChange={""} 
+                                                              onChange={handleProvidentApplicationForm} 
                                                           />
                                                       </div>
                                                   </div>
@@ -445,11 +438,11 @@ import 'react-toastify/dist/ReactToastify.css';
                                                       <div className="form-group">
                                                           <label style={{ fontSize: '14px' }}>Provident Application Form duly received by PAG-IBIG (Non-anonymous question) *</label>
                                                           <input 
-                                                              id="fileInput1" 
+                                                              id="ProvidentApplicationForm" 
                                                               type="file" 
                                                               className="form-control-file" 
                                                               aria-describedby="fileHelp" 
-                                                              onChange={""} 
+                                                              onChange={handleProvidentApplicationForm} 
                                                           />
                                                           <button style={{ fontSize: '12px', border: 'none', background: 'none'}}>
                                                               <a href="https://www.pagibigfund.gov.ph/document/pdf/diforms/providentrelated/PFF285_ApplicationProvidentBenefitsClaim_V07.pdf" target="_blank" rel="noopener noreferrer">Download Form here.</a>
@@ -462,11 +455,11 @@ import 'react-toastify/dist/ReactToastify.css';
                                                       <div className="form-group">
                                                           <label style={{ fontSize: '14px' }}>Screenshot/Image of Text Notification from PAG-IBIG (Non-anonymous question) *</label>
                                                           <input 
-                                                              id="fileInput1" 
+                                                              id="ProvidentApplicationForm" 
                                                               type="file" 
                                                               className="form-control-file" 
                                                               aria-describedby="fileHelp" 
-                                                              onChange={""} 
+                                                              onChange={handleProvidentApplicationForm} 
                                                           />
                                                       </div>
                                                   </div>

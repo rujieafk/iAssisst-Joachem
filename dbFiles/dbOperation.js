@@ -352,6 +352,36 @@ const SSSrequest = async (selectedNum, data, dataPDF) => {
         throw error;
     }
 }
+const PHILHEALTHrequest = async (data, dataPDF) => {
+    try {
+        console.log(data);
+        console.log(dataPDF);
+
+        const TransactionType = data.TransactionType;
+        const Status = data.Status;
+        const DateTime = data.currentDate;
+        const TurnAround = data.TurnAround;
+        const Application_Date = data.Application_Date;
+        const Transaction_Num = data.Transaction_Number;
+        const RequestType = data.RequestType;
+        const TypeOfDelivery = data.TypeOfDelivery;
+        const OtherReq = data.OtherReq;
+        const EmpId = data.EmpId;
+        const ErroneousName = data.ErroneousName;
+        const CorrectName = data.CorrectName;
+        const RequestTitle = data.RequestTitle;
+        const Description = data.Description;
+        const CompletionDate= data.CompletionDate;
+        const ReasonType = data.ReasonType;
+        const DeductionFor = data.DeductionFor;
+
+        insertOtherRequest(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType, dataPDF)
+       
+    } catch (error) {
+        console.error("Error inserting PDF:", error);
+        throw error;
+    }
+}
 const SSSOtherRequest = async (selectedNum, data, dbDataMessage, dbDataPDF) => {
     try {
         const TransactionType = data.TransactionType;
@@ -449,7 +479,7 @@ const OtherRequest = async (data) => {
         throw error;
     }
 }
-const insertOtherRequest = async (TransactionType, Status, DateTime, TurnAround, Application_Date, Transaction_Num, RequestType, TypeOfDelivery, OtherReq, EmpId, ErroneousName, CorrectName, RequestTitle, Description) => {
+const insertOtherRequest = async (TransactionType, Status, DateTime, TurnAround, Application_Date, Transaction_Num, RequestType, TypeOfDelivery, OtherReq, EmpId, ErroneousName, CorrectName, RequestTitle, Description, CompletionDate,DeductionFor,ReasonType) => {
     try {
         let pool = await sql.connect(config);
 
@@ -468,9 +498,12 @@ const insertOtherRequest = async (TransactionType, Status, DateTime, TurnAround,
             .input('CorrectName', CorrectName) 
             .input('RequestTitle', RequestTitle) 
             .input('Description', Description)
+            .input('CompletionDate', CompletionDate)
+            .input('DeductionFor', DeductionFor)
+            .input('ReasonType', ReasonType)
             .query(`
-                INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle,Description)
-                VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@RequestType,@OtherReq,@EmpId,@ErroneousName,@CorrectName,@RequestTitle,@Description)
+                INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle,Description,CompletionDate,DeductionFor,ReasonType)
+                VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@RequestType,@OtherReq,@EmpId,@ErroneousName,@CorrectName,@RequestTitle,@Description,@CompletionDate,@DeductionFor,@ReasonType)
             `);
 
         console.log("Successfully inserted: ", file);
@@ -778,6 +811,7 @@ module.exports = {
     MaternityBenefit,
     SSSrequest,
     SSSOtherRequest,
+    PHILHEALTHrequest,
     CertificateOfRemittance,
     CertificateOfOneness,
     OtherRequest
