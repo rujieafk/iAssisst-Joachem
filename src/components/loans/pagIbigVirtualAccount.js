@@ -58,21 +58,6 @@ import 'react-toastify/dist/ReactToastify.css';
   
     const handleFormSubmit = async (e) => {
       e.preventDefault();
-      
-      if (!thisInfo.Screenshot_VirtualAcc || !thisInfo.paySlip || !thisInfo.GrossIncome) {
-        // If any required field is empty, show a warning toast
-        toast.warn('Please fill in all required fields', {
-            position: "bottom-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        return; // Stop form submission
-      }
 
       // function isPDF(file) {
       //   return file.type === 'application/pdf';
@@ -98,7 +83,7 @@ import 'react-toastify/dist/ReactToastify.css';
       formData.append('GrossIncome', thisInfo.GrossIncome);
 
       try {
-        const response = await fetch('/VirtualAcc_upload', {
+        const response = await fetch('/PagIbigVirtualAccount', {
           method: 'POST',
           body: formData,
         });

@@ -73,23 +73,6 @@ import 'react-toastify/dist/ReactToastify.css';
           });
         return; // Stop form submission
       }
-      // function isPDF(file) {
-      //   return file.type === 'application/pdf';
-      // }
-      // if (!isPDF(thisInfo.Application_Form) || !isPDF(thisInfo.paySlipFiles) || !isPDF(thisInfo.Valid_ID)) {
-      //   // If any field does not contain a PDF, show a warning toast
-      //   toast.warn('Please upload only PDF files', {
-      //       position: "bottom-right",
-      //       autoClose: 5000,
-      //       hideProgressBar: false,
-      //       closeOnClick: true,
-      //       pauseOnHover: true,
-      //       draggable: true,
-      //       progress: undefined,
-      //       theme: "light",
-      //   });
-      //   return; // Stop form submission
-      // }
 
       const formData = new FormData();
       formData.append('Application_Form', thisInfo.Application_Form);
@@ -97,7 +80,7 @@ import 'react-toastify/dist/ReactToastify.css';
       formData.append('Valid_ID', thisInfo.Valid_ID);
   
       try {
-        const response = await fetch('/DBP_upload', {
+        const response = await fetch('/PagIbigDBPCard', {
           method: 'POST',
           body: formData,
         });

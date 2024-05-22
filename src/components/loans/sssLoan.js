@@ -102,7 +102,7 @@ function SSSLoan() {
         formData.append('Disclosure_Statement', thisInfo.Disclosure_Statement);
         
         try {
-            const response = await fetch('/SSS_upload', {
+            const response = await fetch('/SSSloan', {
                 method: 'POST',
                 body: formData,
             });

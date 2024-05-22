@@ -101,7 +101,7 @@ import 'react-toastify/dist/ReactToastify.css';
       formData.append('Medical_Reports', thisInfo.Medical_Reports);
 
         try {
-          const response = await fetch('/Maternity_upload', {
+          const response = await fetch('/MaternityNotification', {
             method: 'POST',
             body: formData,
           });

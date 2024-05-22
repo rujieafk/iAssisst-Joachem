@@ -148,7 +148,7 @@ import 'react-toastify/dist/ReactToastify.css';
       }
 
       try {
-        const response = await fetch('/SSSrequest', {
+        const response = await fetch('/CertificationRequestSSS', {
             method: 'POST',
             body: formData,
         });

@@ -97,7 +97,7 @@ function PagIbigLandbankCard() {
     formData.append('Valid_ID', thisInfo.Valid_ID);
 
     try {
-      const response = await fetch('/Landbank_upload', {
+      const response = await fetch('/PagIbigLandbankCard', {
         method: 'POST',
         body: formData,
       });

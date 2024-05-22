@@ -85,7 +85,7 @@ import 'react-toastify/dist/ReactToastify.css';
           formData.append('CorrectName', CorrectName);
         } 
       try {
-        const response = await fetch('/PAG_IBIGrequest', {
+        const response = await fetch('/PagIbigRequest', {
             method: 'POST',
             body: formData,
         });
