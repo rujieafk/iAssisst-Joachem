@@ -9,202 +9,152 @@ import { variables } from '../../variables';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
- function SSSRequest() {
-   
-    const { employeeId } = useParams();
-    const [employeeData, setEmployeeData] = useState({
-      LastName: '',
-      FirstName: '',
-      MiddleName: '',
-      MaidenName: '',
-      Birthdate: '',
-      Age: '',
-      BirthMonth: '',
-      AgeBracket: '',
-      Aender: '',
-      MaritalStatus: '',
-      SSS: '',
-      PHIC: '',
-      HDMF: '',
-      TIN: '',
-      HRANID: '',
-      ContactNumber: '',
-      EmailAddress: '',
-      deliveryType: ''
-    });
-    
-    const [selected, setSelected] = useState("0")
-    const [selectedReason, setSelectedReason] = useState("0");
-
-    const [thisInfo, setThisInfo] = useState({
-      EmailNotification: '',
-      ProvidentApplicationForm: ''
-    });
-
-    useEffect(() => {
-      // Fetch employee data based on employeeId
-      const fetchEmployeeData = async () => {
-        try {
-          const response = await fetch(variables.API_URL + 'UploadEmp/' + employeeId);
-          if (!response.ok) {
-            throw new Error('Failed to fetch employee data');
-          }
-          const data = await response.json();
-          setEmployeeData(data);
-        } catch (error) {
-          console.error('Error fetching employee data:', error);
-        }
-      };
+function SSSRequest() {
+  const { employeeId } = useParams();
+  const [employeeData, setEmployeeData] = useState({
+    LastName: '',
+    FirstName: '',
+    MiddleName: '',
+    MaidenName: '',
+    Birthdate: '',
+    Age: '',
+    BirthMonth: '',
+    AgeBracket: '',
+    Gender: '',
+    MaritalStatus: '',
+    SSS: '',
+    PHIC: '',
+    HDMF: '',
+    TIN: '',
+    HRANID: '',
+    ContactNumber: '',
+    EmailAddress: '',
+    deliveryType: ''
+  });
   
-      fetchEmployeeData();
-    }, [employeeId]);
-  
-    const handleInputChange = (e) => {
-      setSelected(e.target.value);
-      setSelectedReason("0");
-    }; 
-    const handleReasonChange = (e) => {
-      setSelectedReason(e.target.value);
-  };
-    const handleFormSubmit = async (e) => {
-      e.preventDefault();
+  const [selected, setSelected] = useState("0");
+  const [selectedReason, setSelectedReason] = useState("0");
 
-      // if(selected === '1'){
-      //   if (!thisInfo.StatementOfAccount || !thisInfo.VerificationRequestForm) {
-      //     toast.warn('Please fill in all required fields', {
-      //         position: "bottom-right",
-      //         autoClose: 5000,
-      //         hideProgressBar: false,
-      //         closeOnClick: true,
-      //         pauseOnHover: true,
-      //         draggable: true,
-      //         progress: undefined,
-      //         theme: "light",
-      //       });
-      //     return; // Stop form submission
-      //   }
-      // } 
-      // else if(selected === '2'){
-      //   if (!thisInfo.ProofPregnancy || !thisInfo.HospitalRec) {
-      //     toast.warn('Please fill in all required fields', {
-      //         position: "bottom-right",
-      //         autoClose: 5000,
-      //         hideProgressBar: false,
-      //         closeOnClick: true,
-      //         pauseOnHover: true,
-      //         draggable: true,
-      //         progress: undefined,
-      //         theme: "light",
-      //       });
-      //     return; // Stop form submission
-      //   }
-      // } else if(selected === '3'){
-      //   if (!thisInfo.DeathCert) {
-      //     toast.warn('Please fill in all required fields', {
-      //         position: "bottom-right",
-      //         autoClose: 5000,
-      //         hideProgressBar: false,
-      //         closeOnClick: true,
-      //         pauseOnHover: true,
-      //         draggable: true,
-      //         progress: undefined,
-      //         theme: "light",
-      //       });
-      //     return; // Stop form submission
-      //   }
-      // }else{
-      //   toast.warn('Please fill in all required fields', {
-      //     position: "bottom-right",
-      //     autoClose: 5000,
-      //     hideProgressBar: false,
-      //     closeOnClick: true,
-      //     pauseOnHover: true,
-      //     draggable: true,
-      //     progress: undefined,
-      //     theme: "light",
-      //   });
-      //   return; 
-      // }
-      
+  const [thisInfo, setThisInfo] = useState({
+    EmailNotification: '',
+    ProvidentApplicationForm: ''
+  });
 
-      const formData = new FormData();
-      formData.append("selected", selected); 
-      formData.append("selectedReason", selectedReason); 
-  
-      // Append other files based on selected option
-      if(selected === '1'){
-          formData.append('EmailNotification', thisInfo.EmailNotification);
-      } 
-      // else if(selected === '2'){
-      //     formData.append('MonthlyContributions', thisInfo.MonthlyContributions);
-      //     formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
-      //   } 
-      // else if(selected === '3'){
-      //     formData.append('SpecifyOtherRequest', specifyOtherRequest);
-      //     formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
-      // }
-
+  useEffect(() => {
+    // Fetch employee data based on employeeId
+    const fetchEmployeeData = async () => {
       try {
-        const response = await fetch('/PHILHEALTHrequest', {
-            method: 'POST',
-            body: formData,
-        });
-    
-        if (response.ok) {
-            const jsonResponse = await response.json();
-    
-            console.log(jsonResponse.message);
-             // Emit success toast
-             toast.success('Submitted Successfully', {
-              position: "bottom-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          
-            setEmployeeData({
-              EmailNotification: '',
-              ProvidentApplicationForm: ''
-            });
-            
-            // Clear file input fields
-            document.getElementById('EmailNotification').value = null;
-            setSelected("0");
-            document.getElementById('ProvidentApplicationForm').value = null;
-    
-           
-          } else {
-              console.error('Failed to upload PDF:', response.statusText);
-              toast.error('Failed to Submit', {
-                  position: "bottom-right",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "light",
-              });
-          }
+        const response = await fetch(variables.API_URL + 'UploadEmp/' + employeeId);
+        if (!response.ok) {
+          throw new Error('Failed to fetch employee data');
+        }
+        const data = await response.json();
+        setEmployeeData(data);
       } catch (error) {
-          console.error('Error uploading PDF:', error);
+        console.error('Error fetching employee data:', error);
       }
     };
-    const handleEmailNotification = (e) => {
-      setThisInfo({ ...thisInfo, EmailNotification: e.target.files[0] });
-    };
-    const handleProvidentApplicationForm = (e) => {
-      setThisInfo({ ...thisInfo, ProvidentApplicationForm: e.target.files[0] });
-    };
-    
+
+    fetchEmployeeData();
+  }, [employeeId]);
+
+  const handleInputChange = (e) => {
+    setSelected(e.target.value);
+    setSelectedReason("0");
+  }; 
+
+  const handleReasonChange = (e) => {
+    setSelectedReason(e.target.value);
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("selected", selected); 
+    formData.append("selectedReason", selectedReason); 
+
+    // Append other files based on selected option
+    if(selected === '1'){
+        formData.append('EmailNotification', thisInfo.EmailNotification);
+    } 
+    else if(selected === '2'){
+        formData.append('EmailNotification', thisInfo.EmailNotification);
+    } 
+    else if(selected === '3'){
+        formData.append('ProvidentApplicationForm', thisInfo.ProvidentApplicationForm);
+    } 
+    else if(selected === '4'){
+        formData.append('ProvidentApplicationForm', thisInfo.ProvidentApplicationForm);
+    } 
+
+    try {
+      const response = await fetch('/PHILHEALTHrequest', {
+          method: 'POST',
+          body: formData,
+      });
   
-    if (!employeeData) {
-      return <div>Loading...</div>;
+      if (response.ok) {
+          const jsonResponse = await response.json();
+  
+          console.log(jsonResponse.message);
+           // Emit success toast
+           toast.success('Submitted Successfully', {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          
+          if(selected === '1' || selected === '2'){
+              // Clear file input fields
+            document.getElementById('EmailNotification').value = null;
+            setThisInfo({
+              EmailNotification: ''
+            });
+          }else if(selected === '3' || selected === '4'){
+            document.getElementById('ProvidentApplicationForm').value = null;
+            setThisInfo({
+              ProvidentApplicationForm: ''
+            });  
+          }
+         
+          // // Clear selectedReason after submission
+          // setSelectedReason("0");
+         
+        } else {
+            console.error('Failed to upload PDF:', response.statusText);
+            toast.error('Failed to Submit', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+    } catch (error) {
+        console.error('Error uploading PDF:', error);
     }
+  };
+
+  const handleEmailNotification = (e) => {
+    setThisInfo({ ...thisInfo, EmailNotification: e.target.files[0] });
+  };
+
+  const handleProvidentApplicationForm = (e) => {
+    setThisInfo({ ...thisInfo, ProvidentApplicationForm: e.target.files[0] });
+  };
+  
+  if (!employeeData) {
+    return <div>Loading...</div>;
+  }
     return (
       <div id="wrapper">
           <Navbar />
@@ -366,7 +316,7 @@ import 'react-toastify/dist/ReactToastify.css';
                                                 )}
                                             </div>
                                           )}
-                                        { selected === "3" && selected  !== "0" && (
+                                          { selected === "3" && selected  !== "0" && (
                                             <div className="">
                                               <div className="form-group">
                                                   <label htmlFor="deliveryType">Reason for stoppage *</label>

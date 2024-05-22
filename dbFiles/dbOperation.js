@@ -375,7 +375,7 @@ const PHILHEALTHrequest = async (data, dataPDF) => {
         const ReasonType = data.ReasonType;
         const DeductionFor = data.DeductionFor;
 
-        insertOtherRequest(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType, dataPDF)
+        DefaultInsertToSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType, dataPDF)
        
     } catch (error) {
         console.error("Error inserting PDF:", error);
@@ -565,8 +565,8 @@ const insertIntoSubmission = async (TransactionType,Status,DateTime,TurnAround,A
 
             console.log(dataPDF);
             if(TransactionType === "SSS Loan"){
-                PdfFile(dataPDF.paySlipFiles,SubmissionID,RequirementName1);
-                PdfFile(dataPDF.disclosureStatementFiles,SubmissionID,RequirementName2);
+                PdfFile(dataPDF.Doc1,SubmissionID,RequirementName1);
+                PdfFile(dataPDF.Doc2,SubmissionID,RequirementName2);
             }else if(TransactionType === "Pag-Ibig Landbank Card"){
                 PdfFile(dataPDF.ApplicationFormFile,SubmissionID,RequirementName3);
                 PdfFile(dataPDF.paySlipFiles,SubmissionID,RequirementName4);
@@ -794,7 +794,45 @@ const PdfFile = async (insertPDF,SubmissionID,RequirementName) => {
         throw error;
     }
 }
-//-----------------------------------------------------------------------
+// -----------------------------------------------------------------------
+
+
+// -----------------------------DEFAULTS INSERTS------------------------------------------
+const DefaultInsertToSubmission = async (TransactionType, Status, DateTime, TurnAround, Application_Date, Transaction_Num, RequestType, TypeOfDelivery, OtherReq, EmpId, ErroneousName, CorrectName, RequestTitle, Description, CompletionDate,DeductionFor,ReasonType) => {
+    try {
+        let pool = await sql.connect(config);
+
+        const file = await pool.request()
+            .input('TransactionType', TransactionType)
+            .input('Status', Status)
+            .input('DateTime', DateTime)
+            .input('TurnAround', TurnAround)
+            .input('Application_Date', Application_Date)
+            .input('Transaction_Num', Transaction_Num)
+            .input('RequestType', RequestType)
+            .input('DeliveryType', TypeOfDelivery)
+            .input('OtherReq', OtherReq)
+            .input('EmpId', EmpId) 
+            .input('ErroneousName', ErroneousName) 
+            .input('CorrectName', CorrectName) 
+            .input('RequestTitle', RequestTitle) 
+            .input('Description', Description)
+            .input('CompletionDate', CompletionDate)
+            .input('DeductionFor', DeductionFor)
+            .input('ReasonType', ReasonType)
+            .query(`
+                INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle,Description,CompletionDate,DeductionFor,ReasonType)
+                VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@RequestType,@OtherReq,@EmpId,@ErroneousName,@CorrectName,@RequestTitle,@Description,@CompletionDate,@DeductionFor,@ReasonType)
+            `);
+
+        console.log("Successfully inserted: ", file);
+    } catch (error) {
+        console.error("Error inserting PDF:", error);
+        throw error;
+    }
+}
+
+// -----------------------------------------------------------------------
 
 
 module.exports = {

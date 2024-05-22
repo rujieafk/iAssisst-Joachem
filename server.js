@@ -7,7 +7,8 @@ const upload = multer({ dest: 'uploads/' }); // Specify upload directory
 const dbOperation = require('./dbFiles/dbOperation.js');
 const thisDefaultContructor = require('./dbFiles/dbContructor/thisDefaultContructor.js');
 const DefaultPdfFile = require('./dbFiles/dbContructor/DefaultPdfFile.js');
-const DefaultSingleFile = require('./dbFiles/dbContructor/DefaultSingleFile.js');
+const DefaultOneFile = require('./dbFiles/dbContructor/DefaultOneFile.js');
+const DefaultTwoFile = require('./dbFiles/dbContructor/DefaultTwoFile.js');
 
 const sssLoanPDF = require('./dbFiles/dbContructor/sssLoanPDF.js');
 
@@ -166,7 +167,7 @@ app.post('/SSS_upload', upload.fields([{ name: 'Pay_Slip' }, { name: 'Disclosure
       const Description = "";
 
       const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName,RequestTitle, Description);
-      const dbDataPDF = new sssLoanPDF(paySlipFiles,disclosureStatementFiles);
+      const dbDataPDF = new DefaultTwoFile(paySlipFiles,disclosureStatementFiles);
 
       // Pass the required parameters to insertPDF function
       await dbOperation.sssLoan(dbData,dbDataPDF);
@@ -516,13 +517,15 @@ app.post('/PAG_IBIGrequest', upload.fields([
 app.post('/PHILHEALTHrequest', upload.fields([
   { name: 'selected' },
   { name: 'selectedReason' },
-  { name: 'EmailNotification' }
+  { name: 'EmailNotification' },
+  { name: 'ProvidentApplicationForm' }
 ]), async (req, res) => {
   try {
       const selected = req.body.selected;
       const selectedReason = req.body.selectedReason;
 
       const EmailNotification = req.files['EmailNotification'];
+      const ProvidentApplicationForm = req.files['ProvidentApplicationForm'];
 
       console.log(selected);
       console.log(selectedReason);
@@ -551,24 +554,70 @@ app.post('/PHILHEALTHrequest', upload.fields([
           const ReasonType = "Load is Fully-Paid";
           const DeductionFor = "SSS Salary Loan";
           const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor);
-          const dbDataPDF = new DefaultSingleFile(EmailNotification);
+          const dbDataPDF = new DefaultOneFile(EmailNotification);
 
           await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
         }else if(selectedReason === "2"){
           const ReasonType = "Due to Re-Loan";
+          const DeductionFor = "SSS Salary Loan";
+          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor);
+          const dbDataPDF = new DefaultOneFile(EmailNotification);
+
+          await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
         }
-        
-        // Pass the required parameters to insertPDF function
       }
-      else if(selectedNum === "2"){
-        const ErroneousName = req.body.ErroneousName;
-        const CorrectName = req.body.CorrectName;
-        const RequestType = "PAG-IBIG Certificate of Oneness";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description);
-        const dbDataPDF = new PAG_IBIGrequesterPDF(FormFromPagIbig);
+      else if(selected === "2"){
+        if(selectedReason === "1"){
+          const ReasonType = "Load is Fully-Paid";
+          const DeductionFor = "SSS Calamity Loan";
+          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor);
+          const dbDataPDF = new DefaultOneFile(EmailNotification);
 
+          await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
+        }else if(selectedReason === "2"){
+          const ReasonType = "Due to Re-Loan";
+          const DeductionFor = "SSS Calamity Loan";
+          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor);
+          const dbDataPDF = new DefaultOneFile(EmailNotification);
 
-        await dbOperation.CertificateOfOneness(selectedNum,dbData,dbDataPDF);
+          await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
+        }
+      
+      }
+      else if(selected === "3"){
+        if(selectedReason === "1"){
+          const ReasonType = "Provident Fund";
+          const DeductionFor = "PAG-IBIG Salary Loan";
+          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor);
+          const dbDataPDF = new DefaultOneFile(EmailNotification);
+
+          await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
+        }else if(selectedReason === "2"){
+          const ReasonType = "Re-Loan";
+          const DeductionFor = "PAG-IBIG Salary Loan";
+          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor);
+          const dbDataPDF = new DefaultOneFile(EmailNotification);
+
+          await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
+        }
+      
+      }
+      else if(selected === "4"){
+        if(selectedReason === "1"){
+          const ReasonType = "Provident Fund";
+          const DeductionFor = "PAG-IBIG Calamity Loan";
+          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor);
+          const dbDataPDF = new DefaultOneFile(EmailNotification);
+
+          await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
+        }else if(selectedReason === "2"){
+          const ReasonType = "Re-Loan";
+          const DeductionFor = "PAG-IBIG Calamity Loan";
+          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor);
+          const dbDataPDF = new DefaultOneFile(EmailNotification);
+
+          await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
+        }
       
       }
       res.status(200).json({ message: 'Files uploaded successfully' });

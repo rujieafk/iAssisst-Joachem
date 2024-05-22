@@ -1,6 +1,6 @@
-class DefaultSingleFile{
+class DefaultOneFile{
     constructor(DocumentFile){
         this.DocumentFile = DocumentFile;
     }
 }
-module.exports = DefaultSingleFile;
+module.exports = DefaultOneFile;
