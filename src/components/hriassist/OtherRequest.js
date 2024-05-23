@@ -203,6 +203,38 @@ function OtherRequest() {
                         </div>
 
                         {/* Page content ends here */}
+                        {/* page content begin here */}
+                        <div className="container-fluid">
+                            <div className="row justify-content-center">
+                                <div className="col-xl-8 col-lg-7">
+                                    <div className="card shadow mb-4">
+                                        {/* Card Header - New Hire Upload */}
+                                        <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                            <h6 className="m-0 font-weight-bold text-primary">Description</h6>
+                                        </div>
+                                        {/* Card Body - New Hire Options */}
+                                        <div className="card-body">
+                                            <div className="tab-content">
+                                                <div className="card-body">
+                                                    <div className="form-group">
+                                                            <label style={{ fontSize: '14px' }}>Upload file (if neccesary)</label>
+                                                            <input 
+                                                                id="" 
+                                                                type="file" 
+                                                                className="form-control-file" 
+                                                                aria-describedby="fileHelp" 
+                                                                onChange={""} 
+                                                            />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Page content ends here */}
                        
                         <button type="submit" className="btn btn-primary d-block mx-auto loan-btn">Submit</button>
                     </form>

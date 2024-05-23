@@ -532,10 +532,6 @@ app.post('/PHILHEALTHrequest', upload.fields([
 
       const EmailNotification = req.files['EmailNotification'];
       const ProvidentApplicationForm = req.files['ProvidentApplicationForm'];
-
-      console.log(selected);
-      console.log(selectedReason);
-      console.log(EmailNotification);
       
       const TransactionType = "Certification Request";
       const Status = "Pending";
@@ -595,14 +591,14 @@ app.post('/PHILHEALTHrequest', upload.fields([
           const ReasonType = "Provident Fund";
           const DeductionFor = "PAG-IBIG Salary Loan";
           const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor);
-          const dbDataPDF = new DefaultOneFile(EmailNotification);
+          const dbDataPDF = new DefaultOneFile(ProvidentApplicationForm);
 
           await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
         }else if(selectedReason === "2"){
           const ReasonType = "Re-Loan";
           const DeductionFor = "PAG-IBIG Salary Loan";
           const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor);
-          const dbDataPDF = new DefaultOneFile(EmailNotification);
+          const dbDataPDF = new DefaultOneFile(ProvidentApplicationForm);
 
           await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
         }
@@ -613,14 +609,14 @@ app.post('/PHILHEALTHrequest', upload.fields([
           const ReasonType = "Provident Fund";
           const DeductionFor = "PAG-IBIG Calamity Loan";
           const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor);
-          const dbDataPDF = new DefaultOneFile(EmailNotification);
+          const dbDataPDF = new DefaultOneFile(ProvidentApplicationForm);
 
           await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
         }else if(selectedReason === "2"){
           const ReasonType = "Re-Loan";
           const DeductionFor = "PAG-IBIG Calamity Loan";
           const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor);
-          const dbDataPDF = new DefaultOneFile(EmailNotification);
+          const dbDataPDF = new DefaultOneFile(ProvidentApplicationForm);
 
           await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
         }
