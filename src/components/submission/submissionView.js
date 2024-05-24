@@ -204,8 +204,18 @@ import { Document, Page,pdfjs } from 'react-pdf';
       convertToPDF(base64);
       setShowModal(true);
     };
+
     const handleCloseModal = () => {
       setShowModal(false);
+    };
+    
+    
+    const handleCancel = async () => {
+      try {
+       
+      } catch (error) {
+        console.error('Error updating failed:', error);
+      }
     };
  
     
@@ -237,20 +247,29 @@ import { Document, Page,pdfjs } from 'react-pdf';
                     <div className="tab-content">
                       <div className="tab-pane fade show active" id="personalDetails" role="tabpanel" aria-labelledby="personalDetails-tab">
                           {/* Personal Details Form */}
-                      <div className="container">
+                            <div className="container">
                               <div className="justify-content-center">
-                                <div > 
-                                <div className="d-flex justify-content-between">
+                                <div> 
+                                  <div className="d-flex justify-content-between">
                                     <label>{data.Name}</label>
                                     <label>{data.DateTime}</label>
                                     <label>{data.TurnAround} Days</label>
                                     <label>{data.Status}</label>
-                                    <Button>Confirm</Button>
-                                </div>
+                                      {data.Status === 'Pending' ? (
+                                          <Button type="button" onClick={handleCancel}>Cancel</Button>
+                                      ) : data.Status === 'Complete' ? (
+                                          <span>Completed</span>
+                                      ) : data.Status === 'Cancel' ? (
+                                          <span>Cancelled</span>
+                                      ) : (
+                                          <span>Unknown Status</span>
+                                      )}
+                                    
+                                  </div>
                                 </div> 
                               </div> 
-                      </div>
-                      <br/> 
+                            </div>
+                        <br/> 
                       </div> 
                       {/* Add more tab content here */}
                       </div>

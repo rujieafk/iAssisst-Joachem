@@ -777,7 +777,7 @@ const insertCertificationRequestPagIbig = async (TransactionType, Status, DateTi
 
 
 
-const OtherRequest = async (data) => {
+const OtherRequest = async (data,dataPDF) => {
     try {
 
         const TransactionType = data.TransactionType;
@@ -798,14 +798,14 @@ const OtherRequest = async (data) => {
         const ReasonType = data.ReasonType;
         const DeductionFor = data.DeductionFor;
 
-        insertOtherRequest(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType)
+        insertOtherRequest(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,dataPDF)
        
     } catch (error) {
         console.error("Error inserting PDF:", error);
         throw error;
     }
 }
-const insertOtherRequest = async (TransactionType, Status, DateTime, TurnAround, Application_Date, Transaction_Num, RequestType, TypeOfDelivery, OtherReq, EmpId, ErroneousName, CorrectName, RequestTitle, Description, CompletionDate,DeductionFor,ReasonType) => {
+const insertOtherRequest = async (TransactionType, Status, DateTime, TurnAround, Application_Date, Transaction_Num, RequestType, TypeOfDelivery, OtherReq, EmpId, ErroneousName, CorrectName, RequestTitle, Description, CompletionDate,DeductionFor,ReasonType,dataPDF) => {
     try {
         let pool = await sql.connect(config);
 
@@ -833,7 +833,11 @@ const insertOtherRequest = async (TransactionType, Status, DateTime, TurnAround,
                     VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@RequestType,@OtherReq,@EmpId,@ErroneousName,@CorrectName,@RequestTitle,@Description,@CompletionDate,@DeductionFor,@ReasonType)
             `);
 
-        console.log("Successfully inserted: ", file);
+            const SubmissionID = file.recordset[0].SubmissionID;
+            const RequirementName = "Other Request Uploaded File";
+            PdfFile(dataPDF.DocumentFile,SubmissionID,RequirementName);
+
+            console.log("Successfully inserted: ",file);
     } catch (error) {
         console.error("Error inserting PDF:", error);
         throw error;

@@ -344,7 +344,7 @@ function SSSRequest() {
                                                               aria-describedby="fileHelp" 
                                                               onChange={handleProvidentApplicationForm} 
                                                           />
-                                                          <button style={{ fontSize: '12px', border: 'none', background: 'none'}}>
+                                                          <button style={{ fontSize: '12px', border: 'none', background: 'none'}} type="button">
                                                               <a href="https://www.pagibigfund.gov.ph/document/pdf/diforms/providentrelated/PFF285_Application%20Provident%20BenefitsCla%20im_V07.pdf" target="_blank" rel="noopener noreferrer">Download Form here.</a>
                                                           </button>
                                                       </div>
@@ -394,7 +394,7 @@ function SSSRequest() {
                                                               aria-describedby="fileHelp" 
                                                               onChange={handleProvidentApplicationForm} 
                                                           />
-                                                          <button style={{ fontSize: '12px', border: 'none', background: 'none'}}>
+                                                          <button style={{ fontSize: '12px', border: 'none', background: 'none'}} type="button">
                                                               <a href="https://www.pagibigfund.gov.ph/document/pdf/diforms/providentrelated/PFF285_ApplicationProvidentBenefitsClaim_V07.pdf" target="_blank" rel="noopener noreferrer">Download Form here.</a>
                                                           </button>
                                                       </div>

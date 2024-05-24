@@ -32,9 +32,10 @@ function OtherRequest() {
         EmailAddress: ''
     });
 
-    const [thisInfo, setSSSinfo] = useState({
+    const [thisInfo, setThisInfo] = useState({
         RequestTitle: "",
-        Description: ""
+        Description: "",
+        NeccesaryFile: ""
     });
 
     useEffect(() => {
@@ -62,6 +63,7 @@ function OtherRequest() {
         const formData = new FormData();
         formData.append('RequestTitle', thisInfo.RequestTitle);
         formData.append('Description', thisInfo.Description);
+        formData.append('NeccesaryFile', thisInfo.NeccesaryFile);
         
         try {
             const response = await fetch('/OtherRequest', {
@@ -73,14 +75,16 @@ function OtherRequest() {
                 const jsonResponse = await response.json();
                 console.log(jsonResponse.message);
     
-                setSSSinfo({
+                setThisInfo({
                     RequestTitle: '',
-                    Description: ''
+                    Description: '',
+                    NeccesaryFile: ''
                 });
     
                 // Clear file input fields
                 document.getElementById('RequestTitle').value = null;
                 document.getElementById('Description').value = null;
+                document.getElementById('NeccesaryFile').value = null;
     
                 // Emit success toast
                 toast.success('Thank you! Your request has been submitted.', {
@@ -113,13 +117,15 @@ function OtherRequest() {
     }
     
     const handleRequestTitle = (e) => {
-        setSSSinfo({ ...thisInfo, RequestTitle: e.target.value });
+        setThisInfo({ ...thisInfo, RequestTitle: e.target.value });
     };
 
     const handleDescription = (e) => {
-        setSSSinfo({ ...thisInfo, Description: e.target.value });
+        setThisInfo({ ...thisInfo, Description: e.target.value });
     };
-
+    const handleNeccesaryFile = (e) => {
+        setThisInfo({ ...thisInfo, NeccesaryFile: e.target.files[0] });
+      };
 
     if (!employeeData) {
         return <div>Loading...</div>;
@@ -210,20 +216,20 @@ function OtherRequest() {
                                     <div className="card shadow mb-4">
                                         {/* Card Header - New Hire Upload */}
                                         <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                            <h6 className="m-0 font-weight-bold text-primary">Description</h6>
+                                            <h6 className="m-0 font-weight-bold text-primary">Upload file</h6>
                                         </div>
                                         {/* Card Body - New Hire Options */}
                                         <div className="card-body">
                                             <div className="tab-content">
                                                 <div className="card-body">
                                                     <div className="form-group">
-                                                            <label style={{ fontSize: '14px' }}>Upload file (if neccesary)</label>
+                                                            <label style={{ fontSize: '14px' }}>( Upload a file if neccesary )</label>
                                                             <input 
-                                                                id="" 
+                                                                id="NeccesaryFile" 
                                                                 type="file" 
                                                                 className="form-control-file" 
                                                                 aria-describedby="fileHelp" 
-                                                                onChange={""} 
+                                                                onChange={handleNeccesaryFile} 
                                                             />
                                                     </div>
                                                 </div>
