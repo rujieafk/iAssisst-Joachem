@@ -55,84 +55,82 @@ function PagIbigLandbankCard() {
   }, [employeeId]);
 
 
+  // const handleFormSubmit = async (e) => {
+  //   e.preventDefault();
+
+
+  //   const formData = new FormData();
+  //   formData.append('Application_Form', thisInfo.Application_Form);
+  //   formData.append('paySlipFiles', thisInfo.paySlipFiles);
+  //   formData.append('Valid_ID', thisInfo.Valid_ID);
+
+  //   try {
+  //     const response = await fetch('/PagIbigLandbankCard', {
+  //       method: 'POST',
+  //       body: formData,
+  //     });
+
+  //     if (response.ok) {
+  //       const jsonResponse = await response.json();
+        
+  //       console.log(jsonResponse.message);
+
+  //       setThisInfo({
+  //         Application_Form: '',
+  //         paySlipFiles: '',
+  //         Valid_ID: ''
+  //       });
+  
+  //       // Clear file input fields
+  //       document.getElementById('applicationFormInput').value = null;
+  //       document.getElementById('paySlipInput').value = null;
+  //       document.getElementById('validIdInput').value = null;
+        
+  //       // Emit success toast
+  //       toast.success('Submitted Successfully', {
+  //         position: "bottom-right",
+  //         autoClose: 5000,
+  //         hideProgressBar: false,
+  //         closeOnClick: true,
+  //         pauseOnHover: true,
+  //         draggable: true,
+  //         progress: undefined,
+  //         theme: "light",
+  //       });
+
+  //     } else {
+  //       console.error('Failed to upload PDF:', response.statusText);
+  //         toast.error('Failed to Submit', {
+  //           position: "bottom-right",
+  //           autoClose: 5000,
+  //           hideProgressBar: false,
+  //           closeOnClick: true,
+  //           pauseOnHover: true,
+  //           draggable: true,
+  //           progress: undefined,
+  //           theme: "light",
+  //           });
+  //       }
+  //   } catch (error) {
+  //     console.error('Error uploading PDF:', error);
+  //   }
+  // };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    if (!thisInfo.Application_Form || !thisInfo.paySlipFiles || !thisInfo.Valid_ID) {
-      // If any required field is empty, show a warning toast
-      toast.warn('Please fill in all required fields', {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      return; // Stop form submission
-    }
-
-    // function isPDF(file) {
-    //   return file.type === 'application/pdf';
-    // }
-    // if (!isPDF(thisInfo.Application_Form) || !isPDF(thisInfo.paySlipFiles) || !isPDF(thisInfo.Valid_ID)) {
-    //   // If any field does not contain a PDF, show a warning toast
-    //   toast.warn('Please upload only PDF files', {
-    //       position: "bottom-right",
-    //       autoClose: 5000,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //       theme: "light",
-    //   });
-    //   return; // Stop form submission
-    // }
+    const isValidFileType = (file) => {
+        const allowedTypes = ['application/pdf', 'image/png', 'image/jpeg'];
+        return file && allowedTypes.includes(file.type);
+    };
 
     const formData = new FormData();
-    formData.append('Application_Form', thisInfo.Application_Form);
-    formData.append('paySlipFiles', thisInfo.paySlipFiles);
-    formData.append('Valid_ID', thisInfo.Valid_ID);
 
-    try {
-      const response = await fetch('/PagIbigLandbankCard', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (response.ok) {
-        const jsonResponse = await response.json();
-        
-        console.log(jsonResponse.message);
-
-        setThisInfo({
-          Application_Form: '',
-          paySlipFiles: '',
-          Valid_ID: ''
-        });
-  
-        // Clear file input fields
-        document.getElementById('applicationFormInput').value = null;
-        document.getElementById('paySlipInput').value = null;
-        document.getElementById('validIdInput').value = null;
-        
-        // Emit success toast
-        toast.success('Submitted Successfully', {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-
-      } else {
-        console.error('Failed to upload PDF:', response.statusText);
-          toast.error('Failed to Submit', {
+    // Validate and append Application Form
+    if (isValidFileType(thisInfo.Application_Form)) {
+        formData.append('Application_Form', thisInfo.Application_Form);
+    } else {
+        toast.error('Invalid Application Form file type. Please upload a PDF, PNG, or JPEG file.', {
             position: "bottom-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -141,12 +139,95 @@ function PagIbigLandbankCard() {
             draggable: true,
             progress: undefined,
             theme: "light",
-            });
-        }
-    } catch (error) {
-      console.error('Error uploading PDF:', error);
+        });
+        return; // Stop further execution
     }
-  };
+
+    // Validate and append Pay Slip Files
+    if (isValidFileType(thisInfo.paySlipFiles)) {
+        formData.append('paySlipFiles', thisInfo.paySlipFiles);
+    } else {
+        toast.error('Invalid Pay Slip file type. Please upload a PDF, PNG, or JPEG file.', {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+        return; // Stop further execution
+    }
+
+    // Validate and append Valid ID
+    if (isValidFileType(thisInfo.Valid_ID)) {
+        formData.append('Valid_ID', thisInfo.Valid_ID);
+    } else {
+        toast.error('Invalid Valid ID file type. Please upload a PDF, PNG, or JPEG file.', {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+        return; // Stop further execution
+    }
+
+    try {
+        const response = await fetch('/PagIbigLandbankCard', {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (response.ok) {
+            const jsonResponse = await response.json();
+
+            console.log(jsonResponse.message);
+
+            setThisInfo({
+                Application_Form: '',
+                paySlipFiles: '',
+                Valid_ID: ''
+            });
+
+            // Clear file input fields
+            document.getElementById('applicationFormInput').value = null;
+            document.getElementById('paySlipInput').value = null;
+            document.getElementById('validIdInput').value = null;
+
+            // Emit success toast
+            toast.success('Thank you! Your request has been submitted.', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+
+        }  else {
+          console.error('Failed to submit request:', response.statusText);
+          toast.error('Failed to Submit', {
+              position: "bottom-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+          });
+      }
+  } catch (error) {
+      console.error('Error uploading:', error);
+  }
+};
 
   const handleApplication_Form = (e) => {
     setThisInfo({ ...thisInfo, Application_Form: e.target.files[0] });
@@ -187,7 +268,7 @@ function PagIbigLandbankCard() {
                       <div className="tab-content">
                         <div className="card-body">
                           <div className="d-flex justify-content-left">
-                            <input id="applicationFormInput" type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handleApplication_Form} />
+                            <input id="applicationFormInput" type="file" className="input-file" aria-describedby="fileHelp" onChange={handleApplication_Form} />
                             <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                           </div>
                         </div>
@@ -213,7 +294,7 @@ function PagIbigLandbankCard() {
                       <div className="tab-content">
                         <div className="card-body">
                           <div className="d-flex justify-content-left">
-                            <input id="paySlipInput" type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handlepay_Slip} />
+                            <input id="paySlipInput" type="file" className="input-file" aria-describedby="fileHelp" onChange={handlepay_Slip} />
                             <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                           </div>
                         </div>
@@ -239,7 +320,7 @@ function PagIbigLandbankCard() {
                       <div className="tab-content">
                         <div className="card-body">
                           <div className="d-flex justify-content-left">
-                            <input id="validIdInput" type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handleValid_ID} />
+                            <input id="validIdInput" type="file" className="input-file" aria-describedby="fileHelp" onChange={handleValid_ID} />
                             <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                           </div>
                         </div>

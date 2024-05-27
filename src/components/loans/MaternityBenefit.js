@@ -71,125 +71,101 @@ import 'react-toastify/dist/ReactToastify.css';
         [name]: value
       });
     }; 
+    // const handleFormSubmit = async (e) => {
+    //   e.preventDefault();
+    
+
+    //   const formData = new FormData();
+    //   formData.append("selected", selected); // Assuming selected is defined
+    //   formData.append('Application_Form', thisInfo.Application_Form); // Assuming thisInfo.Application_Form is defined
+  
+    //   // Append other files based on selected option
+    //   if(selected === '1'){
+    //       formData.append('LiveBirthCert', thisInfo.LiveBirthCert);
+    //       formData.append('SoloParent', thisInfo.SoloParent);
+    //   } else if(selected === '2'){
+    //       formData.append('ProofPregnancy', thisInfo.ProofPregnancy);
+    //       formData.append('HospitalRec', thisInfo.HospitalRec);
+    //   } else if(selected === '3'){
+    //       formData.append('DeathCert', thisInfo.DeathCert);
+    //   }
+
+    //   try {
+    //     const response = await fetch('/MaternityBenefit', {
+    //         method: 'POST',
+    //         body: formData,
+    //     });
+    
+    //     if (response.ok) {
+    //         const jsonResponse = await response.json();
+    
+    //         console.log(jsonResponse.message);
+    //          // Emit success toast
+    //          toast.success('Submitted Successfully', {
+    //           position: "bottom-right",
+    //           autoClose: 5000,
+    //           hideProgressBar: false,
+    //           closeOnClick: true,
+    //           pauseOnHover: true,
+    //           draggable: true,
+    //           progress: undefined,
+    //           theme: "light",
+    //         });
+          
+    //         setEmployeeData({
+    //           deliveryType: ''
+    //         });
+    //         setThisInfo({
+    //           Application_Form: '',
+    //           LiveBirthCert: '',
+    //           SoloParent: '',
+    //           ProofPregnancy: '',
+    //           HospitalRec: '',
+    //           DeathCert: ''
+    //         });
+
+            
+    //         // Clear file input fields
+    //         document.getElementById('deliveryType').value = null;
+    //         setSelected("0");
+    //         document.getElementById('Application_Form').value = null;
+    
+           
+    //       } else {
+    //           console.error('Failed to upload PDF:', response.statusText);
+    //           toast.error('Failed to Submit', {
+    //               position: "bottom-right",
+    //               autoClose: 5000,
+    //               hideProgressBar: false,
+    //               closeOnClick: true,
+    //               pauseOnHover: true,
+    //               draggable: true,
+    //               progress: undefined,
+    //               theme: "light",
+    //           });
+    //       }
+    //   } catch (error) {
+    //       console.error('Error uploading PDF:', error);
+    //   }
+    // };
+
     const handleFormSubmit = async (e) => {
       e.preventDefault();
-
-      if(selected === '1'){
-        if (!thisInfo.Application_Form || !thisInfo.LiveBirthCert || !thisInfo.SoloParent) {
-          toast.warn('Please fill in all required fields', {
-              position: "bottom-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          return; // Stop form submission
-        }
-      } else if(selected === '2'){
-        if (!thisInfo.ProofPregnancy || !thisInfo.HospitalRec) {
-          toast.warn('Please fill in all required fields', {
-              position: "bottom-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          return; // Stop form submission
-        }
-      } else if(selected === '3'){
-        if (!thisInfo.DeathCert) {
-          toast.warn('Please fill in all required fields', {
-              position: "bottom-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          return; // Stop form submission
-        }
-      }else{
-        toast.warn('Please fill in all required fields', {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        return; 
-      }
-      
-
+  
       const formData = new FormData();
       formData.append("selected", selected); // Assuming selected is defined
       formData.append('Application_Form', thisInfo.Application_Form); // Assuming thisInfo.Application_Form is defined
   
+      const validFileTypes = ['application/pdf', 'image/png', 'image/jpeg'];
+  
+      const validateFileType = (file) => {
+          return validFileTypes.includes(file.type);
+      };
+  
       // Append other files based on selected option
-      if(selected === '1'){
-          formData.append('LiveBirthCert', thisInfo.LiveBirthCert);
-          formData.append('SoloParent', thisInfo.SoloParent);
-      } else if(selected === '2'){
-          formData.append('ProofPregnancy', thisInfo.ProofPregnancy);
-          formData.append('HospitalRec', thisInfo.HospitalRec);
-      } else if(selected === '3'){
-          formData.append('DeathCert', thisInfo.DeathCert);
-      }
-
-      try {
-        const response = await fetch('/MaternityBenefit', {
-            method: 'POST',
-            body: formData,
-        });
-    
-        if (response.ok) {
-            const jsonResponse = await response.json();
-    
-            console.log(jsonResponse.message);
-             // Emit success toast
-             toast.success('Submitted Successfully', {
-              position: "bottom-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          
-            setEmployeeData({
-              deliveryType: ''
-            });
-            setThisInfo({
-              Application_Form: '',
-              LiveBirthCert: '',
-              SoloParent: '',
-              ProofPregnancy: '',
-              HospitalRec: '',
-              DeathCert: ''
-            });
-
-            
-            // Clear file input fields
-            document.getElementById('deliveryType').value = null;
-            setSelected("0");
-            document.getElementById('Application_Form').value = null;
-    
-           
-          } else {
-              console.error('Failed to upload PDF:', response.statusText);
-              toast.error('Failed to Submit', {
+      if (selected === '1') {
+          if (!validateFileType(thisInfo.LiveBirthCert) || !validateFileType(thisInfo.SoloParent)) {
+              return toast.error('Invalid file type. Only PDF, PNG, and JPEG are allowed.', {
                   position: "bottom-right",
                   autoClose: 5000,
                   hideProgressBar: false,
@@ -200,10 +176,95 @@ import 'react-toastify/dist/ReactToastify.css';
                   theme: "light",
               });
           }
-      } catch (error) {
-          console.error('Error uploading PDF:', error);
+          formData.append('LiveBirthCert', thisInfo.LiveBirthCert);
+          formData.append('SoloParent', thisInfo.SoloParent);
+      } else if (selected === '2') {
+          if (!validateFileType(thisInfo.ProofPregnancy) || !validateFileType(thisInfo.HospitalRec)) {
+              return toast.error('Invalid file type. Only PDF, PNG, and JPEG are allowed.', {
+                  position: "bottom-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+              });
+          }
+          formData.append('ProofPregnancy', thisInfo.ProofPregnancy);
+          formData.append('HospitalRec', thisInfo.HospitalRec);
+      } else if (selected === '3') {
+          if (!validateFileType(thisInfo.DeathCert)) {
+              return toast.error('Invalid file type. Only PDF, PNG, and JPEG are allowed.', {
+                  position: "bottom-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+              });
+          }
+          formData.append('DeathCert', thisInfo.DeathCert);
       }
-    };
+  
+      try {
+          const response = await fetch('/MaternityBenefit', {
+              method: 'POST',
+              body: formData,
+          });
+  
+          if (response.ok) {
+              const jsonResponse = await response.json();
+              console.log(jsonResponse.message);
+              // Emit success toast
+              toast.success('Thank you! Your request has been submitted.', {
+                  position: "bottom-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+              });
+  
+              setEmployeeData({
+                  deliveryType: ''
+              });
+              setThisInfo({
+                  Application_Form: '',
+                  LiveBirthCert: '',
+                  SoloParent: '',
+                  ProofPregnancy: '',
+                  HospitalRec: '',
+                  DeathCert: ''
+              });
+  
+              // Clear file input fields
+              document.getElementById('deliveryType').value = null;
+              setSelected("0");
+              document.getElementById('Application_Form').value = null;
+          } else {
+            console.error('Failed to submit request:', response.statusText);
+            toast.error('Failed to Submit', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+          }
+        } catch (error) {
+            console.error('Error uploading:', error);
+        }
+      };
+  
+
     const handleApplicationForm = (e) => {
       setThisInfo({ ...thisInfo, Application_Form: e.target.files[0] });
     };

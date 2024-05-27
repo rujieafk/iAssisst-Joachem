@@ -58,12 +58,132 @@ import 'react-toastify/dist/ReactToastify.css';
     }, [employeeId]);
   
   
+    // const handleFormSubmit = async (e) => {
+    //   e.preventDefault();
+      
+    //   const formData = new FormData();
+    //   formData.append('Notication_Form', thisInfo.Notication_Form);
+    //   formData.append('Maternity_Eligibility', thisInfo.Maternity_Eligibility);
+    //   formData.append('Credit_Form', thisInfo.Credit_Form);
+    //   formData.append('Medical_Reports', thisInfo.Medical_Reports);
+
+    //     try {
+    //       const response = await fetch('/MaternityNotification', {
+    //         method: 'POST',
+    //         body: formData,
+    //       });
+    
+    //       if (response.ok) {
+    //         const jsonResponse = await response.json();
+
+    //         console.log(jsonResponse.message);
+
+    //         setThisInfo({
+    //           Notication_Form: '',
+    //           Maternity_Eligibility: '',
+    //           Credit_Form: '',
+    //           Medical_Reports: ''
+    //         });
+      
+    //         // Clear file input fields
+    //         document.getElementById('Notication_Form').value = null;
+    //         document.getElementById('Maternity_Eligibility').value = null;
+    //         document.getElementById('Credit_Form').value = null;
+    //         document.getElementById('Medical_Reports').value = null;
+
+    //         // Emit success toast
+    //         toast.success('Submitted Successfully', {
+    //           position: "bottom-right",
+    //           autoClose: 5000,
+    //           hideProgressBar: false,
+    //           closeOnClick: true,
+    //           pauseOnHover: true,
+    //           draggable: true,
+    //           progress: undefined,
+    //           theme: "light",
+    //         });
+    
+    //       } else {
+    //         console.error('Failed to upload PDF:', response.statusText);
+    //           toast.error('Failed to Submit', {
+    //             position: "bottom-right",
+    //             autoClose: 5000,
+    //             hideProgressBar: false,
+    //             closeOnClick: true,
+    //             pauseOnHover: true,
+    //             draggable: true,
+    //             progress: undefined,
+    //             theme: "light",
+    //           });
+    //       }
+    //     } catch (error) {
+    //       console.error('Error uploading PDF:', error);
+    //     }
+    // };
+
     const handleFormSubmit = async (e) => {
       e.preventDefault();
-
-      if (!thisInfo.Notication_Form || !thisInfo.Maternity_Eligibility || !thisInfo.Credit_Form || !thisInfo.Medical_Reports) {
-        // If any required field is empty, show a warning toast
-        toast.warn('Please fill in all required fields', {
+    
+      // Function to validate file type
+      const isValidFileType = (file) => {
+        const allowedTypes = ['application/pdf', 'image/png', 'image/jpeg'];
+        return allowedTypes.includes(file.type);
+      };
+    
+      // Collecting files
+      const noticationForm = thisInfo.Notication_Form;
+      const maternityEligibility = thisInfo.Maternity_Eligibility;
+      const creditForm = thisInfo.Credit_Form;
+      const medicalReports = thisInfo.Medical_Reports;
+    
+      // Validate files
+      if (!isValidFileType(noticationForm) || !isValidFileType(maternityEligibility) ||
+          !isValidFileType(creditForm) || !isValidFileType(medicalReports)) {
+        toast.error('Only PDF, PNG, or JPEG files are allowed', {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        return;
+      }
+    
+      const formData = new FormData();
+      formData.append('Notication_Form', noticationForm);
+      formData.append('Maternity_Eligibility', maternityEligibility);
+      formData.append('Credit_Form', creditForm);
+      formData.append('Medical_Reports', medicalReports);
+    
+      try {
+        const response = await fetch('/MaternityNotification', {
+          method: 'POST',
+          body: formData,
+        });
+    
+        if (response.ok) {
+          const jsonResponse = await response.json();
+    
+          console.log(jsonResponse.message);
+    
+          setThisInfo({
+            Notication_Form: '',
+            Maternity_Eligibility: '',
+            Credit_Form: '',
+            Medical_Reports: ''
+          });
+    
+          // Clear file input fields
+          document.getElementById('Notication_Form').value = null;
+          document.getElementById('Maternity_Eligibility').value = null;
+          document.getElementById('Credit_Form').value = null;
+          document.getElementById('Medical_Reports').value = null;
+    
+          // Emit success toast
+          toast.success('Thank you! Your request has been submitted.', {
             position: "bottom-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -73,59 +193,10 @@ import 'react-toastify/dist/ReactToastify.css';
             progress: undefined,
             theme: "light",
           });
-        return; // Stop form submission
-      }
-      
-      // function isPDF(file) {
-      //   return file.type === 'application/pdf';
-      // }
-      // if (!isPDF(thisInfo.Notication_Form) || !isPDF(thisInfo.Maternity_Eligibility) || !isPDF(thisInfo.Credit_Form) || !isPDF(thisInfo.Medical_Reports)) {
-      //   // If any field does not contain a PDF, show a warning toast
-      //   toast.warn('Please upload only PDF files', {
-      //       position: "bottom-right",
-      //       autoClose: 5000,
-      //       hideProgressBar: false,
-      //       closeOnClick: true,
-      //       pauseOnHover: true,
-      //       draggable: true,
-      //       progress: undefined,
-      //       theme: "light",
-      //   });
-      //   return; // Stop form submission
-      // }
-
-      const formData = new FormData();
-      formData.append('Notication_Form', thisInfo.Notication_Form);
-      formData.append('Maternity_Eligibility', thisInfo.Maternity_Eligibility);
-      formData.append('Credit_Form', thisInfo.Credit_Form);
-      formData.append('Medical_Reports', thisInfo.Medical_Reports);
-
-        try {
-          const response = await fetch('/MaternityNotification', {
-            method: 'POST',
-            body: formData,
-          });
     
-          if (response.ok) {
-            const jsonResponse = await response.json();
-
-            console.log(jsonResponse.message);
-
-            setThisInfo({
-              Notication_Form: '',
-              Maternity_Eligibility: '',
-              Credit_Form: '',
-              Medical_Reports: ''
-            });
-      
-            // Clear file input fields
-            document.getElementById('Notication_Form').value = null;
-            document.getElementById('Maternity_Eligibility').value = null;
-            document.getElementById('Credit_Form').value = null;
-            document.getElementById('Medical_Reports').value = null;
-
-            // Emit success toast
-            toast.success('Submitted Successfully', {
+        }  else {
+          console.error('Failed to submit request:', response.statusText);
+          toast.error('Failed to Submit', {
               position: "bottom-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -134,26 +205,13 @@ import 'react-toastify/dist/ReactToastify.css';
               draggable: true,
               progress: undefined,
               theme: "light",
-            });
-    
-          } else {
-            console.error('Failed to upload PDF:', response.statusText);
-              toast.error('Failed to Submit', {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-              });
-          }
-        } catch (error) {
-          console.error('Error uploading PDF:', error);
+          });
         }
+      } catch (error) {
+          console.error('Error uploading:', error);
+      }
     };
-  
+    
     const handleNotication_Form = (e) => {
       setThisInfo({ ...thisInfo, Notication_Form: e.target.files[0] });
     };
@@ -196,7 +254,7 @@ import 'react-toastify/dist/ReactToastify.css';
                               <div className="tab-content">
                                 <div className="card-body">
                                   <div className="d-flex justify-content-left">
-                                    <input id='Notication_Form' type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handleNotication_Form}/>
+                                    <input id='Notication_Form' type="file" className="input-file" aria-describedby="fileHelp" onChange={handleNotication_Form}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
                                 </div>
@@ -222,7 +280,7 @@ import 'react-toastify/dist/ReactToastify.css';
                               <div className="tab-content">
                                 <div className="card-body">
                                   <div className="d-flex justify-content-left">
-                                    <input id='Maternity_Eligibility' type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handMaternity_Eligibility}/>
+                                    <input id='Maternity_Eligibility' type="file" className="input-file" aria-describedby="fileHelp" onChange={handMaternity_Eligibility}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
                                 </div>
@@ -248,7 +306,7 @@ import 'react-toastify/dist/ReactToastify.css';
                               <div className="tab-content">
                                 <div className="card-body">
                                   <div className="d-flex justify-content-left">
-                                    <input id='Credit_Form' type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handleCredit_Form}/>
+                                    <input id='Credit_Form' type="file" className="input-file" aria-describedby="fileHelp" onChange={handleCredit_Form}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
                                 </div>
@@ -274,7 +332,7 @@ import 'react-toastify/dist/ReactToastify.css';
                               <div className="tab-content">
                                 <div className="card-body">
                                   <div className="d-flex justify-content-left">
-                                    <input id='Medical_Reports' type="file" className="input-file" aria-describedby="fileHelp" accept=".pdf" onChange={handleMedical_Reports}/>
+                                    <input id='Medical_Reports' type="file" className="input-file" aria-describedby="fileHelp" onChange={handleMedical_Reports}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
                                 </div>

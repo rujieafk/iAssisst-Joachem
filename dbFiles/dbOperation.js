@@ -2,6 +2,7 @@
 const config = require('./dbConfig');
 const sql = require('mssql');
 const fs = require('fs'); 
+const path = require('path');
 
 const insertPDF = async (filename) => {
     try {
@@ -857,7 +858,7 @@ const PdfFile = async (insertPDF,SubmissionID,RequirementName) => {
 
         const thisRequirementName = RequirementName;
         const Filename = insertPDF[0].originalname;
-        const ContentType = "pdf";
+        const ContentType = path.extname(Filename).toLowerCase();
         const Size = insertPDF[0].size;
         const UploadDate = currentDate;
 
@@ -892,6 +893,29 @@ const PdfFile = async (insertPDF,SubmissionID,RequirementName) => {
 }
 // -----------------------------------------------------------------------
 
+//------------------------------------------------------------------------
+const UpdateRequest = async (Action, SubmissionId) => {
+    try {
+        let pool = await sql.connect(config);
+
+        let file = await pool.request()
+            .input('Status', Action)
+            .input('SubmissionID', SubmissionId)
+            .query(`
+                UPDATE Submission
+                SET Status = @Status
+                WHERE SubmissionID = @SubmissionID
+            `); 
+
+        console.log("Successfully updated: ", file);
+    } catch (error) {
+        console.error("Error updating record:", error);
+        throw error;
+    }
+}
+
+//------------------------------------------------------------------------
+
 
 module.exports = {
     insertPDF,
@@ -910,5 +934,6 @@ module.exports = {
     PHILHEALTHrequest,
     CertificateOfRemittance,
     CertificateOfOneness,
-    OtherRequest
+    OtherRequest,
+    UpdateRequest
 };

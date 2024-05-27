@@ -666,5 +666,22 @@ app.post('/OtherRequest', upload.fields([
   }
 });
 
+app.post('/UpdateRequest', upload.fields([
+  { name: 'thisAction' },
+  { name: 'thisSubmissionID' }
+]), async (req, res) => {
+  try {
+
+      const { thisAction, thisSubmissionID} = req.body;
+      
+      await dbOperation.UpdateRequest(thisAction, thisSubmissionID);
+
+      res.status(200).json({ message: 'Files uploaded successfully' });
+  } catch (error) {
+      console.error('Error uploading files:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
       
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

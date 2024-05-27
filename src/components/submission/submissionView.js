@@ -211,9 +211,52 @@ import { Document, Page,pdfjs } from 'react-pdf';
     
     
     const handleCancel = async () => {
-      try {
-       
-      } catch (error) {
+        const thisAction = "Cancelled"; 
+
+        const formData = new FormData();
+        formData.append('thisAction', thisAction);
+        formData.append('thisSubmissionID', data.SubmissionID);
+
+        try {
+          const response = await fetch('http://localhost:5000/UpdateRequest', {
+            method: 'POST',
+            body: formData,
+          }); 
+          if (response.ok) {
+            const jsonResponse = await response.json();
+
+            console.log(jsonResponse.message);
+            
+            // Emit success toast
+            toast.success('Submitted Successfully', {
+              position: "bottom-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+
+            setTimeout(() => {
+              window.location.href = '/submissions';
+            }, 2300);
+
+          } else {
+            console.error('Failed to upload PDF:', response.statusText);
+              toast.error('Failed to Submit', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+          } 
+        } catch (error) {
         console.error('Error updating failed:', error);
       }
     };
@@ -257,12 +300,8 @@ import { Document, Page,pdfjs } from 'react-pdf';
                                     <label>{data.Status}</label>
                                       {data.Status === 'Pending' ? (
                                           <Button type="button" onClick={handleCancel}>Cancel</Button>
-                                      ) : data.Status === 'Complete' ? (
-                                          <span>Completed</span>
-                                      ) : data.Status === 'Cancel' ? (
-                                          <span>Cancelled</span>
                                       ) : (
-                                          <span>Unknown Status</span>
+                                          <span></span>
                                       )}
                                     
                                   </div>
