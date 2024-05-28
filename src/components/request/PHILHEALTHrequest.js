@@ -70,23 +70,61 @@ function SSSRequest() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
+    const isValidFileType = (file) => {
+      const allowedTypes = ['application/pdf', 'image/png', 'image/jpeg'];
+      return allowedTypes.includes(file.type);
+    };
+    
     const formData = new FormData();
     formData.append("selected", selected); 
     formData.append("selectedReason", selectedReason); 
 
     // Append other files based on selected option
-    if(selected === '1'){
-        formData.append('EmailNotification', thisInfo.EmailNotification);
-    } 
-    else if(selected === '2'){
-        formData.append('EmailNotification', thisInfo.EmailNotification);
-    } 
-    else if(selected === '3'){
-        formData.append('ProvidentApplicationForm', thisInfo.ProvidentApplicationForm);
-    } 
-    else if(selected === '4'){
-        formData.append('ProvidentApplicationForm', thisInfo.ProvidentApplicationForm);
-    } 
+    // if(selected === '1'){
+    //     formData.append('EmailNotification', thisInfo.EmailNotification);
+    // } 
+    // else if(selected === '2'){
+    //     formData.append('EmailNotification', thisInfo.EmailNotification);
+    // } 
+    // else if(selected === '3'){
+    //     formData.append('ProvidentApplicationForm', thisInfo.ProvidentApplicationForm);
+    // } 
+    // else if(selected === '4'){
+    //     formData.append('ProvidentApplicationForm', thisInfo.ProvidentApplicationForm);
+    // } 
+    if (selected === '1' || selected === '2') {
+      if (thisInfo.EmailNotification && isValidFileType(thisInfo.EmailNotification)) {
+          formData.append('EmailNotification', thisInfo.EmailNotification);
+      } else {
+          toast.error('Invalid EmailNotification file type. Please upload a PDF, PNG, or JPEG file.', {
+              position: "bottom-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+          });
+          return; 
+      }
+    } else if (selected === '3' || selected === '4') {
+        if (thisInfo.ProvidentApplicationForm && isValidFileType(thisInfo.ProvidentApplicationForm)) {
+            formData.append('ProvidentApplicationForm', thisInfo.ProvidentApplicationForm);
+        } else {
+            toast.error('Invalid ProvidentApplicationForm file type. Please upload a PDF, PNG, or JPEG file.', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            return; 
+        }
+      }
 
     try {
       const response = await fetch('/PHILHEALTHrequest', {
@@ -99,7 +137,7 @@ function SSSRequest() {
   
           console.log(jsonResponse.message);
            // Emit success toast
-           toast.success('Submitted Successfully', {
+           toast.success('Thank you! Your request has been submitted.', {
             position: "bottom-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -123,11 +161,8 @@ function SSSRequest() {
             });  
           }
          
-          // // Clear selectedReason after submission
-          // setSelectedReason("0");
-         
         } else {
-            console.error('Failed to upload PDF:', response.statusText);
+            console.error('Failed to submit request:', response.statusText);
             toast.error('Failed to Submit', {
                 position: "bottom-right",
                 autoClose: 5000,
@@ -140,7 +175,7 @@ function SSSRequest() {
             });
         }
     } catch (error) {
-        console.error('Error uploading PDF:', error);
+        console.error('Error uploading:', error);
     }
   };
 

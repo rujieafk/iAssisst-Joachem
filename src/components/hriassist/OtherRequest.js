@@ -58,12 +58,61 @@ function OtherRequest() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-    
+        
+        const isValidFileType = (file) => {
+            const allowedTypes = ['application/pdf', 'image/png', 'image/jpeg'];
+            return allowedTypes.includes(file.type);
+        };
+        
         // Proceed with the file upload
         const formData = new FormData();
-        formData.append('RequestTitle', thisInfo.RequestTitle);
-        formData.append('Description', thisInfo.Description);
-        formData.append('NeccesaryFile', thisInfo.NeccesaryFile);
+
+        if (!thisInfo.RequestTitle) {
+            toast.error('Request title is required.', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            return; // Stop further execution
+        }
+        
+        if (!thisInfo.Description) {
+            toast.error('Description is required.', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            return; // Stop further execution
+        }
+        
+        if (thisInfo.NeccesaryFile && isValidFileType(thisInfo.NeccesaryFile)) {
+            formData.append('RequestTitle', thisInfo.RequestTitle);
+            formData.append('Description', thisInfo.Description);
+            formData.append('NeccesaryFile', thisInfo.NeccesaryFile);
+        } else {
+            toast.error('Invalid file type for necessary file. Please upload a valid file.', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            return; // Stop further execution
+        }
+        
         
         try {
             const response = await fetch('/OtherRequest', {
@@ -99,7 +148,7 @@ function OtherRequest() {
                 });
     
             } else {
-                console.error('Failed to upload PDF:', response.statusText);
+                console.error('Failed to submit request:', response.statusText);
                 toast.error('Failed to Submit', {
                     position: "bottom-right",
                     autoClose: 5000,
@@ -112,7 +161,7 @@ function OtherRequest() {
                 });
             }
         } catch (error) {
-            console.error('Error uploading PDF:', error);
+            console.error('Error uploading:', error);
         }
     }
     

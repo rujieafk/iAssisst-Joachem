@@ -132,12 +132,15 @@ const updateResubmit = async(data,dataPDF) => {
         let pool = await sql.connect(config);
 
         const EmpResubmitted = "1";
+        const status = "Resubmitted"
         
         const file = await pool.request()
 
         .input('EmpResubmitted', EmpResubmitted) 
+        .input('status', status) 
         .input('SubmissionID', data.SubmissionID) 
         .query(`
+            UPDATE Submission SET Status = @status WHERE SubmissionID = @SubmissionID;
             UPDATE PdfFile SET EmpResubmitted = @EmpResubmitted WHERE SubmissionID = @SubmissionID;
         `); 
 
@@ -348,10 +351,10 @@ const updateResubmit = async(data,dataPDF) => {
                     PdfFile(dataPDF.Doc2,SubmissionID,RequirementName10);
                     PdfFile(dataPDF.Doc3,SubmissionID,RequirementName11);
                 }else if(TransactionType === "Maternity Notication"){
-                    PdfFile(dataPDF.Notication_Form,SubmissionID,RequirementName12);
-                    PdfFile(dataPDF.Maternity_Eligibility,SubmissionID,RequirementName13);
-                    PdfFile(dataPDF.Credit_Form,SubmissionID,RequirementName14);
-                    PdfFile(dataPDF.Medical_Reports,SubmissionID,RequirementName15);
+                    PdfFile(dataPDF.Doc1,SubmissionID,RequirementName12);
+                    PdfFile(dataPDF.Doc2,SubmissionID,RequirementName13);
+                    PdfFile(dataPDF.Doc3,SubmissionID,RequirementName14);
+                    PdfFile(dataPDF.Doc4,SubmissionID,RequirementName15);
                 }
     
                 console.log("Successfully inserted: ",file);
@@ -467,16 +470,16 @@ const insertSubmissionMaternityBenefit = async (selected, TransactionType,Status
             console.log(dataPDF);
             if(TransactionType === "Maternity Benefit"){
                 if(selected === "1"){
-                    PdfFile(dataPDF.Application_Form,SubmissionID,RequirementName16);
-                    PdfFile(dataPDF.LiveBirthCert,SubmissionID,RequirementName17);
-                    PdfFile(dataPDF.SoloParent,SubmissionID,RequirementName18);
+                    PdfFile(dataPDF.Doc1,SubmissionID,RequirementName16);
+                    PdfFile(dataPDF.Doc2,SubmissionID,RequirementName17);
+                    PdfFile(dataPDF.Doc3,SubmissionID,RequirementName18);
                 }else if(selected === "2"){
-                    PdfFile(dataPDF.Application_Form,SubmissionID,RequirementName19);
-                    PdfFile(dataPDF.ProofPregnancy,SubmissionID,RequirementName20);
-                    PdfFile(dataPDF.HospitalRec,SubmissionID,RequirementName21);
+                    PdfFile(dataPDF.Doc1,SubmissionID,RequirementName19);
+                    PdfFile(dataPDF.Doc2,SubmissionID,RequirementName20);
+                    PdfFile(dataPDF.Doc3,SubmissionID,RequirementName21);
                 }else if(selected === "3"){
-                    PdfFile(dataPDF.Application_Form,SubmissionID,RequirementName22);
-                    PdfFile(dataPDF.DeathCert,SubmissionID,RequirementName23);
+                    PdfFile(dataPDF.Doc1,SubmissionID,RequirementName22);
+                    PdfFile(dataPDF.Doc2,SubmissionID,RequirementName23);
                 }
             }
             console.log("Successfully inserted: ",file);
@@ -851,7 +854,6 @@ const insertOtherRequest = async (TransactionType, Status, DateTime, TurnAround,
 
 const PdfFile = async (insertPDF,SubmissionID,RequirementName) => {
     try {
-    
         const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
 
         let pool = await sql.connect(config);

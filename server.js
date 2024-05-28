@@ -90,36 +90,36 @@ app.post('/usersubmission',  upload.single('EmpId'), async (req, res) => {
 
 app.post('/resubmitPDF', upload.fields([{ name: 'newPDF' }, { name: 'requirementName' }, {name: 'PdfFileID'}, {name: 'SubmissionID'}]), async (req, res) => {
   try {
-    // const uploadedFiles = req.files;
-    // const { requirementName, PdfFileID, SubmissionID} = req.body;
+    const uploadedFiles = req.files;
+    const { requirementName, PdfFileID, SubmissionID} = req.body;
 
-    // uploadedFiles.newPDF.forEach((file, index) => {
-    //   let setrequirementName;
-    //   if (uploadedFiles.newPDF.length === 1) {
-    //     setrequirementName = requirementName;
-    //   } else {
-    //     setrequirementName = requirementName[index];
-    //   }
+    uploadedFiles.newPDF.forEach((file, index) => {
+      let setrequirementName;
+      if (uploadedFiles.newPDF.length === 1) {
+        setrequirementName = requirementName;
+      } else {
+        setrequirementName = requirementName[index];
+      }
 
-    //   const FileName = file.originalname;
-    //   const ContentType = "pdf";
-    //   const setFileSize = file.size;
+      const FileName = file.originalname;
+      const ContentType = "pdf";
+      const setFileSize = file.size;
 
-    //   const now = new Date();
-    //   const UploadDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+      const now = new Date();
+      const UploadDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
 
-    //   const PdfData = file;
-    //   const Resubmit = "0";
-    //   const ResubmitReason = "";
-    //   const setSubmissionID = SubmissionID;
-    //   const setPdfFileID = PdfFileID[index]; 
+      const PdfData = file;
+      const Resubmit = "0";
+      const ResubmitReason = "";
+      const setSubmissionID = SubmissionID;
+      const setPdfFileID = PdfFileID[index]; 
 
       
-    //   const dbData = new submissionResubmit(setrequirementName, FileName, ContentType, setFileSize, UploadDate, Resubmit, ResubmitReason, setSubmissionID, setPdfFileID);
-    //   const dbDataPDF = new ResubmitPDFContructor(PdfData);
+      const dbData = new submissionResubmit(setrequirementName, FileName, ContentType, setFileSize, UploadDate, Resubmit, ResubmitReason, setSubmissionID, setPdfFileID);
+      const dbDataPDF = new ResubmitPDFContructor(PdfData);
       
-    //   dbOperation.updateResubmit(dbData, dbDataPDF);
-    // });
+      dbOperation.updateResubmit(dbData, dbDataPDF);
+    });
 
     res.status(200).json({ message: 'Files uploaded successfully' });
   } catch (error) {
@@ -286,6 +286,8 @@ app.post('/PagIbigVirtualAccount', upload.fields([ { name: 'paySlip' }, { name: 
 
 app.post('/MaternityNotification', upload.fields([ { name: 'Notication_Form' }, { name: 'Maternity_Eligibility' }, { name: 'Credit_Form' }, { name: 'Medical_Reports' } ]), async (req, res) => {
   try {
+
+
     const TransactionType = "Maternity Notication";
     const Status = "Pending";
     const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD

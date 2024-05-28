@@ -72,18 +72,53 @@ import 'react-toastify/dist/ReactToastify.css';
     const handleFormSubmit = async (e) => {
       e.preventDefault();
 
+      const isValidFileType = (file) => {
+        const allowedTypes = ['application/pdf', 'image/png', 'image/jpeg'];
+        return allowedTypes.includes(file.type);
+      };
+    
       const formData = new FormData();
       formData.append("selected", selected); // Assuming selected is define
   
       // Append other files based on selected option
       if(selected === '1'){
+        if (thisInfo.StatementOfAccount && isValidFileType(thisInfo.StatementOfAccount)) {
           formData.append('StatementOfAccount', thisInfo.StatementOfAccount);
+        } else {
+            toast.error('Invalid Pay Slip file type. Please upload a PDF, PNG, or JPEG file.', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            return; // Stop further execution
+      }
+
       } 
-      else if(selected === '2'){
-          formData.append('FormFromPagIbig', thisInfo.FormFromPagIbig);
-          formData.append('ErroneousName', ErroneousName);
-          formData.append('CorrectName', CorrectName);
+      else if(selected === '2') {
+        if (thisInfo.FormFromPagIbig && isValidFileType(thisInfo.FormFromPagIbig)) {
+            formData.append('FormFromPagIbig', thisInfo.FormFromPagIbig);
+            formData.append('ErroneousName', ErroneousName);
+            formData.append('CorrectName', CorrectName);
+        } else {
+            toast.error('Invalid FormFromPagIbig file type. Please upload a PDF, PNG, or JPEG file.', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            return; 
+          }
         } 
+    
       try {
         const response = await fetch('/PagIbigRequest', {
             method: 'POST',
@@ -95,7 +130,7 @@ import 'react-toastify/dist/ReactToastify.css';
     
             console.log(jsonResponse.message);
              // Emit success toast
-             toast.success('Submitted Successfully', {
+             toast.success('Thank you! Your request has been submitted.', {
               position: "bottom-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -117,7 +152,7 @@ import 'react-toastify/dist/ReactToastify.css';
     
            
           } else {
-              console.error('Failed to upload PDF:', response.statusText);
+              console.error('Failed to submit request:', response.statusText);
               toast.error('Failed to Submit', {
                   position: "bottom-right",
                   autoClose: 5000,
@@ -130,7 +165,7 @@ import 'react-toastify/dist/ReactToastify.css';
               });
           }
       } catch (error) {
-          console.error('Error uploading PDF:', error);
+          console.error('Error uploading', error);
       }
     };
     const handleStatementOFAccount = (e) => {

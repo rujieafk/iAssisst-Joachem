@@ -450,8 +450,12 @@ import { Document, Page,pdfjs } from 'react-pdf';
                     </div>
                 </div> */}
                 {/* Page content ends here */} 
-
-                <button type="submit" className="btn btn-primary d-block mx-auto mb-4">Submit</button>
+                {data.Status === 'Resubmit' ? (
+                  <button type="submit" className="btn btn-primary d-block mx-auto mb-4">Submit</button>
+                ) : (
+                  <span></span>
+                )}
+                
                 </form>
               </div>
 

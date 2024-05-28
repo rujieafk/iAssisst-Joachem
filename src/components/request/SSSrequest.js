@@ -430,20 +430,109 @@ function SSSRequest() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
+    const isValidFileType = (file) => {
+      const allowedTypes = ['application/pdf', 'image/png', 'image/jpeg'];
+      return allowedTypes.includes(file.type);
+    };
+  
     const formData = new FormData();
     formData.append("selected", selected);
 
     // Append other files based on selected option
+    // if (selected === '1') {
+    //   formData.append('StatementOfAccount', thisInfo.StatementOfAccount);
+    //   formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
+    // } else if (selected === '2') {
+    //   formData.append('MonthlyContributions', thisInfo.MonthlyContributions);
+    //   formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
+    // } else if (selected === '3') {
+    //   formData.append('SpecifyOtherRequest', specifyOtherRequest);
+    //   formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
+    // }
+
     if (selected === '1') {
-      formData.append('StatementOfAccount', thisInfo.StatementOfAccount);
-      formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
-    } else if (selected === '2') {
-      formData.append('MonthlyContributions', thisInfo.MonthlyContributions);
-      formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
-    } else if (selected === '3') {
-      formData.append('SpecifyOtherRequest', specifyOtherRequest);
-      formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
-    }
+      if (thisInfo.StatementOfAccount && isValidFileType(thisInfo.StatementOfAccount)) {
+          formData.append('StatementOfAccount', thisInfo.StatementOfAccount);
+      } else {
+          toast.error('Invalid StatementOfAccount file type. Please upload a PDF, PNG, or JPEG file.', {
+              position: "bottom-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+          });
+          return; // Stop further execution
+      }
+  
+      if (thisInfo.VerificationRequestForm && isValidFileType(thisInfo.VerificationRequestForm)) {
+          formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
+      } else {
+          toast.error('Invalid VerificationRequestForm file type. Please upload a PDF, PNG, or JPEG file.', {
+              position: "bottom-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+          });
+          return; // Stop further execution
+      }
+  } else if (selected === '2') {
+      if (thisInfo.MonthlyContributions && isValidFileType(thisInfo.MonthlyContributions)) {
+          formData.append('MonthlyContributions', thisInfo.MonthlyContributions);
+      } else {
+          toast.error('Invalid MonthlyContributions file type. Please upload a PDF, PNG, or JPEG file.', {
+              position: "bottom-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+          });
+          return; 
+      }
+  
+      if (thisInfo.VerificationRequestForm && isValidFileType(thisInfo.VerificationRequestForm)) {
+          formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
+      } else {
+          toast.error('Invalid VerificationRequestForm file type. Please upload a PDF, PNG, or JPEG file.', {
+              position: "bottom-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+          });
+          return; 
+        }
+      } else if (selected === '3') {
+          formData.append('SpecifyOtherRequest', specifyOtherRequest); // Assuming no file validation required for this field
+      
+          if (thisInfo.VerificationRequestForm && isValidFileType(thisInfo.VerificationRequestForm)) {
+              formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
+          } else {
+              toast.error('Invalid VerificationRequestForm file type. Please upload a PDF, PNG, or JPEG file.', {
+                  position: "bottom-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+              });
+            return; 
+          }
+      }
 
     try {
       const response = await fetch('/CertificationRequestSSS', {
@@ -454,7 +543,7 @@ function SSSRequest() {
       if (response.ok) {
         const jsonResponse = await response.json();
         console.log(jsonResponse.message);
-        toast.success('Submitted Successfully', {
+        toast.success('Thank you! Your request has been submitted.', {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -475,7 +564,7 @@ function SSSRequest() {
         document.getElementById('Application_Form').value = null;
 
       } else {
-        console.error('Failed to upload PDF:', response.statusText);
+        console.error('Failed to submit request:', response.statusText);
         toast.error('Failed to Submit', {
           position: "bottom-right",
           autoClose: 5000,
@@ -488,7 +577,7 @@ function SSSRequest() {
         });
       }
     } catch (error) {
-      console.error('Error uploading PDF:', error);
+      console.error('Error uploading:', error);
     }
   };
 
