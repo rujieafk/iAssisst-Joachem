@@ -26,6 +26,9 @@ import HRIAssist from './components/hriassist/hrIAssist';
 import RequestView from './components/hriassist/requestView';
 
 import Test from './components/test';
+import SicknessNotification from './components/sickness/SicknessNotification';
+import SicknessApproval from './components/sickness/SicknessApproval';
+
 import OtherRequest from './components/hriassist/OtherRequest';
 
 
@@ -61,6 +64,8 @@ function App() {
             <Route path="/PIrequest" element={<PAGIBIGrequest />} />
             <Route path="/PHILHEALTHrequest" element={<PHILHEALTHrequest />} />
 
+            <Route path="/SicknessNotification" element={<SicknessNotification />} /> 
+            <Route path="/SicknessApproval" element={<SicknessApproval />} /> 
             <Route path="/OtherRequest" element={<OtherRequest />} />
 
           {/* HR iAssist Pages */}

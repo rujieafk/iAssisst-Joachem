@@ -14,6 +14,8 @@ import { useState } from "react";
   const [showLoans, setShowLoans] = useState(false);
   const [showMaternity, setShowMaternity] = useState(false);
   const [showCertReq, setShowCertReq] = useState(false);
+  const [showSickness, setshowSickness] = useState(false);
+  const [SicknessNotification, setSicknessNotification] = useState(false);
   const [OtherRequest, setOtherRequest] = useState(false);
 
   // Function to toggle the visibility of pages list
@@ -28,6 +30,12 @@ import { useState } from "react";
   };
   const toggleCertReq = () => {
     setShowCertReq(!showCertReq);
+  };
+  const toggleSickness = () => {
+    setshowSickness(!showSickness);
+  };
+  const toggleSicknessNotification= () => {
+    setSicknessNotification(!SicknessNotification);
   };
   const toggleOtherRequest = () => {
     setOtherRequest(!OtherRequest);
@@ -153,6 +161,26 @@ import { useState } from "react";
                                 </ul>
                             )}
                         </li>
+
+                        <li onClick={toggleSickness}> 
+                            <Link className="dropdown-text" state={data}>SSS Sickness</Link>
+                            {showSickness && (
+                                <ul className="custom-bullet-list sub-menu">
+                                    <li>
+                                        <Link to="/SicknessNotification " className="dropdown-text" state={data}>
+                                            SSS Sickness  
+                                            <div className="list-padding">Notification</div>
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/SicknessApproval" className="dropdown-text"  state= { data }>
+                                            SSS Sickness Approval 
+                                        </Link>
+                                    </li>
+                                </ul>
+                            )}
+                        </li>
+                        
                         <li onClick={toggleOtherRequest}>
                             <Link to="/OtherRequest" className="dropdown-text" state={data}>Other Request</Link>
                         </li>

@@ -631,6 +631,102 @@ app.post('/PHILHEALTHrequest', upload.fields([
   }
 });
 
+app.post('/SicknessNotification', upload.fields([
+  { name: 'SicknessNotificationForm' },
+  { name: 'PlaceOfConfinement' },
+  { name: 'MedicalCertificate' },
+  { name: 'SupportingDocuments' },
+  { name: 'ECSupportingDocuments' }
+]), async (req, res) => {
+  try {
+      const PlaceOfConfinement = req.body.PlaceOfConfinement;
+      const SicknessNotificationForm = req.files['SicknessNotificationForm'];
+      const MedicalCertificate = req.files['MedicalCertificate'];
+      const SupportingDocuments = req.files['SupportingDocuments'];
+      const ECSupportingDocuments = req.files['ECSupportingDocuments'];
+      
+      const TransactionType = "SSS Sickness Notification";
+      const Status = "Pending";
+      const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
+      const TurnAround = "5";
+      const Application_Date = "";
+      const Transaction_Number = "";
+      const RequestType = "";
+      const TypeOfDelivery = "";
+      const OtherReq = "";
+      const EmpId = "10023";
+      const ErroneousName = "";
+      const CorrectName = "";
+      const RequestTitle = "";
+      const Description = ""
+      const CompletionDate = "";
+      const ReasonType ="";
+      const DeductionFor ="";
+
+      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement);
+      const dbDataPDF = new DefaultSetterFile(SicknessNotificationForm,MedicalCertificate,SupportingDocuments,ECSupportingDocuments);
+      await dbOperation.SicknessNotification(dbData,dbDataPDF);
+
+      res.status(200).json({ message: 'Files uploaded successfully' });
+  } catch (error) {
+      console.error('Error uploading files:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
+app.post('/SicknessApproval', upload.fields([
+  { name: 'SicknessEligibility' },
+  { name: 'BankAccount' }
+]), async (req, res) => {
+  try {
+      const BankAccount = req.body.BankAccount;
+      const SicknessEligibility = req.files['SicknessEligibility'];
+      
+      const TransactionType = "SSS Sickness Approval";
+      const Status = "Pending";
+      const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
+      const TurnAround = "5";
+      const Application_Date = "";
+      const Transaction_Number = "";
+      const RequestType = "";
+      const TypeOfDelivery = "";
+      const OtherReq = "";
+      const EmpId = "10023";
+      const ErroneousName = "";
+      const CorrectName = "";
+      const RequestTitle = "";
+      const Description = ""
+      const CompletionDate = "";
+      const ReasonType ="";
+      const DeductionFor ="";
+      const PlaceOfConfinement ="";
+
+      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
+      const dbDataPDF = new DefaultOneFile(SicknessEligibility);
+      await dbOperation.SicknessApproval(dbData,dbDataPDF);
+
+      res.status(200).json({ message: 'Files uploaded successfully' });
+  } catch (error) {
+      console.error('Error uploading files:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/UpdateRequest', upload.fields([
+  { name: 'thisAction' },
+  { name: 'thisSubmissionID' }
+]), async (req, res) => {
+  try {
+
+      const { thisAction, thisSubmissionID} = req.body;
+      
+      await dbOperation.UpdateRequest(thisAction, thisSubmissionID);
+
+      res.status(200).json({ message: 'Files uploaded successfully' });
+  } catch (error) {
+      console.error('Error uploading files:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
 app.post('/OtherRequest', upload.fields([
   { name: 'RequestTitle' },
   { name: 'Description' },
