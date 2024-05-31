@@ -57,15 +57,29 @@ function SicknessApproval() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
+        const formData = new FormData();
         
         const isValidFileType = (file) => {
             const allowedTypes = ['application/pdf', 'image/png', 'image/jpeg'];
             return allowedTypes.includes(file.type);
         };
-        
-        try {
-            const formData = new FormData();
+
+        if (thisInfo.SicknessEligibility && isValidFileType(thisInfo.SicknessEligibility)) {
             formData.append("SicknessEligibility", thisInfo.SicknessEligibility);
+        } else {
+            toast.error('Invalid StatementOfAccount file type. Please upload a PDF, PNG, or JPEG file.', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            return; // Stop further execution
+        }
+        try {
             formData.append("BankAccount", thisInfo.BankAccount);
 
 

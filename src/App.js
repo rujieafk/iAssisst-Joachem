@@ -11,7 +11,6 @@ import IAssist from './components/iassist';
 
 import SSSLoan from './components/loans/sssLoan';
 import PagIbigLandbankCard from './components/loans/pagIbigLandbankCard';
-import PagIbigDBPCard from './components/loans/pagIbigDBPCard';
 import PagIbigVirtualAccount from './components/loans/pagIbigVirtualAccount';
 import MaternityNotification from './components/loans/MaternityNotification';
 import MaternityBenefit from './components/loans/MaternityBenefit';
@@ -55,7 +54,6 @@ function App() {
           <Route path="/iassist" element={<IAssist />} />
             <Route path="/sssloan" element={<SSSLoan />} />
             <Route path="/landbankcard" element={<PagIbigLandbankCard />} />
-            <Route path="/dbpcard" element={<PagIbigDBPCard />} />
             <Route path="/virtualaccount" element={<PagIbigVirtualAccount />} />
             <Route path="/notification" element={<MaternityNotification />} />
             <Route path="/benefit" element={<MaternityBenefit />} />

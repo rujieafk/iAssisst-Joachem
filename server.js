@@ -152,7 +152,10 @@ app.post('/SSSloan', upload.fields([{ name: 'Pay_Slip' }, { name: 'Disclosure_St
       const ReasonType="";
       const DeductionFor="";
 
-      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName,RequestTitle, Description, CompletionDate,ReasonType,DeductionFor);
+      const PlaceOfConfinement ="";
+      const BankAccount ="";
+
+      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
       const dbDataPDF = new DefaultThreeFile(paySlipFiles,disclosureStatementFiles);
 
       // Pass the required parameters to insertPDF function
@@ -192,50 +195,14 @@ app.post('/PagIbigLandbankCard', upload.fields([{ name: 'Application_Form' }, { 
       const paySlipFiles = req.files['paySlipFiles'];
       const Valid_ID= req.files['Valid_ID'];
 
-      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName,RequestTitle, Description, CompletionDate,ReasonType,DeductionFor);
+      const PlaceOfConfinement ="";
+      const BankAccount ="";
+
+      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
       const dbDataPDF = new DefaultThreeFile(ApplicationFormFile,paySlipFiles,Valid_ID);
 
       // Pass the required parameters to insertPDF function
       await dbOperation.PagIbigLandbankCard(dbData,dbDataPDF);
-      
-      res.status(200).json({ message: 'Files uploaded successfully' });
-  } catch (error) {
-      console.error('Error uploading files:', error);
-      res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-//Pag-ibig DBP Card
-app.post('/PagIbigDBPCard', upload.fields([{ name: 'Application_Form' }, { name: 'paySlipFiles' }, { name: 'Valid_ID' } ]), async (req, res) => {
-  try {
-      const TransactionType = "Pag-Ibig DBP Card";
-      const Status = "Pending";
-      const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
-      const TurnAround = "5"
-      const Application_Date = "";
-      const Transaction_Number = "";
-      const TypeOfDelivery = "";
-      const RequestType = "";
-      const OtherReq = "";
-
-      const EmpId = "10023";
-      const ErroneousName = "";
-      const CorrectName = "";
-      const RequestTitle = "";
-      const Description = "";
-      const CompletionDate= "";
-      const ReasonType="";
-      const DeductionFor="";
-
-      const ApplicationFormFile = req.files['Application_Form'];
-      const paySlipFiles = req.files['paySlipFiles'];
-      const Valid_ID= req.files['Valid_ID'];
-
-      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName,RequestTitle, Description, CompletionDate,ReasonType,DeductionFor);
-      const dbDataPDF = new DefaultThreeFile(ApplicationFormFile,paySlipFiles,Valid_ID);
-
-      // Pass the required parameters to insertPDF function
-      await dbOperation.PagIbigDBPCard(dbData,dbDataPDF);
       
       res.status(200).json({ message: 'Files uploaded successfully' });
   } catch (error) {
@@ -270,8 +237,11 @@ app.post('/PagIbigVirtualAccount', upload.fields([ { name: 'paySlip' }, { name: 
       const Screenshot_Virtual = req.files['Screenshot_Virtual'];
       const GrossIncome= req.files['GrossIncome'];
 
-      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName,RequestTitle, Description, CompletionDate,ReasonType,DeductionFor);
-      const dbDataPDF = new DefaultThreeFile(paySlip,Screenshot_Virtual,GrossIncome);
+      const PlaceOfConfinement ="";
+      const BankAccount ="";
+
+      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
+      const dbDataPDF = new DefaultThreeFile(Screenshot_Virtual,paySlip,GrossIncome);
 
       // Pass the required parameters to insertPDF function
       await dbOperation.PagIbigVirtualAccount(dbData,dbDataPDF);
@@ -312,7 +282,10 @@ app.post('/MaternityNotification', upload.fields([ { name: 'Notication_Form' }, 
     const Credit_Form= req.files['Credit_Form'];
     const Medical_Reports= req.files['Medical_Reports'];
 
-    const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName,RequestTitle, Description, CompletionDate,ReasonType,DeductionFor);
+    const PlaceOfConfinement ="";
+    const BankAccount ="";
+
+    const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
     const dbDataPDF = new DefaultSetterFile(Notication_Form,Maternity_Eligibility,Credit_Form,Medical_Reports);
       
       // console.log(dbData);
@@ -359,32 +332,35 @@ app.post('/MaternityBenefit', upload.fields([
       const CompletionDate= "";
       const ReasonType="";
       const DeductionFor="";
+      const PlaceOfConfinement ="";
+      const BankAccount ="";
 
+    
       const EmpId = "10023";
 
       if(selectedNum === "1"){
         const TypeOfDelivery = "Live Child Birth";
         
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName,RequestTitle, Description, CompletionDate,ReasonType,DeductionFor);
-        const dbDataPDF = new DefaultSetterFile(Application_Form,LiveBirthCert,SoloParent);
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
+        const dbDataPDF = new DefaultThreeFile(Application_Form,LiveBirthCert,SoloParent);
         
         // Pass the required parameters to insertPDF function
-        await dbOperation.MaternityBenefit(selectedNum,dbData,dbDataPDF);
+        await dbOperation.MaternityBenefit(dbData,dbDataPDF);
       }
       else if(selectedNum === "2"){
         const TypeOfDelivery = "Miscarriage / Emergency Termination of Pregnancy / Ectopic Pregnancy";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName,RequestTitle, Description, CompletionDate,ReasonType,DeductionFor);
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
         const dbDataPDF = new DefaultSetterFile(Application_Form,ProofPregnancy,HospitalRec);
         
         // Pass the required parameters to insertPDF function
-        await dbOperation.MaternityBenefit(selectedNum,dbData,dbDataPDF);
+        await dbOperation.MaternityBenefit(dbData,dbDataPDF);
       }else if(selectedNum === "3"){
         const TypeOfDelivery = "Still Birth / Fetal Death";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName,RequestTitle, Description, CompletionDate,ReasonType,DeductionFor);
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
         const dbDataPDF = new DefaultTwoFile(Application_Form,DeathCert);
         
         // Pass the required parameters to insertPDF function
-        await dbOperation.MaternityBenefit(selectedNum,dbData,dbDataPDF);
+        await dbOperation.MaternityBenefit(dbData,dbDataPDF);
       }
       
       res.status(200).json({ message: 'Files uploaded successfully' });
@@ -408,10 +384,6 @@ app.post('/CertificationRequestSSS', upload.fields([
       const MonthlyContributions = req.files['MonthlyContributions'];
       const SpecifyOtherRequest = req.body.SpecifyOtherRequest;
 
-      // console.log(selectedNum);
-      // console.log("Application_Form: ",StatementOfAccount);
-      // console.log("LiveBirthCert: ",VerificationRequestForm);
-
       const TransactionType = "Certification Request";
       const Status = "Pending";
       const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
@@ -419,7 +391,7 @@ app.post('/CertificationRequestSSS', upload.fields([
       const Application_Date = "";
       const Transaction_Number = "";
       const TypeOfDelivery = "";
-      const OtherReq = "";
+      
 
       const EmpId = "10023";
       const ErroneousName = "";
@@ -429,30 +401,33 @@ app.post('/CertificationRequestSSS', upload.fields([
       const CompletionDate= "";
       const ReasonType="";
       const DeductionFor="";
+      const PlaceOfConfinement ="";
+      const BankAccount ="";
 
       if(selectedNum === "1"){
+        const OtherReq = "";
         const RequestType = "SSS Unposted Loan Payment";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName,RequestTitle, Description, CompletionDate,ReasonType,DeductionFor);
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
         const dbDataPDF = new DefaultTwoFile(StatementOfAccount,VerificationRequestForm);
         
-        // Pass the required parameters to insertPDF function
-        await dbOperation.CertificationRequestSSS(selectedNum,dbData,dbDataPDF);
+        await dbOperation.CertificationRequestSSS(dbData,dbDataPDF);
       }
       else if(selectedNum === "2"){
+        const OtherReq = "";
         const RequestType = "SSS Unposted Contribution";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName,RequestTitle, Description, CompletionDate,ReasonType,DeductionFor);
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
         const dbDataPDF = new DefaultTwoFile(MonthlyContributions,VerificationRequestForm);
 
-        await dbOperation.CertificationRequestSSS(selectedNum,dbData,dbDataPDF);
+        await dbOperation.CertificationRequestSSS(dbData,dbDataPDF);
       
       }else if(selectedNum === "3"){
+        const OtherReq = SpecifyOtherRequest;
         const RequestType = "SSS Other Information Update Request";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName,RequestTitle, Description, CompletionDate,ReasonType,DeductionFor);
-        const dbDataPDF1 = new DefaultOneFile(SpecifyOtherRequest);
-        const dbDataPDF2 = new DefaultOneFile(VerificationRequestForm);
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
+        const dbDataPDF = new DefaultOneFile(VerificationRequestForm);
 
         // Pass the required parameters to insertPDF function
-        await dbOperation.SSSOtherRequest(selectedNum,dbData,dbDataPDF1,dbDataPDF2);
+        await dbOperation.CertificationRequestSSS(dbData,dbDataPDF);
       }
 
       
@@ -476,8 +451,6 @@ app.post('/PagIbigRequest', upload.fields([
 
       const FormFromPagIbig = req.files['FormFromPagIbig'];
       
-
-
       const TransactionType = "Certification Request";
       const Status = "Pending";
       const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
@@ -494,25 +467,28 @@ app.post('/PagIbigRequest', upload.fields([
 
       const EmpId = "10023";
 
+      const PlaceOfConfinement ="";
+      const BankAccount ="";
+
       if(selectedNum === "1"){
         const ErroneousName = "";
         const CorrectName = "";
         const RequestType = "PAG-IBIG Certificate of Remittance";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName,RequestTitle, Description, CompletionDate,ReasonType,DeductionFor);
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
         const dbDataPDF = new DefaultOneFile(StatementOfAccount);
         
         // Pass the required parameters to insertPDF function
-        await dbOperation.CertificateOfRemittance(selectedNum,dbData,dbDataPDF);
+        await dbOperation.CertificateOfRemittance(dbData,dbDataPDF);
       }
       else if(selectedNum === "2"){
         const ErroneousName = req.body.ErroneousName;
         const CorrectName = req.body.CorrectName;
         const RequestType = "PAG-IBIG Certificate of Oneness";
-        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date, Transaction_Number, TypeOfDelivery,RequestType,OtherReq, EmpId, ErroneousName, CorrectName,RequestTitle, Description, CompletionDate,ReasonType,DeductionFor);
+        const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
         const dbDataPDF = new DefaultOneFile(FormFromPagIbig);
 
 
-        await dbOperation.CertificateOfOneness(selectedNum,dbData,dbDataPDF);
+        await dbOperation.CertificateOfOneness(dbData,dbDataPDF);
       
       }
       res.status(200).json({ message: 'Files uploaded successfully' });
@@ -552,19 +528,21 @@ app.post('/PHILHEALTHrequest', upload.fields([
 
       const ErroneousName = "";
       const CorrectName = "";
+      const PlaceOfConfinement ="";
+      const BankAccount ="";
       
       if(selected === "1"){
         if(selectedReason === "1"){
           const ReasonType = "Load is Fully-Paid";
           const DeductionFor = "SSS Salary Loan";
-          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor);
+          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
           const dbDataPDF = new DefaultOneFile(EmailNotification);
 
           await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
         }else if(selectedReason === "2"){
           const ReasonType = "Due to Re-Loan";
           const DeductionFor = "SSS Salary Loan";
-          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor);
+          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
           const dbDataPDF = new DefaultOneFile(EmailNotification);
 
           await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
@@ -574,14 +552,14 @@ app.post('/PHILHEALTHrequest', upload.fields([
         if(selectedReason === "1"){
           const ReasonType = "Load is Fully-Paid";
           const DeductionFor = "SSS Calamity Loan";
-          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor);
+          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
           const dbDataPDF = new DefaultOneFile(EmailNotification);
 
           await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
         }else if(selectedReason === "2"){
           const ReasonType = "Due to Re-Loan";
           const DeductionFor = "SSS Calamity Loan";
-          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor);
+          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
           const dbDataPDF = new DefaultOneFile(EmailNotification);
 
           await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
@@ -592,14 +570,14 @@ app.post('/PHILHEALTHrequest', upload.fields([
         if(selectedReason === "1"){
           const ReasonType = "Provident Fund";
           const DeductionFor = "PAG-IBIG Salary Loan";
-          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor);
+          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
           const dbDataPDF = new DefaultOneFile(ProvidentApplicationForm);
 
           await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
         }else if(selectedReason === "2"){
           const ReasonType = "Re-Loan";
           const DeductionFor = "PAG-IBIG Salary Loan";
-          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor);
+          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
           const dbDataPDF = new DefaultOneFile(ProvidentApplicationForm);
 
           await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
@@ -610,14 +588,14 @@ app.post('/PHILHEALTHrequest', upload.fields([
         if(selectedReason === "1"){
           const ReasonType = "Provident Fund";
           const DeductionFor = "PAG-IBIG Calamity Loan";
-          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor);
+          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
           const dbDataPDF = new DefaultOneFile(ProvidentApplicationForm);
 
           await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
         }else if(selectedReason === "2"){
           const ReasonType = "Re-Loan";
           const DeductionFor = "PAG-IBIG Calamity Loan";
-          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor);
+          const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
           const dbDataPDF = new DefaultOneFile(ProvidentApplicationForm);
 
           await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
@@ -699,6 +677,7 @@ app.post('/SicknessApproval', upload.fields([
       const ReasonType ="";
       const DeductionFor ="";
       const PlaceOfConfinement ="";
+      
 
       const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
       const dbDataPDF = new DefaultOneFile(SicknessEligibility);
@@ -752,8 +731,10 @@ app.post('/OtherRequest', upload.fields([
       const CompletionDate= "";
       const ReasonType="";
       const DeductionFor="";
+      const PlaceOfConfinement ="";
+      const BankAccount ="";
 
-      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor);
+      const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount);
       const dbDataPDF = new DefaultOneFile(NeccesaryFile);
       await dbOperation.OtherRequest(dbData,dbDataPDF);
 

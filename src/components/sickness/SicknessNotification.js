@@ -60,12 +60,74 @@ function SicknessNotification() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        
+        const formData = new FormData();
+
         const isValidFileType = (file) => {
             const allowedTypes = ['application/pdf', 'image/png', 'image/jpeg'];
             return allowedTypes.includes(file.type);
         };
-        
+
+        if (thisInfo.SicknessNotificationForm && isValidFileType(thisInfo.SicknessNotificationForm)) {
+            formData.append("SicknessNotificationForm", thisInfo.SicknessNotificationForm);
+        } else {
+            toast.error('Invalid StatementOfAccount file type. Please upload a PDF, PNG, or JPEG file.', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            return; // Stop further execution
+        }
+        if (thisInfo.MedicalCertificate && isValidFileType(thisInfo.MedicalCertificate)) {
+            formData.append("MedicalCertificate", thisInfo.MedicalCertificate);
+        } else {
+            toast.error('Invalid StatementOfAccount file type. Please upload a PDF, PNG, or JPEG file.', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            return; // Stop further execution
+        }
+        if (thisInfo.SupportingDocuments && isValidFileType(thisInfo.SupportingDocuments)) {
+            formData.append("SupportingDocuments", thisInfo.SupportingDocuments);
+        } else {
+            toast.error('Invalid StatementOfAccount file type. Please upload a PDF, PNG, or JPEG file.', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            return; // Stop further execution
+        }
+        if (thisInfo.ECSupportingDocuments && isValidFileType(thisInfo.ECSupportingDocuments)) {
+            formData.append("ECSupportingDocuments", thisInfo.ECSupportingDocuments);
+        } else {
+            toast.error('Invalid StatementOfAccount file type. Please upload a PDF, PNG, or JPEG file.', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            return; // Stop further execution
+        }
+    
         let POCvalue = "";
         if(thisInfo.PlaceOfConfinement === '1'){
             POCvalue = "Home Confinement";
@@ -74,14 +136,7 @@ function SicknessNotification() {
         }
         
         try {
-            const formData = new FormData();
-            formData.append("SicknessNotificationForm", thisInfo.SicknessNotificationForm);
             formData.append("PlaceOfConfinement", POCvalue);
-            formData.append("MedicalCertificate", thisInfo.MedicalCertificate);
-            formData.append("SupportingDocuments", thisInfo.SupportingDocuments);
-            formData.append("ECSupportingDocuments", thisInfo.ECSupportingDocuments);
-
-            
 
             const response = await fetch('/SicknessNotification', {
                 method: 'POST',

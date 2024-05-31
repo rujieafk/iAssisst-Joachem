@@ -162,19 +162,22 @@ const updateResubmit = async(data,dataPDF) => {
             const TurnAround = data.TurnAround;
             const Application_Date = data.Application_Date;
             const Transaction_Num = data.Transaction_Number;
-            const TypeOfDelivery = data.TypeOfDelivery;
             const RequestType = data.RequestType;
+            const TypeOfDelivery = data.TypeOfDelivery;
             const OtherReq = data.OtherReq;
             const EmpId = data.EmpId;
             const ErroneousName = data.ErroneousName;
             const CorrectName = data.CorrectName;
             const RequestTitle = data.RequestTitle;
             const Description = data.Description;
-            const CompletionDate = data.CompletionDate;
-            const DeductionFor = data.DeductionFor;
+            const CompletionDate= data.CompletionDate;
             const ReasonType = data.ReasonType;
-            insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType, dataPDF)
-
+            const DeductionFor = data.DeductionFor;
+            const PlaceOfConfinement = data.PlaceOfConfinement;
+            const BankAccount = data.BankAccount;
+    
+            handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
+           
             } catch (error) {
                 console.error("Error inserting PDF:", error);
                 throw error;
@@ -199,34 +202,11 @@ const updateResubmit = async(data,dataPDF) => {
             const CompletionDate = data.CompletionDate;
             const DeductionFor = data.DeductionFor;
             const ReasonType = data.ReasonType;
-            insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType, dataPDF)
+            const PlaceOfConfinement = data.PlaceOfConfinement;
+            const BankAccount = data.BankAccount;
     
-        } catch (error) {
-            console.error("Error inserting PDF:", error);
-            throw error;
-        }
-    }
-    const PagIbigDBPCard = async (data, dataPDF) => {
-        try {
-            const TransactionType = data.TransactionType;
-            const Status = data.Status;
-            const DateTime = data.currentDate;
-            const TurnAround = data.TurnAround;
-            const Application_Date = data.Application_Date;
-            const Transaction_Num = data.Transaction_Number;
-            const TypeOfDelivery = data.TypeOfDelivery;
-            const RequestType = data.RequestType;
-            const OtherReq = data.OtherReq;
-            const EmpId = data.EmpId;
-            const ErroneousName = data.ErroneousName;
-            const CorrectName = data.CorrectName;
-            const RequestTitle = data.RequestTitle;
-            const Description = data.Description;
-            const CompletionDate = data.CompletionDate;
-            const DeductionFor = data.DeductionFor;
-            const ReasonType = data.ReasonType;
-            insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType, dataPDF)
-    
+            handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
+           
         } catch (error) {
             console.error("Error inserting PDF:", error);
             throw error;
@@ -251,8 +231,11 @@ const updateResubmit = async(data,dataPDF) => {
             const CompletionDate = data.CompletionDate;
             const DeductionFor = data.DeductionFor;
             const ReasonType = data.ReasonType;
-            insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType, dataPDF)
+            const PlaceOfConfinement = data.PlaceOfConfinement;
+            const BankAccount = data.BankAccount;
     
+            handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
+           
         } catch (error) {
             console.error("Error inserting PDF:", error);
             throw error;
@@ -277,94 +260,16 @@ const updateResubmit = async(data,dataPDF) => {
             const CompletionDate = data.CompletionDate;
             const DeductionFor = data.DeductionFor;
             const ReasonType = data.ReasonType;
-            insertIntoSubmission(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType, dataPDF)
+            const PlaceOfConfinement = data.PlaceOfConfinement;
+            const BankAccount = data.BankAccount;
     
+            handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
+           
         } catch (error) {
             console.error("Error inserting PDF:", error);
             throw error;
         }
     }
-    const insertIntoSubmission = async (TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,dataPDF) => {
-        try {
-            let pool = await sql.connect(config);
-            
-            const RequirementName1 = "1 Month Pay Slip";
-            const RequirementName2 = "Loan Disclosure Statement";
-    
-            const RequirementName3 = "Application Form";
-            const RequirementName4 = "1 Month Payslip";
-            const RequirementName5 = "Valid ID";
-    
-            const RequirementName6 = "Application Form";
-            const RequirementName7 = "1 Month Payslip";
-            const RequirementName8 = "Valid ID";
-    
-            const RequirementName9 = "Screenshot of Filed Loan via Virtual Account";
-            const RequirementName10 = "1 Month Payslip";
-            const RequirementName11 = "1 Month Gross Income";
-    
-            const RequirementName12 = "SSS Maternity Notification Form";
-            const RequirementName13 = "Screenshot of SSS Maternity Eligibility";
-            const RequirementName14 = "SSS Allocation of Maternity Leave Credit Form";
-            const RequirementName15 = "Medical Certificate or Ultrasound Report";
-    
-            const file = await pool.request()
-                .input('TransactionType', TransactionType)
-                .input('Status', Status)
-                .input('DateTime', DateTime)
-                .input('TurnAround', TurnAround)
-                .input('Application_Date', Application_Date)
-                .input('Transaction_Num', Transaction_Num)
-                .input('DeliveryType', TypeOfDelivery)
-                .input('RequestType', RequestType)
-                .input('OtherReq', OtherReq)
-                .input('EmpId', EmpId) 
-                .input('ErroneousName', ErroneousName) 
-                .input('CorrectName', CorrectName) 
-                .input('RequestTitle', RequestTitle) 
-                .input('Description', Description)
-                .input('CompletionDate', CompletionDate)
-                .input('DeductionFor', DeductionFor)
-                .input('ReasonType', ReasonType)
-                .query(`
-                    INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle,Description,CompletionDate,DeductionFor,ReasonType)
-                    OUTPUT inserted.SubmissionID
-                    VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@RequestType,@OtherReq,@EmpId,@ErroneousName,@CorrectName,@RequestTitle,@Description,@CompletionDate,@DeductionFor,@ReasonType)
-                `); 
-    
-                const SubmissionID = file.recordset[0].SubmissionID;
-    
-                console.log(dataPDF);
-                if(TransactionType === "SSS Loan"){
-                    PdfFile(dataPDF.Doc1,SubmissionID,RequirementName1);
-                    PdfFile(dataPDF.Doc2,SubmissionID,RequirementName2);
-                }else if(TransactionType === "Pag-Ibig Landbank Card"){
-                    PdfFile(dataPDF.Doc1,SubmissionID,RequirementName3);
-                    PdfFile(dataPDF.Doc2,SubmissionID,RequirementName4);
-                    PdfFile(dataPDF.Doc3,SubmissionID,RequirementName5);
-                }else if(TransactionType === "Pag-Ibig DBP Card"){
-                    PdfFile(dataPDF.Doc1,SubmissionID,RequirementName6);
-                    PdfFile(dataPDF.Doc2,SubmissionID,RequirementName7);
-                    PdfFile(dataPDF.Doc3,SubmissionID,RequirementName8);
-                }else if(TransactionType === "Pag-Ibig Virtual Account"){
-                    PdfFile(dataPDF.Doc1,SubmissionID,RequirementName9);
-                    PdfFile(dataPDF.Doc2,SubmissionID,RequirementName10);
-                    PdfFile(dataPDF.Doc3,SubmissionID,RequirementName11);
-                }else if(TransactionType === "Maternity Notication"){
-                    PdfFile(dataPDF.Doc1,SubmissionID,RequirementName12);
-                    PdfFile(dataPDF.Doc2,SubmissionID,RequirementName13);
-                    PdfFile(dataPDF.Doc3,SubmissionID,RequirementName14);
-                    PdfFile(dataPDF.Doc4,SubmissionID,RequirementName15);
-                }
-    
-                console.log("Successfully inserted: ",file);
-        } catch (error) {
-            console.error("Error inserting PDF:", error);
-            throw error;
-        }
-    }
-//---------------------------------------------------------------------------------------------
-
 
 const InsertResubmitPdf = async (data,dataPDF) => {
     try {
@@ -399,7 +304,7 @@ const InsertResubmitPdf = async (data,dataPDF) => {
 //--------------------------------------------------------------------------------------------
 
 //Maternity -----------------------------------------------------------------------
-const MaternityBenefit = async (selectedNum, data, dataPDF) => {
+const MaternityBenefit = async (data, dataPDF) => {
     try {
         const TransactionType = data.TransactionType;
         const Status = data.Status;
@@ -418,82 +323,20 @@ const MaternityBenefit = async (selectedNum, data, dataPDF) => {
         const CompletionDate = data.CompletionDate;
         const DeductionFor = data.DeductionFor;
         const ReasonType = data.ReasonType;
+        const PlaceOfConfinement = data.PlaceOfConfinement;
+        const BankAccount = data.BankAccount;
 
-        insertSubmissionMaternityBenefit(selectedNum,TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType, dataPDF)
-       
+        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
+
     } catch (error) {
         console.error("Error inserting PDF:", error);
         throw error;
     }
 }
-const insertSubmissionMaternityBenefit = async (selected, TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType, dataPDF) => {
-    try {
-        // Assuming you have already initialized SQL connection pool
-        let pool = await sql.connect(config);
 
-        const RequirementName16 = "Application Form";
-        const RequirementName17 = "Live Birth Certificate";
-        const RequirementName18 = "Solo Parent ID";
-
-        const RequirementName19 = "Application Form";
-        const RequirementName20 = "Proof of Pregnancy";
-        const RequirementName21 = "Proof of Termination of Pregnancy";
-
-        const RequirementName22 = "Application Form";
-        const RequirementName23 = "Fetal Certificate of Death";
-
-        const file = await pool.request()
-            
-            .input('TransactionType', TransactionType)
-            .input('Status', Status)
-            .input('DateTime', DateTime)
-            .input('TurnAround', TurnAround)
-            .input('Application_Date', Application_Date)
-            .input('Transaction_Num', Transaction_Num)
-            .input('DeliveryType', TypeOfDelivery)
-            .input('RequestType', RequestType)
-            .input('OtherReq', OtherReq)
-            .input('EmpId', EmpId) 
-            .input('ErroneousName', ErroneousName) 
-            .input('CorrectName', CorrectName) 
-            .input('RequestTitle', RequestTitle) 
-            .input('Description', Description)
-            .input('CompletionDate', CompletionDate)
-            .input('DeductionFor', DeductionFor)
-            .input('ReasonType', ReasonType)
-            .query(`
-                INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle,Description,CompletionDate,DeductionFor,ReasonType)
-                OUTPUT inserted.SubmissionID
-                VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@RequestType,@OtherReq,@EmpId,@ErroneousName,@CorrectName,@RequestTitle,@Description,@CompletionDate,@DeductionFor,@ReasonType)
-            `); 
-
-            const SubmissionID = file.recordset[0].SubmissionID;
-
-            console.log(dataPDF);
-            if(TransactionType === "Maternity Benefit"){
-                if(selected === "1"){
-                    PdfFile(dataPDF.Doc1,SubmissionID,RequirementName16);
-                    PdfFile(dataPDF.Doc2,SubmissionID,RequirementName17);
-                    PdfFile(dataPDF.Doc3,SubmissionID,RequirementName18);
-                }else if(selected === "2"){
-                    PdfFile(dataPDF.Doc1,SubmissionID,RequirementName19);
-                    PdfFile(dataPDF.Doc2,SubmissionID,RequirementName20);
-                    PdfFile(dataPDF.Doc3,SubmissionID,RequirementName21);
-                }else if(selected === "3"){
-                    PdfFile(dataPDF.Doc1,SubmissionID,RequirementName22);
-                    PdfFile(dataPDF.Doc2,SubmissionID,RequirementName23);
-                }
-            }
-            console.log("Successfully inserted: ",file);
-    } catch (error) {
-        console.error("Error inserting PDF:", error);
-        throw error;
-    }
-}
-//-----------------------------------------------------------------------------
 
 //Certificate Request ---------------------------------------------------------
-const CertificationRequestSSS = async (selectedNum, data, dataPDF) => {
+const CertificationRequestSSS = async ( data, dataPDF) => {
     try {
         const TransactionType = data.TransactionType;
         const Status = data.Status;
@@ -512,41 +355,17 @@ const CertificationRequestSSS = async (selectedNum, data, dataPDF) => {
         const CompletionDate = data.CompletionDate;
         const DeductionFor = data.DeductionFor;
         const ReasonType = data.ReasonType;
+        const PlaceOfConfinement = data.PlaceOfConfinement;
+        const BankAccount = data.BankAccount;
 
-        insertCertificationRequestSSS(selectedNum,TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType, dataPDF)
-       
+        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
+
     } catch (error) {
         console.error("Error inserting PDF:", error);
         throw error;
     }
 }
-const SSSOtherRequest = async (selectedNum, data, dbDataMessage, dbDataPDF) => {
-    try {
-        const TransactionType = data.TransactionType;
-        const Status = data.Status;
-        const DateTime = data.currentDate;
-        const TurnAround = data.TurnAround;
-        const Application_Date = data.Application_Date;
-        const Transaction_Num = data.Transaction_Number;
-        const TypeOfDelivery = data.TypeOfDelivery;
-        const RequestType = data.RequestType;
-        const OtherReq = dbDataMessage.DocumentFile;
-        const EmpId = data.EmpId;
-        const ErroneousName = data.ErroneousName;
-        const CorrectName = data.CorrectName;
-        const RequestTitle = data.RequestTitle;
-        const Description = data.Description;
-        const CompletionDate = data.CompletionDate;
-        const DeductionFor = data.DeductionFor;
-        const ReasonType = data.ReasonType;
 
-        insertCertificationRequestSSS(selectedNum,TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType, dbDataPDF)
-       
-    } catch (error) {
-        console.error("Error inserting PDF:", error);
-        throw error;
-    }
-}
 const PHILHEALTHrequest = async (data, dataPDF) => {
     try {
         const TransactionType = data.TransactionType;
@@ -566,114 +385,18 @@ const PHILHEALTHrequest = async (data, dataPDF) => {
         const CompletionDate= data.CompletionDate;
         const ReasonType = data.ReasonType;
         const DeductionFor = data.DeductionFor;
+        const PlaceOfConfinement = data.PlaceOfConfinement;
+        const BankAccount = data.BankAccount;
 
-        insertCertificationRequestPagIbig(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType, dataPDF)
-       
-    } catch (error) {
-        console.error("Error inserting PDF:", error);
-        throw error;
-    }
-}
-const insertCertificationRequestPagIbig = async (TransactionType, Status, DateTime, TurnAround, Application_Date, Transaction_Num, RequestType, TypeOfDelivery, OtherReq, EmpId, ErroneousName, CorrectName, RequestTitle, Description, CompletionDate,DeductionFor,ReasonType,dataPDF) => {
-    try {
-        let pool = await sql.connect(config);
+        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
 
-        const RequirementName = ReasonType;
-
-        const file = await pool.request()
-            .input('TransactionType', TransactionType)
-            .input('Status', Status)
-            .input('DateTime', DateTime)
-            .input('TurnAround', TurnAround)
-            .input('Application_Date', Application_Date)
-            .input('Transaction_Num', Transaction_Num)
-            .input('RequestType', RequestType)
-            .input('DeliveryType', TypeOfDelivery)
-            .input('OtherReq', OtherReq)
-            .input('EmpId', EmpId) 
-            .input('ErroneousName', ErroneousName) 
-            .input('CorrectName', CorrectName) 
-            .input('RequestTitle', RequestTitle) 
-            .input('Description', Description)
-            .input('CompletionDate', CompletionDate)
-            .input('DeductionFor', DeductionFor)
-            .input('ReasonType', ReasonType)
-            .query(`
-                INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle,Description,CompletionDate,DeductionFor,ReasonType)
-                OUTPUT inserted.SubmissionID
-                VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@RequestType,@OtherReq,@EmpId,@ErroneousName,@CorrectName,@RequestTitle,@Description,@CompletionDate,@DeductionFor,@ReasonType)
-           `);
-
-           const SubmissionID = file.recordset[0].SubmissionID;
-
-           if(DeductionFor === "SSS Salary Loan" || DeductionFor === "SSS Calamity Loan"){
-                PdfFile(dataPDF.DocumentFile,SubmissionID,RequirementName);
-           }else if(DeductionFor === "PAG-IBIG Salary Loan" || DeductionFor === "PAG-IBIG Calamity Loan"){
-                PdfFile(dataPDF.DocumentFile,SubmissionID,RequirementName);
-           }
-           console.log("Successfully inserted: ",file);
-    } catch (error) {
-        console.error("Error inserting PDF:", error);
-        throw error;
-    }
-}
-const insertCertificationRequestSSS = async (selected, TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType, dataPDF) => {
-    try {
-        // Assuming you have already initialized SQL connection pool
-        let pool = await sql.connect(config);
-
-        const RequirementName16 = "Latest Statement of Account";
-        const RequirementName17 = "Request/Verification Form";
-
-        const RequirementName18 = "Latest Monthly Contributions"
-
-
-        const file = await pool.request()
-            
-            .input('TransactionType', TransactionType)
-            .input('Status', Status)
-            .input('DateTime', DateTime)
-            .input('TurnAround', TurnAround)
-            .input('Application_Date', Application_Date)
-            .input('Transaction_Num', Transaction_Num)
-            .input('DeliveryType', TypeOfDelivery)
-            .input('RequestType', RequestType)
-            .input('OtherReq', OtherReq)
-            .input('EmpId', EmpId) 
-            .input('ErroneousName', ErroneousName) 
-            .input('CorrectName', CorrectName) 
-            .input('RequestTitle', RequestTitle) 
-            .input('Description', Description)
-            .input('CompletionDate', CompletionDate)
-            .input('DeductionFor', DeductionFor)
-            .input('ReasonType', ReasonType)
-            .query(`
-                INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle,Description,CompletionDate,DeductionFor,ReasonType)
-                OUTPUT inserted.SubmissionID
-                VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@RequestType,@OtherReq,@EmpId,@ErroneousName,@CorrectName,@RequestTitle,@Description,@CompletionDate,@DeductionFor,@ReasonType)
-            `); 
-
-            const SubmissionID = file.recordset[0].SubmissionID;
-
-            if(TransactionType === "Certification Request"){
-                if(selected === "1"){
-                    PdfFile(dataPDF.Doc1,SubmissionID,RequirementName16);
-                    PdfFile(dataPDF.Doc2,SubmissionID,RequirementName17);
-                }else if(selected === "2"){
-                    PdfFile(dataPDF.Doc1,SubmissionID,RequirementName18);
-                    PdfFile(dataPDF.Doc2,SubmissionID,RequirementName17);
-                }else if(selected === "3"){
-                    PdfFile(dataPDF.DocumentFile,SubmissionID,RequirementName17);
-                }
-            }
-            console.log("Successfully inserted: ",file);
     } catch (error) {
         console.error("Error inserting PDF:", error);
         throw error;
     }
 }
 
-const CertificateOfRemittance = async (selectedNum, data, dataPDF) => {
+const CertificateOfRemittance = async (data, dataPDF) => {
     try {
         const TransactionType = data.TransactionType;
         const Status = data.Status;
@@ -692,15 +415,17 @@ const CertificateOfRemittance = async (selectedNum, data, dataPDF) => {
         const CompletionDate = data.CompletionDate;
         const DeductionFor = data.DeductionFor;
         const ReasonType = data.ReasonType;
+        const PlaceOfConfinement = data.PlaceOfConfinement;
+        const BankAccount = data.BankAccount;
 
-        insertCertificationRequestPAG_IBIG(selectedNum,TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType, dataPDF)
+        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
        
     } catch (error) {
         console.error("Error inserting PDF:", error);
         throw error;
     }
 }
-const CertificateOfOneness = async (selectedNum, data, dataPDF) => {
+const CertificateOfOneness = async (data, dataPDF) => {
     try {
         const TransactionType = data.TransactionType;
         const Status = data.Status;
@@ -719,59 +444,11 @@ const CertificateOfOneness = async (selectedNum, data, dataPDF) => {
         const CompletionDate = data.CompletionDate;
         const DeductionFor = data.DeductionFor;
         const ReasonType = data.ReasonType;
+        const PlaceOfConfinement = data.PlaceOfConfinement;
+        const BankAccount = data.BankAccount;
 
-        insertCertificationRequestPAG_IBIG(selectedNum,TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType, dataPDF)
+        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
        
-    } catch (error) {
-        console.error("Error inserting PDF:", error);
-        throw error;
-    }
-}
-
-const insertCertificationRequestPAG_IBIG = async (selected, TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType, dataPDF) => {
-    try {
-        // Assuming you have already initialized SQL connection pool
-        let pool = await sql.connect(config);
-
-        const RequirementName16 = "Latest Statement of Account";
-
-        const RequirementName17 = "Form from Pag-Ibig";
-
-        const file = await pool.request()
-            
-            .input('TransactionType', TransactionType)
-            .input('Status', Status)
-            .input('DateTime', DateTime)
-            .input('TurnAround', TurnAround)
-            .input('Application_Date', Application_Date)
-            .input('Transaction_Num', Transaction_Num)
-            .input('DeliveryType', TypeOfDelivery)
-            .input('RequestType', RequestType)
-            .input('OtherReq', OtherReq)
-            .input('EmpId', EmpId) 
-            .input('ErroneousName', ErroneousName) 
-            .input('CorrectName', CorrectName) 
-            .input('RequestTitle', RequestTitle) 
-            .input('Description', Description)
-            .input('CompletionDate', CompletionDate)
-            .input('DeductionFor', DeductionFor)
-            .input('ReasonType', ReasonType)
-            .query(`
-                INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle,Description,CompletionDate,DeductionFor,ReasonType)
-                OUTPUT inserted.SubmissionID
-                VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@RequestType,@OtherReq,@EmpId,@ErroneousName,@CorrectName,@RequestTitle,@Description,@CompletionDate,@DeductionFor,@ReasonType)
-           `);
-
-            const SubmissionID = file.recordset[0].SubmissionID;
-
-            if(TransactionType === "Certification Request"){
-                if(selected === "1"){
-                    PdfFile(dataPDF.DocumentFile,SubmissionID,RequirementName16);
-                }else if(selected === "2"){
-                    PdfFile(dataPDF.DocumentFile,SubmissionID,RequirementName17);
-                }
-            }
-            console.log("Successfully inserted: ",file);
     } catch (error) {
         console.error("Error inserting PDF:", error);
         throw error;
@@ -801,7 +478,7 @@ const SicknessNotification = async (data,dataPDF) => {
         const PlaceOfConfinement = data.PlaceOfConfinement;
         const BankAccount = data.BankAccount;
 
-        insertSicknessNotification(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
+        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
        
     } catch (error) {
         console.error("Error inserting PDF:", error);
@@ -810,7 +487,6 @@ const SicknessNotification = async (data,dataPDF) => {
 }
 const SicknessApproval = async (data,dataPDF) => {
     try {
-
         const TransactionType = data.TransactionType;
         const Status = data.Status;
         const DateTime = data.currentDate;
@@ -831,16 +507,76 @@ const SicknessApproval = async (data,dataPDF) => {
         const PlaceOfConfinement = data.PlaceOfConfinement;
         const BankAccount = data.BankAccount;
 
-        insertSicknessNotification(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
+        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
        
     } catch (error) {
         console.error("Error inserting PDF:", error);
         throw error;
     }
 }
-const insertSicknessNotification = async (TransactionType, Status, DateTime, TurnAround, Application_Date, Transaction_Num, RequestType, TypeOfDelivery, OtherReq, EmpId, ErroneousName, CorrectName, RequestTitle, Description, CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF) => {
+
+const OtherRequest = async (data,dataPDF) => {
+    try {
+        const TransactionType = data.TransactionType;
+        const Status = data.Status;
+        const DateTime = data.currentDate;
+        const TurnAround = data.TurnAround;
+        const Application_Date = data.Application_Date;
+        const Transaction_Num = data.Transaction_Number;
+        const RequestType = data.RequestType;
+        const TypeOfDelivery = data.TypeOfDelivery;
+        const OtherReq = data.OtherReq;
+        const EmpId = data.EmpId;
+        const ErroneousName = data.ErroneousName;
+        const CorrectName = data.CorrectName;
+        const RequestTitle = data.RequestTitle;
+        const Description = data.Description;
+        const CompletionDate= data.CompletionDate;
+        const ReasonType = data.ReasonType;
+        const DeductionFor = data.DeductionFor;
+        const PlaceOfConfinement = data.PlaceOfConfinement;
+        const BankAccount = data.BankAccount;
+
+        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
+       
+    } catch (error) {
+        console.error("Error inserting PDF:", error);
+        throw error;
+    }
+}
+
+
+//------------------------------------------------------------------------
+const UpdateRequest = async (Action, SubmissionId) => {
     try {
         let pool = await sql.connect(config);
+
+        let file = await pool.request()
+            .input('Status', Action)
+            .input('SubmissionID', SubmissionId)
+            .query(`
+                UPDATE Submission
+                SET Status = @Status
+                WHERE SubmissionID = @SubmissionID
+            `); 
+
+        console.log("Successfully updated: ", file);
+    } catch (error) {
+        console.error("Error updating record:", error);
+        throw error;
+    }
+}
+
+//------------------------------------------------------------------------
+
+
+
+
+//-----------------------------------------------------------------------
+const handleDocuments = async (TransactionType, Status, DateTime, TurnAround, Application_Date, Transaction_Num, RequestType, TypeOfDelivery, OtherReq, EmpId, ErroneousName, CorrectName, RequestTitle, Description, CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF) => {
+    try {
+        let pool = await sql.connect(config);
+        
 
         const file = await pool.request()
             .input('TransactionType', TransactionType)
@@ -863,89 +599,73 @@ const insertSicknessNotification = async (TransactionType, Status, DateTime, Tur
             .input('PlaceOfConfinement', PlaceOfConfinement)
             .input('BankAccount', BankAccount)
             .query(`
-                    INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle,Description,CompletionDate,DeductionFor,ReasonType, PlaceOfConfinement, BankAccount)
+                    INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle,Description,CompletionDate,DeductionFor,ReasonType, PlaceOfConfinement, BankAccNumber)
                     OUTPUT inserted.SubmissionID
                     VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@RequestType,@OtherReq,@EmpId,@ErroneousName,@CorrectName,@RequestTitle,@Description,@CompletionDate,@DeductionFor,@ReasonType, @PlaceOfConfinement, @BankAccount)
             `);
 
             const SubmissionID = file.recordset[0].SubmissionID;
-            const RequirementName1 = "Sickness Notification Form";
-            const RequirementName2 = "Medical Certificate";
-            const RequirementName3 = "Supporting Documents";
-            const RequirementName4 = "EC Supporting Documents";
 
-            PdfFile(dataPDF.Doc1,SubmissionID,RequirementName1);
-            PdfFile(dataPDF.Doc2,SubmissionID,RequirementName2);
-            PdfFile(dataPDF.Doc3,SubmissionID,RequirementName3);
-            PdfFile(dataPDF.Doc4,SubmissionID,RequirementName4);
-
-            console.log("Successfully inserted: ",file);
-    } catch (error) {
-        console.error("Error inserting PDF:", error);
-        throw error;
-    }
-}
-//---------------------------------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------------------------------
-const OtherRequest = async (data,dataPDF) => {
-    try {
-        const TransactionType = data.TransactionType;
-        const Status = data.Status;
-        const DateTime = data.currentDate;
-        const TurnAround = data.TurnAround;
-        const Application_Date = data.Application_Date;
-        const Transaction_Num = data.Transaction_Number;
-        const RequestType = data.RequestType;
-        const TypeOfDelivery = data.TypeOfDelivery;
-        const OtherReq = data.OtherReq;
-        const EmpId = data.EmpId;
-        const ErroneousName = data.ErroneousName;
-        const CorrectName = data.CorrectName;
-        const RequestTitle = data.RequestTitle;
-        const Description = data.Description;
-        const CompletionDate= data.CompletionDate;
-        const ReasonType = data.ReasonType;
-        const DeductionFor = data.DeductionFor;
-
-        insertOtherRequest(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,dataPDF)
-       
-    } catch (error) {
-        console.error("Error inserting PDF:", error);
-        throw error;
-    }
-}
-const insertOtherRequest = async (TransactionType, Status, DateTime, TurnAround, Application_Date, Transaction_Num, RequestType, TypeOfDelivery, OtherReq, EmpId, ErroneousName, CorrectName, RequestTitle, Description, CompletionDate,DeductionFor,ReasonType,dataPDF) => {
-    try {
-        let pool = await sql.connect(config);
-
-        const file = await pool.request()
-            .input('TransactionType', TransactionType)
-            .input('Status', Status)
-            .input('DateTime', DateTime)
-            .input('TurnAround', TurnAround)
-            .input('Application_Date', Application_Date)
-            .input('Transaction_Num', Transaction_Num)
-            .input('RequestType', RequestType)
-            .input('DeliveryType', TypeOfDelivery)
-            .input('OtherReq', OtherReq)
-            .input('EmpId', EmpId) 
-            .input('ErroneousName', ErroneousName) 
-            .input('CorrectName', CorrectName) 
-            .input('RequestTitle', RequestTitle) 
-            .input('Description', Description)
-            .input('CompletionDate', CompletionDate)
-            .input('DeductionFor', DeductionFor)
-            .input('ReasonType', ReasonType)
-            .query(`
-                    INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle,Description,CompletionDate,DeductionFor,ReasonType)
-                    OUTPUT inserted.SubmissionID
-                    VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@RequestType,@OtherReq,@EmpId,@ErroneousName,@CorrectName,@RequestTitle,@Description,@CompletionDate,@DeductionFor,@ReasonType)
-            `);
-
-            const SubmissionID = file.recordset[0].SubmissionID;
-            const RequirementName = "Other Request Uploaded File";
-            PdfFile(dataPDF.DocumentFile,SubmissionID,RequirementName);
+            if(TransactionType === "SSS Loan"){
+                PdfFile(dataPDF.Doc1,SubmissionID,"1 Month Pay Slip");
+                PdfFile(dataPDF.Doc2,SubmissionID,"Loan Disclosure Statement");
+            }else if(TransactionType === "Pag-Ibig Landbank Card"){
+                PdfFile(dataPDF.Doc1,SubmissionID,"Application Form");
+                PdfFile(dataPDF.Doc2,SubmissionID,"1 Month Pay Slip");
+                PdfFile(dataPDF.Doc3,SubmissionID,"Valid ID");
+            }else if(TransactionType === "Pag-Ibig Virtual Account"){
+                PdfFile(dataPDF.Doc1,SubmissionID,"Screenshot of Filed Loan via Virtual Account");
+                PdfFile(dataPDF.Doc2,SubmissionID,"1 Month Pay Slip");
+                PdfFile(dataPDF.Doc3,SubmissionID,"1 Month Gross Income");
+            }else if(TransactionType === "Maternity Notication"){
+                PdfFile(dataPDF.Doc1,SubmissionID,"SSS Maternity Notification Form");
+                PdfFile(dataPDF.Doc2,SubmissionID,"Screenshot of SSS Maternity Eligibility");
+                PdfFile(dataPDF.Doc3,SubmissionID,"SSS Allocation of Maternity Leave Credit Form");
+                PdfFile(dataPDF.Doc4,SubmissionID,"Medical Certificate or Ultrasound Report");
+            }else if(TypeOfDelivery === "Live Child Birth"){
+                PdfFile(dataPDF.Doc1,SubmissionID,"Application Form");
+                PdfFile(dataPDF.Doc2,SubmissionID,"Live Birth Certificate");
+                PdfFile(dataPDF.Doc3,SubmissionID,"Solo Parent ID");
+            }else if(TypeOfDelivery === "Miscarriage / Emergency Termination of Pregnancy / Ectopic Pregnancy"){
+                PdfFile(dataPDF.Doc1,SubmissionID,"Application Form");
+                PdfFile(dataPDF.Doc2,SubmissionID,"Proof of Pregnancy");
+                PdfFile(dataPDF.Doc3,SubmissionID,"Proof of Termination of Pregnancy");
+            }else if(TypeOfDelivery === "Still Birth / Fetal Death"){
+                PdfFile(dataPDF.Doc1,SubmissionID,"Application Form");
+                PdfFile(dataPDF.Doc2,SubmissionID,"Fetal Certificate of Death");
+            }else if(RequestType === "SSS Unposted Loan Payment"){
+                PdfFile(dataPDF.Doc1,SubmissionID,"Latest Statement of Account");
+                PdfFile(dataPDF.Doc2,SubmissionID,"Request/Verification Form");
+            }else if(RequestType === "SSS Unposted Contribution"){
+                PdfFile(dataPDF.Doc1,SubmissionID,"Latest Monthly Contributions");
+                PdfFile(dataPDF.Doc2,SubmissionID,"Request/Verification Form");
+            }else if(RequestType === "SSS Other Information Update Request"){
+                PdfFile(dataPDF.DocumentFile,SubmissionID,"Request/Verification Form");
+            }else if(RequestType === "PAG-IBIG Certificate of Remittance"){
+                PdfFile(dataPDF.DocumentFile,SubmissionID,"Latest Statement of Account");
+            }else if(RequestType === "PAG-IBIG Certificate of Oneness"){
+                PdfFile(dataPDF.DocumentFile,SubmissionID,"Form from Pag-Ibig");
+            }else if(DeductionFor === "SSS Salary Loan" || DeductionFor === "SSS Calamity Loan"){
+                PdfFile(dataPDF.DocumentFile,SubmissionID,"Email Notification from SSS");
+            }else if(DeductionFor === "PAG-IBIG Salary Loan" || DeductionFor === "PAG-IBIG Calamity Loan"){
+                if(ReasonType === "Provident Fund"){
+                    PdfFile(dataPDF.DocumentFile,SubmissionID,"Provident Application Form received by PAG-IBIG");
+                }else if(ReasonType === "Re-Loan"){
+                    PdfFile(dataPDF.DocumentFile,SubmissionID,"Screenshot/Image of Text Notification from PAG-IBIG");
+                }
+            }else if(TransactionType === "SSS Sickness Notification"){
+                PdfFile(dataPDF.Doc1,SubmissionID,"Sickness Notification Form");
+                PdfFile(dataPDF.Doc2,SubmissionID,"Medical Certificate");
+                PdfFile(dataPDF.Doc3,SubmissionID,"Supporting Documents");
+                PdfFile(dataPDF.Doc4,SubmissionID,"EC Supporting Documents");
+            }else if(TransactionType === "SSS Sickness Approval"){
+                PdfFile(dataPDF.DocumentFile,SubmissionID,"Sickness Eligibility");
+            }else if(TransactionType === "Other Request"){
+                PdfFile(dataPDF.DocumentFile,SubmissionID,"Other Request Uploaded File");
+            }
+                
+           
+            
 
             console.log("Successfully inserted: ",file);
     } catch (error) {
@@ -953,7 +673,7 @@ const insertOtherRequest = async (TransactionType, Status, DateTime, TurnAround,
         throw error;
     }
 }
-//-----------------------------------------------------------------------
+
 const PdfFile = async (insertPDF,SubmissionID,RequirementName) => {
     try {
         const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
@@ -996,31 +716,6 @@ const PdfFile = async (insertPDF,SubmissionID,RequirementName) => {
     }
 }
 // -----------------------------------------------------------------------
-
-//------------------------------------------------------------------------
-const UpdateRequest = async (Action, SubmissionId) => {
-    try {
-        let pool = await sql.connect(config);
-
-        let file = await pool.request()
-            .input('Status', Action)
-            .input('SubmissionID', SubmissionId)
-            .query(`
-                UPDATE Submission
-                SET Status = @Status
-                WHERE SubmissionID = @SubmissionID
-            `); 
-
-        console.log("Successfully updated: ", file);
-    } catch (error) {
-        console.error("Error updating record:", error);
-        throw error;
-    }
-}
-
-//------------------------------------------------------------------------
-
-
 module.exports = {
     insertPDF,
     getSubmissions,
@@ -1029,12 +724,10 @@ module.exports = {
     updateResubmit,
     sssLoan,
     PagIbigLandbankCard,
-    PagIbigDBPCard,
     PagIbigVirtualAccount,
     MaternityNotification,
     MaternityBenefit,
     CertificationRequestSSS,
-    SSSOtherRequest,
     PHILHEALTHrequest,
     CertificateOfRemittance,
     CertificateOfOneness,

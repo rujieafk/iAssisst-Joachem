@@ -102,12 +102,6 @@ import { useState } from "react";
                                             <div className="list-padding">Landbank Card</div>
                                         </Link>
                                     </li>
-                                    <li>
-                                        <Link to="/dbpcard" className="dropdown-text" state={data}>
-                                            Pag-Ibig Loan:
-                                            <div className="list-padding">DBP Card</div>
-                                        </Link>
-                                    </li>
                                     <li> 
                                         <Link to="/virtualaccount" className="dropdown-text" state={data}>
                                             Pag-Ibig Loan:
@@ -174,7 +168,8 @@ import { useState } from "react";
                                     </li>
                                     <li>
                                         <Link to="/SicknessApproval" className="dropdown-text"  state= { data }>
-                                            SSS Sickness Approval 
+                                            SSS Sickness  
+                                            <div className="list-padding">Approval</div>
                                         </Link>
                                     </li>
                                 </ul>
