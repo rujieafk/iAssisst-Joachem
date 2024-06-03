@@ -715,6 +715,29 @@ const PdfFile = async (insertPDF,SubmissionID,RequirementName) => {
         throw error;
     }
 }
+
+const LinkURL = async (LinkUrl) => {
+    try {
+        let pool = await sql.connect(config);
+
+        let result = await pool.request()
+            .input('LinkUrl', sql.NVarChar, LinkUrl)
+            .query(`
+                SELECT LinkURL FROM Link WHERE LinkName = @LinkUrl;
+            `);
+
+        // If there's no result, return null
+        if (result.recordset.length === 0) {
+            return null;
+        }
+
+        // Return the first record's LinkURL
+        return result.recordset[0].LinkURL;
+    } catch (error) {
+        console.error("Error updating record:", error);
+        throw error;
+    }
+};
 // -----------------------------------------------------------------------
 module.exports = {
     insertPDF,
@@ -734,5 +757,6 @@ module.exports = {
     SicknessNotification,
     SicknessApproval,
     OtherRequest,
-    UpdateRequest
+    UpdateRequest,
+    LinkURL
 };

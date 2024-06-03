@@ -762,5 +762,23 @@ app.post('/UpdateRequest', upload.fields([
   }
 });
 
+app.post('/GetLink', upload.fields([
+  { name: 'LinkHeader' }
+]), async (req, res) => {
+  try {
+      const LinkHeader = req.body.LinkHeader; // Adjust this line
+
+      const linkData = await dbOperation.LinkURL(LinkHeader);
+
+      if (linkData) {
+          res.status(200).json({ message: 'Link fetched successfully', data: linkData });
+      } else {
+          res.status(404).json({ message: 'Link not found' });
+      }
+  } catch (error) {
+      console.error('Error uploading files:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
       
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

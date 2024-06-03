@@ -68,9 +68,9 @@ function App() {
 
           {/* HR iAssist Pages */}
           <Route path="/hriassist" element={<HRIAssist />} />
-            <Route path="/request" element={<RequestView />} />
+          <Route path="/request" element={<RequestView />} />
 
-            <Route path="/test" element={<Test/>} />
+          <Route path="/test" element={<Test/>} />
 
         </Routes>
       </div>
