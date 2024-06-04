@@ -28,6 +28,7 @@ import Test from './components/test';
 import SicknessNotification from './components/sickness/SicknessNotification';
 import SicknessApproval from './components/sickness/SicknessApproval';
 
+import UpdateEmployee from './components/hriassist/UpdateEmployee';
 import OtherRequest from './components/hriassist/OtherRequest';
 
 
@@ -64,6 +65,7 @@ function App() {
 
             <Route path="/SicknessNotification" element={<SicknessNotification />} /> 
             <Route path="/SicknessApproval" element={<SicknessApproval />} /> 
+            <Route path="/UpdateEmployee" element={<UpdateEmployee />} />
             <Route path="/OtherRequest" element={<OtherRequest />} />
 
           {/* HR iAssist Pages */}

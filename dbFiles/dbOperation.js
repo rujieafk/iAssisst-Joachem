@@ -175,9 +175,14 @@ const updateResubmit = async(data,dataPDF) => {
             const DeductionFor = data.DeductionFor;
             const PlaceOfConfinement = data.PlaceOfConfinement;
             const BankAccount = data.BankAccount;
+            const ReasonForInfoUpdate = data.ReasonForInfoUpdate;
+            const CurrentFullname = data.CurrentFullname; 
+            const NewFullname = data.NewFullname;
+            const CurrentCivilStatus = data.CurrentCivilStatus;
+            const NewCivilStatus = data.NewCivilStatus;
     
-            handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
-           
+            handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus,dataPDF)
+
             } catch (error) {
                 console.error("Error inserting PDF:", error);
                 throw error;
@@ -204,9 +209,14 @@ const updateResubmit = async(data,dataPDF) => {
             const ReasonType = data.ReasonType;
             const PlaceOfConfinement = data.PlaceOfConfinement;
             const BankAccount = data.BankAccount;
+            const ReasonForInfoUpdate = data.ReasonForInfoUpdate;
+            const CurrentFullname = data.CurrentFullname; 
+            const NewFullname = data.NewFullname;
+            const CurrentCivilStatus = data.CurrentCivilStatus;
+            const NewCivilStatus = data.NewCivilStatus;
     
-            handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
-           
+            handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus,dataPDF)
+
         } catch (error) {
             console.error("Error inserting PDF:", error);
             throw error;
@@ -233,9 +243,14 @@ const updateResubmit = async(data,dataPDF) => {
             const ReasonType = data.ReasonType;
             const PlaceOfConfinement = data.PlaceOfConfinement;
             const BankAccount = data.BankAccount;
+            const ReasonForInfoUpdate = data.ReasonForInfoUpdate;
+            const CurrentFullname = data.CurrentFullname; 
+            const NewFullname = data.NewFullname;
+            const CurrentCivilStatus = data.CurrentCivilStatus;
+            const NewCivilStatus = data.NewCivilStatus;
     
-            handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
-           
+            handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus,dataPDF)
+
         } catch (error) {
             console.error("Error inserting PDF:", error);
             throw error;
@@ -262,9 +277,14 @@ const updateResubmit = async(data,dataPDF) => {
             const ReasonType = data.ReasonType;
             const PlaceOfConfinement = data.PlaceOfConfinement;
             const BankAccount = data.BankAccount;
+            const ReasonForInfoUpdate = data.ReasonForInfoUpdate;
+            const CurrentFullname = data.CurrentFullname; 
+            const NewFullname = data.NewFullname;
+            const CurrentCivilStatus = data.CurrentCivilStatus;
+            const NewCivilStatus = data.NewCivilStatus;
     
-            handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
-           
+            handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus,dataPDF)
+
         } catch (error) {
             console.error("Error inserting PDF:", error);
             throw error;
@@ -325,8 +345,13 @@ const MaternityBenefit = async (data, dataPDF) => {
         const ReasonType = data.ReasonType;
         const PlaceOfConfinement = data.PlaceOfConfinement;
         const BankAccount = data.BankAccount;
+        const ReasonForInfoUpdate = data.ReasonForInfoUpdate;
+        const CurrentFullname = data.CurrentFullname; 
+        const NewFullname = data.NewFullname;
+        const CurrentCivilStatus = data.CurrentCivilStatus;
+        const NewCivilStatus = data.NewCivilStatus;
 
-        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
+        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus,dataPDF)
 
     } catch (error) {
         console.error("Error inserting PDF:", error);
@@ -357,8 +382,13 @@ const CertificationRequestSSS = async ( data, dataPDF) => {
         const ReasonType = data.ReasonType;
         const PlaceOfConfinement = data.PlaceOfConfinement;
         const BankAccount = data.BankAccount;
+        const ReasonForInfoUpdate = data.ReasonForInfoUpdate;
+        const CurrentFullname = data.CurrentFullname; 
+        const NewFullname = data.NewFullname;
+        const CurrentCivilStatus = data.CurrentCivilStatus;
+        const NewCivilStatus = data.NewCivilStatus;
 
-        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
+        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus,dataPDF)
 
     } catch (error) {
         console.error("Error inserting PDF:", error);
@@ -387,8 +417,13 @@ const PHILHEALTHrequest = async (data, dataPDF) => {
         const DeductionFor = data.DeductionFor;
         const PlaceOfConfinement = data.PlaceOfConfinement;
         const BankAccount = data.BankAccount;
+        const ReasonForInfoUpdate = data.ReasonForInfoUpdate;
+        const CurrentFullname = data.CurrentFullname; 
+        const NewFullname = data.NewFullname;
+        const CurrentCivilStatus = data.CurrentCivilStatus;
+        const NewCivilStatus = data.NewCivilStatus;
 
-        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
+        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus,dataPDF)
 
     } catch (error) {
         console.error("Error inserting PDF:", error);
@@ -417,9 +452,14 @@ const CertificateOfRemittance = async (data, dataPDF) => {
         const ReasonType = data.ReasonType;
         const PlaceOfConfinement = data.PlaceOfConfinement;
         const BankAccount = data.BankAccount;
+        const ReasonForInfoUpdate = data.ReasonForInfoUpdate;
+        const CurrentFullname = data.CurrentFullname; 
+        const NewFullname = data.NewFullname;
+        const CurrentCivilStatus = data.CurrentCivilStatus;
+        const NewCivilStatus = data.NewCivilStatus;
 
-        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
-       
+        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus,dataPDF)
+
     } catch (error) {
         console.error("Error inserting PDF:", error);
         throw error;
@@ -446,9 +486,14 @@ const CertificateOfOneness = async (data, dataPDF) => {
         const ReasonType = data.ReasonType;
         const PlaceOfConfinement = data.PlaceOfConfinement;
         const BankAccount = data.BankAccount;
+        const ReasonForInfoUpdate = data.ReasonForInfoUpdate;
+        const CurrentFullname = data.CurrentFullname; 
+        const NewFullname = data.NewFullname;
+        const CurrentCivilStatus = data.CurrentCivilStatus;
+        const NewCivilStatus = data.NewCivilStatus;
 
-        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
-       
+        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus,dataPDF)
+
     } catch (error) {
         console.error("Error inserting PDF:", error);
         throw error;
@@ -477,9 +522,14 @@ const SicknessNotification = async (data,dataPDF) => {
         const DeductionFor = data.DeductionFor;
         const PlaceOfConfinement = data.PlaceOfConfinement;
         const BankAccount = data.BankAccount;
+        const ReasonForInfoUpdate = data.ReasonForInfoUpdate;
+        const CurrentFullname = data.CurrentFullname; 
+        const NewFullname = data.NewFullname;
+        const CurrentCivilStatus = data.CurrentCivilStatus;
+        const NewCivilStatus = data.NewCivilStatus;
 
-        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
-       
+        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus,dataPDF)
+
     } catch (error) {
         console.error("Error inserting PDF:", error);
         throw error;
@@ -506,8 +556,47 @@ const SicknessApproval = async (data,dataPDF) => {
         const DeductionFor = data.DeductionFor;
         const PlaceOfConfinement = data.PlaceOfConfinement;
         const BankAccount = data.BankAccount;
+        const ReasonForInfoUpdate = data.ReasonForInfoUpdate;
+        const CurrentFullname = data.CurrentFullname; 
+        const NewFullname = data.NewFullname;
+        const CurrentCivilStatus = data.CurrentCivilStatus;
+        const NewCivilStatus = data.NewCivilStatus;
 
-        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
+        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus,dataPDF)
+
+    } catch (error) {
+        console.error("Error inserting PDF:", error);
+        throw error;
+    }
+}
+const UpdateEmployeeInformation = async (data,dataPDF) => {
+    try {
+        const TransactionType = data.TransactionType;
+        const Status = data.Status;
+        const DateTime = data.currentDate;
+        const TurnAround = data.TurnAround;
+        const Application_Date = data.Application_Date;
+        const Transaction_Num = data.Transaction_Number;
+        const RequestType = data.RequestType;
+        const TypeOfDelivery = data.TypeOfDelivery;
+        const OtherReq = data.OtherReq;
+        const EmpId = data.EmpId;
+        const ErroneousName = data.ErroneousName;
+        const CorrectName = data.CorrectName;
+        const RequestTitle = data.RequestTitle;
+        const Description = data.Description;
+        const CompletionDate= data.CompletionDate;
+        const ReasonType = data.ReasonType;
+        const DeductionFor = data.DeductionFor;
+        const PlaceOfConfinement = data.PlaceOfConfinement;
+        const BankAccount = data.BankAccount;
+        const ReasonForInfoUpdate = data.ReasonForInfoUpdate;
+        const CurrentFullname = data.CurrentFullname; 
+        const NewFullname = data.NewFullname;
+        const CurrentCivilStatus = data.CurrentCivilStatus;
+        const NewCivilStatus = data.NewCivilStatus;
+
+        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus,dataPDF)
        
     } catch (error) {
         console.error("Error inserting PDF:", error);
@@ -536,9 +625,14 @@ const OtherRequest = async (data,dataPDF) => {
         const DeductionFor = data.DeductionFor;
         const PlaceOfConfinement = data.PlaceOfConfinement;
         const BankAccount = data.BankAccount;
+        const ReasonForInfoUpdate = data.ReasonForInfoUpdate;
+        const CurrentFullname = data.CurrentFullname; 
+        const NewFullname = data.NewFullname;
+        const CurrentCivilStatus = data.CurrentCivilStatus;
+        const NewCivilStatus = data.NewCivilStatus;
 
-        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF)
-       
+        handleDocuments(TransactionType,Status,DateTime,TurnAround,Application_Date,Transaction_Num,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus,dataPDF)
+
     } catch (error) {
         console.error("Error inserting PDF:", error);
         throw error;
@@ -573,7 +667,7 @@ const UpdateRequest = async (Action, SubmissionId) => {
 
 
 //-----------------------------------------------------------------------
-const handleDocuments = async (TransactionType, Status, DateTime, TurnAround, Application_Date, Transaction_Num, RequestType, TypeOfDelivery, OtherReq, EmpId, ErroneousName, CorrectName, RequestTitle, Description, CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,dataPDF) => {
+const handleDocuments = async (TransactionType, Status, DateTime, TurnAround, Application_Date, Transaction_Num, RequestType, TypeOfDelivery, OtherReq, EmpId, ErroneousName, CorrectName, RequestTitle, Description, CompletionDate,DeductionFor,ReasonType,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus,dataPDF) => {
     try {
         let pool = await sql.connect(config);
         
@@ -598,10 +692,15 @@ const handleDocuments = async (TransactionType, Status, DateTime, TurnAround, Ap
             .input('ReasonType', ReasonType)
             .input('PlaceOfConfinement', PlaceOfConfinement)
             .input('BankAccount', BankAccount)
+            .input('ReasonForInfoUpdate', ReasonForInfoUpdate)
+            .input('CurrentFullname', CurrentFullname)
+            .input('NewFullname', NewFullname)
+            .input('CurrentCivilStatus', CurrentCivilStatus)
+            .input('NewCivilStatus', NewCivilStatus)
             .query(`
-                    INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle,Description,CompletionDate,DeductionFor,ReasonType, PlaceOfConfinement, BankAccNumber)
+                    INSERT INTO Submission (TransactionType,Status,DateTime,TurnAround,LoanAppDate,TransactionNum,TypeOfDelivery,RequestType,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle,Description,CompletionDate,DeductionFor,ReasonType, PlaceOfConfinement, BankAccNumber, ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus)
                     OUTPUT inserted.SubmissionID
-                    VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@RequestType,@OtherReq,@EmpId,@ErroneousName,@CorrectName,@RequestTitle,@Description,@CompletionDate,@DeductionFor,@ReasonType, @PlaceOfConfinement, @BankAccount)
+                    VALUES (@TransactionType,@Status,@DateTime,@TurnAround,@Application_Date,@Transaction_Num,@DeliveryType,@RequestType,@OtherReq,@EmpId,@ErroneousName,@CorrectName,@RequestTitle,@Description,@CompletionDate,@DeductionFor,@ReasonType, @PlaceOfConfinement, @BankAccount, @ReasonForInfoUpdate, @CurrentFullname, @NewFullname, @CurrentCivilStatus, @NewCivilStatus)
             `);
 
             const SubmissionID = file.recordset[0].SubmissionID;
@@ -660,7 +759,11 @@ const handleDocuments = async (TransactionType, Status, DateTime, TurnAround, Ap
                 PdfFile(dataPDF.Doc4,SubmissionID,"EC Supporting Documents");
             }else if(TransactionType === "SSS Sickness Approval"){
                 PdfFile(dataPDF.DocumentFile,SubmissionID,"Sickness Eligibility");
-            }else if(TransactionType === "Other Request"){
+            }else if(TransactionType === "Update Employee Information"){
+                PdfFile(dataPDF.Doc1,SubmissionID,"Signed Letter of Request");
+                PdfFile(dataPDF.Doc2,SubmissionID,"Certificate/Contract");
+            }
+            else if(TransactionType === "Other Request"){
                 PdfFile(dataPDF.DocumentFile,SubmissionID,"Other Request Uploaded File");
             }
                 
@@ -738,6 +841,35 @@ const LinkURL = async (LinkUrl) => {
         throw error;
     }
 };
+
+const SetUrl = async (Url1,Url2) => {
+    try {
+
+        let pool = await sql.connect(config);
+
+        let result = await pool.request()
+            .input('Url1', sql.NVarChar, Url1)
+            .input('Url2', sql.NVarChar, Url2)
+            .query(`
+                SELECT LinkName, LinkURL FROM Link WHERE LinkName = @Url1 AND LinkName = @Url2;
+            `);
+
+        // If there's no result, return null
+        if (result.recordset.length === 0) {
+            return null;
+        }
+
+        // Return the first record's LinkURL
+        // return result.recordset[0];
+
+        console.log(result.recordset);
+    } catch (error) {
+        console.error("Error updating record:", error);
+        throw error;
+    }
+};
+
+
 // -----------------------------------------------------------------------
 module.exports = {
     insertPDF,
@@ -758,5 +890,7 @@ module.exports = {
     SicknessApproval,
     OtherRequest,
     UpdateRequest,
-    LinkURL
+    LinkURL,
+    SetUrl,
+    UpdateEmployeeInformation
 };

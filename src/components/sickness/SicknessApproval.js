@@ -79,10 +79,25 @@ function SicknessApproval() {
             });
             return; // Stop further execution
         }
-        try {
+
+        const inputValue = parseInt(thisInfo.BankAccount); 
+        if (!isNaN(inputValue)) {
             formData.append("BankAccount", thisInfo.BankAccount);
+        } else {
+            toast.error('Something went wrong. Please check your Bank account number inputed.', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            return; // Stop further execution
+        }
 
-
+        try {
             const response = await fetch('/SicknessApproval', {
                 method: 'POST',
                 body: formData,
@@ -195,7 +210,7 @@ function SicknessApproval() {
                                                     <div className="form-group">
                                                         <textarea
                                                             className="form-control text-gray-700"
-                                                            style={{ height: '100px' }} // This line sets the height to 100px
+                                                            style={{ height: '40px' }} // This line sets the height to 100px
                                                             id="BankAccount"
                                                             name="BankAccount"
                                                             value={thisInfo.BankAccount}

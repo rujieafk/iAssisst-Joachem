@@ -15,7 +15,7 @@ import { useState } from "react";
   const [showMaternity, setShowMaternity] = useState(false);
   const [showCertReq, setShowCertReq] = useState(false);
   const [showSickness, setshowSickness] = useState(false);
-  const [SicknessNotification, setSicknessNotification] = useState(false);
+  const [UpdateEmployee, setUpdateEmployee] = useState(false);
   const [OtherRequest, setOtherRequest] = useState(false);
 
   // Function to toggle the visibility of pages list
@@ -34,8 +34,8 @@ import { useState } from "react";
   const toggleSickness = () => {
     setshowSickness(!showSickness);
   };
-  const toggleSicknessNotification= () => {
-    setSicknessNotification(!SicknessNotification);
+  const toggleUpdateEmployee= () => {
+    setUpdateEmployee(!UpdateEmployee);
   };
   const toggleOtherRequest = () => {
     setOtherRequest(!OtherRequest);
@@ -176,6 +176,12 @@ import { useState } from "react";
                             )}
                         </li>
                         
+                        <li onClick={toggleUpdateEmployee}>
+                            <Link to="/UpdateEmployee" className="dropdown-text" state={data}> 
+                                Employee Information 
+                                <div className="list-padding">Update</div>
+                            </Link>
+                        </li>
                         <li onClick={toggleOtherRequest}>
                             <Link to="/OtherRequest" className="dropdown-text" state={data}>Other Request</Link>
                         </li>

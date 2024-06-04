@@ -42,7 +42,6 @@ function SSSRequest() {
 
   const [selected, setSelected] = useState("0");
   const [LinkUrl, setLinkUrl] = useState('');
-  console.log(LinkUrl);
   const [specifyOtherRequest, setSpecifyOtherRequest] = useState("");
   const [thisInfo, setThisInfo] = useState({
     StatementOfAccount: '',
@@ -66,17 +65,48 @@ function SSSRequest() {
     };
 
     fetchEmployeeData();
-    handleUpdateLink()
+    // handleUpdateLink();
   }, [employeeId]);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = async(e) => {
     setSelected(e.target.value);
+    // if (e.target.value === '1') {
+    //   const LinkHeader1 = "SSS SOA";
+    //   const LinkHeader2 = "SSS VF";
+      
+    //   const formData = new FormData();
+    //   formData.append('LinkHeader1', LinkHeader1);
+    //   formData.append('LinkHeader2', LinkHeader2);
 
-    const { name, value } = e.target;
-    setEmployeeData({
-      ...employeeData,
-      [name]: value
-    });
+    //   try {
+    //       const response = await fetch('/SetLink', {
+    //           method: 'POST',
+    //           body: formData,
+    //       });
+
+    //       // if (response.ok) {
+    //       //     const jsonResponse = await response.json();
+    //       //     console.log(jsonResponse.message);
+
+    //       //     const url = jsonResponse.data;
+    //       //     console.log('url',url);
+    //       //     setLinkUrl(url);
+              
+    //       // }
+    //   } catch (error) {
+    //       console.error('Error uploading:', error);
+    //   }
+      
+    // }
+    
+    
+    
+
+    // const { name, value } = e.target;
+    // setEmployeeData({
+    //   ...employeeData,
+    //   [name]: value
+    // });
   };
 
   const handleFormSubmit = async (e) => {
@@ -89,18 +119,6 @@ function SSSRequest() {
   
     const formData = new FormData();
     formData.append("selected", selected);
-
-    // Append other files based on selected option
-    // if (selected === '1') {
-    //   formData.append('StatementOfAccount', thisInfo.StatementOfAccount);
-    //   formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
-    // } else if (selected === '2') {
-    //   formData.append('MonthlyContributions', thisInfo.MonthlyContributions);
-    //   formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
-    // } else if (selected === '3') {
-    //   formData.append('SpecifyOtherRequest', specifyOtherRequest);
-    //   formData.append('VerificationRequestForm', thisInfo.VerificationRequestForm);
-    // }
 
     if (selected === '1') {
       if (thisInfo.StatementOfAccount && isValidFileType(thisInfo.StatementOfAccount)) {
@@ -265,40 +283,9 @@ function SSSRequest() {
             const jsonResponse = await response.json();
             console.log(jsonResponse.message);
 
-            // Display the data received from the server
             const url = jsonResponse.data;
             console.log('url',url);
             setLinkUrl(url);
-            if (jsonResponse.data) {
-                console.log('Link URL:', jsonResponse.data);
-                // You can update the UI to display this data
-                document.getElementById('linkDisplay').innerText = `Link URL: ${jsonResponse.data}`;
-
-            }
-
-            toast.success('Thank you! Your request has been submitted.', {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
-
-        } else {
-            console.error('Failed to submit request:', response.statusText);
-            toast.error('Failed to Submit', {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
         }
     } catch (error) {
         console.error('Error uploading:', error);
@@ -357,11 +344,14 @@ function SSSRequest() {
                                   <div className="form-group">
                                     <label style={{ fontSize: '14px' }}>Upload Latest Statement of Account (Non-anonymous question) *</label>
                                     <input id='' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleStatementOFAccount} />
+                                    {/* <button style={{ fontSize: '12px', border: 'none', background: 'none' }} type="button">
+                                      <a href={LinkUrl} target="_blank" rel="noopener noreferrer">How to download SSS SOA</a>
+                                    </button> */}
                                     <button style={{ fontSize: '12px', border: 'none', background: 'none' }} type="button">
                                       <a href={LinkUrl} target="_blank" rel="noopener noreferrer">How to download SSS SOA</a>
                                     </button>
                                     <button style={{ fontSize: '12px', border: '1px solid #ccc', padding: '1px 5px', cursor: 'pointer', marginLeft: '3px' }} type="button" onClick={handleUpdateLink}>
-                                      Update
+                                      Update 
                                     </button>
 
                                   </div>
