@@ -41,7 +41,6 @@ function SSSRequest() {
   });
 
   const [selected, setSelected] = useState("0");
-  const [LinkUrl, setLinkUrl] = useState('');
   const [specifyOtherRequest, setSpecifyOtherRequest] = useState("");
   const [thisInfo, setThisInfo] = useState({
     StatementOfAccount: '',
@@ -49,64 +48,43 @@ function SSSRequest() {
     MonthlyContributions: '',
   });
 
-  useEffect(() => {
-    // Fetch employee data based on employeeId
-    const fetchEmployeeData = async () => {
-      try {
-        const response = await fetch(variables.API_URL + 'UploadEmp/' + employeeId);
-        if (!response.ok) {
-          throw new Error('Failed to fetch employee data');
-        }
-        const data = await response.json();
-        setEmployeeData(data);
-      } catch (error) {
-        console.error('Error fetching employee data:', error);
-      }
-    };
+  const [currentValue, setcurrentValue] = useState({
+    currentLabel: '',
+    currentLink: ''
+  });
 
-    fetchEmployeeData();
-    // handleUpdateLink();
-  }, [employeeId]);
+
+
+  //if selected is equals to 1
+  const [SOA, setThisSOA] = useState({
+    thisLabel: '',
+    thisLink: ''
+  });
+
+  const [VF, setThisVF] = useState({
+    thisLabel: '',
+    thisLink: ''
+  });
+
+
+  const [SelectedLink, setSelectedLink] = useState({
+    thisSelectedLink: ''
+  });
+
+
+
+  useEffect(() => {
+    handleSetLinks();
+  });
 
   const handleInputChange = async(e) => {
     setSelected(e.target.value);
-    // if (e.target.value === '1') {
-    //   const LinkHeader1 = "SSS SOA";
-    //   const LinkHeader2 = "SSS VF";
-      
-    //   const formData = new FormData();
-    //   formData.append('LinkHeader1', LinkHeader1);
-    //   formData.append('LinkHeader2', LinkHeader2);
 
-    //   try {
-    //       const response = await fetch('/SetLink', {
-    //           method: 'POST',
-    //           body: formData,
-    //       });
-
-    //       // if (response.ok) {
-    //       //     const jsonResponse = await response.json();
-    //       //     console.log(jsonResponse.message);
-
-    //       //     const url = jsonResponse.data;
-    //       //     console.log('url',url);
-    //       //     setLinkUrl(url);
-              
-    //       // }
-    //   } catch (error) {
-    //       console.error('Error uploading:', error);
-    //   }
-      
-    // }
-    
-    
-    
-
-    // const { name, value } = e.target;
-    // setEmployeeData({
-    //   ...employeeData,
-    //   [name]: value
-    // });
+    const { name, value } = e.target;
+    setEmployeeData({
+      ...employeeData,
+      [name]: value
+    });
   };
 
   const handleFormSubmit = async (e) => {
@@ -267,30 +245,112 @@ function SSSRequest() {
     setSpecifyOtherRequest(event.target.value);
   };
 
-  const handleUpdateLink = async () => {
-    const LinkHeader = "SSS SOA";
-    
-    const formData = new FormData();
-    formData.append('LinkHeader', LinkHeader);
+  const handleUpdateLinks = (e) => {
+    setSelectedLink({ ...SelectedLink, thisSelectedLink: e.target.value });
+    handleShowModal();
+  };
+  
 
+
+  const selectedSOA = (e) => {
+    e.preventDefault();
+    setcurrentValue(prevState => ({
+      ...prevState,
+      currentLabel: "SSS SOA",
+      currentLink: e.target.value
+    }));
+  };
+
+  const selectedVF = (e) => {
+    e.preventDefault();
+    setcurrentValue(prevState => ({
+      ...prevState,
+      currentLabel: "SSS VF",
+      currentLink: e.target.value
+    }));
+  };
+  
+
+  const handleLink = async (e) => {
     try {
-        const response = await fetch('/GetLink', {
-            method: 'POST',
-            body: formData,
+      e.preventDefault();
+
+      const formData = new FormData();
+      formData.append("updatethisLabel", currentValue.currentLabel);
+      formData.append("updatethisLink", currentValue.currentLink);
+      
+      const response = await fetch('/UpdateLink', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (response.ok) {
+        const jsonResponse = await response.json();
+
+        console.log(jsonResponse.message);
+
+        toast.success('Thank you! Your request has been submitted.', {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+
+        handleCloseModal();
+      } else {
+          console.error('Failed to submit request:', response.statusText);
+          toast.error('Failed to Submit', {
+              position: "bottom-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+          });
+      }
+    } catch (error) {
+        console.error('Error fetching links:', error);
+    }
+  };
+
+  const handleSetLinks = async () => {
+    try {
+        const response = await fetch('/setLink', {
+            method: 'POST'
         });
 
         if (response.ok) {
             const jsonResponse = await response.json();
-            console.log(jsonResponse.message);
+            // console.log(jsonResponse.message);
 
+            // Handle the received data as needed
             const url = jsonResponse.data;
-            console.log('url',url);
-            setLinkUrl(url);
+
+            if(selected === '1'){
+                setThisSOA({
+                  thisLabel: url[0].LinkName,
+                  thisLink: url[0].LinkURL
+                });
+                setThisVF({
+                  thisLabel: url[1].LinkName,
+                  thisLink: url[1].LinkURL
+                });
+            }else if(selected === '2'){
+              
+            
+          }
+            
         }
-    } catch (error) {
-        console.error('Error uploading:', error);
-    }
-};
+      } catch (error) {
+          console.error('Error fetching links:', error);
+      }
+    };
 
   if (!employeeData) {
     return <div>Loading...</div>;
@@ -344,16 +404,12 @@ function SSSRequest() {
                                   <div className="form-group">
                                     <label style={{ fontSize: '14px' }}>Upload Latest Statement of Account (Non-anonymous question) *</label>
                                     <input id='' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleStatementOFAccount} />
-                                    {/* <button style={{ fontSize: '12px', border: 'none', background: 'none' }} type="button">
-                                      <a href={LinkUrl} target="_blank" rel="noopener noreferrer">How to download SSS SOA</a>
-                                    </button> */}
                                     <button style={{ fontSize: '12px', border: 'none', background: 'none' }} type="button">
-                                      <a href={LinkUrl} target="_blank" rel="noopener noreferrer">How to download SSS SOA</a>
+                                      <a href={SOA.thisLink} target="_blank" rel="noopener noreferrer">How to download SSS SOA</a>
                                     </button>
-                                    <button style={{ fontSize: '12px', border: '1px solid #ccc', padding: '1px 5px', cursor: 'pointer', marginLeft: '3px' }} type="button" onClick={handleUpdateLink}>
+                                    <button style={{ fontSize: '12px', border: '1px solid #ccc', padding: '1px 5px', cursor: 'pointer', marginLeft: '3px' }} type="button" value="showModalSOA" onClick={handleUpdateLinks}>
                                       Update 
                                     </button>
-
                                   </div>
 
                                   <div style={{ border: '1px solid #ccc', marginTop: '5px', marginBottom: '5px' }} />
@@ -362,9 +418,9 @@ function SSSRequest() {
                                     <label style={{ fontSize: '14px' }}>Upload "Request/Verification Form" (Non-anonymous question) *</label>
                                     <input id='' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleVerificationRequestForm} />
                                     <button style={{ fontSize: '12px', border: 'none', background: 'none' }} type="button">
-                                      <a href="https://www.sss.gov.ph/sss/DownloadContent?fileName=cov-01205-052015.pdf" download target="_blank" rel="noopener noreferrer">View Form</a>
+                                      <a href={VF.thisLink} target="_blank" rel="noopener noreferrer">View Form</a>
                                     </button>
-                                    <button style={{ fontSize: '12px', border: '1px solid #ccc', padding: '1px 5px', cursor: 'pointer', marginLeft: '3px' }} type="button" onClick={handleShowModal}>
+                                    <button style={{ fontSize: '12px', border: '1px solid #ccc', padding: '1px 5px', cursor: 'pointer', marginLeft: '3px' }} type="button" value="showModalVF" onClick={handleUpdateLinks}>
                                         Update
                                     </button>
                                   </div>
@@ -387,9 +443,9 @@ function SSSRequest() {
                                     <label style={{ fontSize: '14px' }}>Upload "Request/Verification Form" (Non-anonymous question) *</label>
                                     <input id='' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleVerificationRequestForm} />
                                     <button style={{ fontSize: '12px', border: 'none', background: 'none' }} type="button">
-                                      <a href="https://www.sss.gov.ph/sss/DownloadContent?fileName=cov-01205-052015.pdf" download target="_blank" rel="noopener noreferrer">View Form</a>
+                                      <a href={VF.thisLink} target="_blank" rel="noopener noreferrer">View Form</a>
                                     </button>
-                                    <button style={{ fontSize: '12px', border: '1px solid #ccc', padding: '1px 5px', cursor: 'pointer', marginLeft: '3px' }} type="button" onClick={handleShowModal}>
+                                    <button style={{ fontSize: '12px', border: '1px solid #ccc', padding: '1px 5px', cursor: 'pointer', marginLeft: '3px' }} type="button" value="showModalVF" onClick={handleUpdateLinks}>
                                         Update
                                     </button>
                                   </div>
@@ -412,9 +468,9 @@ function SSSRequest() {
                                     <label style={{ fontSize: '14px' }}>Upload "Request/Verification Form" (Non-anonymous question) *</label>
                                     <input id='' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleVerificationRequestForm} />
                                     <button style={{ fontSize: '12px', border: 'none', background: 'none' }} type="button">
-                                      <a href="https://www.sss.gov.ph/sss/DownloadContent?fileName=cov-01205-052015.pdf" download target="_blank" rel="noopener noreferrer">View Form</a>
+                                      <a href={VF.thisLink} target="_blank" rel="noopener noreferrer">View Form</a>
                                     </button>
-                                    <button style={{ fontSize: '12px', border: '1px solid #ccc', padding: '1px 5px', cursor: 'pointer', marginLeft: '3px' }} type="button" onClick={handleShowModal}>
+                                    <button style={{ fontSize: '12px', border: '1px solid #ccc', padding: '1px 5px', cursor: 'pointer', marginLeft: '3px' }} type="button" value="showModalVF" onClick={handleUpdateLinks}>
                                         Update
                                     </button>
                                   </div>
@@ -452,8 +508,90 @@ function SSSRequest() {
           <Modal.Title>Update Link</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {/* Your modal content here */}
-          <p></p>
+            {SelectedLink.thisSelectedLink === "showModalSOA" ? (
+              <form onSubmit={handleLink}>
+                {/* Page content begins here */}
+                      <div className="container-fluid">
+                        <div className="row justify-content-center">
+                            <div className="col-xl-12 col-lg-8">
+                                {/* First Card */}
+                                <div className="card shadow mb-4">
+                                    {/* Card Header */}
+                                    <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 className="m-0 text-primary">SSS Statement of Account Link</h6>
+                                    </div>
+                                    {/* Card Body */}    
+                                </div>
+                                {/* Second Card */}
+                                <div className="card shadow mb-4">
+                                    {/* Card Header */}
+                                    <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 className="m-0 font-weight-bold text-primary">URL / Link</h6>
+                                    </div>
+                                    {/* Card Body */}
+                                    <div className="card-body">
+                                        <div className="tab-content">
+                                            <textarea
+                                                className="form-control text-gray-700"
+                                                style={{ height: '100px' }} // This line sets the height to 100px
+                                                value={currentValue.currentLink}
+                                                onChange={selectedSOA}
+                                                placeholder={SOA.thisLink}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  {/* Page content ends here */}
+                  <button className="btn btn-primary d-block mx-auto loan-btn">Submit</button>
+              </form>
+            ) : SelectedLink.thisSelectedLink === "showModalVF" ? (
+              <form onSubmit={handleLink}>
+                {/* Page content begins here */}
+                      <div className="container-fluid">
+                        <div className="row justify-content-center">
+                            <div className="col-xl-12 col-lg-8">
+                                {/* First Card */}
+                                <div className="card shadow mb-4">
+                                    {/* Card Header */}
+                                    <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 className="m-0 text-primary">Request/Verification Form Link</h6>
+                                    </div>
+                                    {/* Card Body */}    
+                                </div>
+                                {/* Second Card */}
+                                <div className="card shadow mb-4">
+                                    {/* Card Header */}
+                                    <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 className="m-0 font-weight-bold text-primary">URL / Link</h6>
+                                    </div>
+                                    {/* Card Body */}
+                                    <div className="card-body">
+                                        <div className="tab-content">
+                                            <textarea
+                                                className="form-control text-gray-700"
+                                                style={{ height: '100px' }} // This line sets the height to 100px
+                                                value={currentValue.currentLink}
+                                                onChange={selectedVF}
+                                                placeholder={VF.thisLink}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  {/* Page content ends here */}
+                  <button className="btn btn-primary d-block mx-auto loan-btn">Update</button>
+              </form>
+            ) : (
+              <div>
+                <p>No specific link selected.</p>
+              </div>
+            )}
+            <label style={{fontSize: '12px'}}>Note: Before you paste your link, please make sure to copy the entire URL or link.</label>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>

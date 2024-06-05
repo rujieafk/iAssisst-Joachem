@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' }); // Specify upload directory
+exports.upload = upload;
 
 const dbOperation = require('./dbFiles/dbOperation.js');
 const thisDefaultContructor = require('./dbFiles/dbContructor/thisDefaultContructor.js');
@@ -15,6 +16,7 @@ const submissionResubmit = require('./dbFiles/dbContructor/submissionResubmit.js
 const ResubmitPDFContructor = require('./dbFiles/dbContructor/ResubmitPDFContructor.js');
 
 const app = express();
+exports.app = app;
 const PORT = 5000;
 
 app.use(cors());
@@ -143,7 +145,7 @@ app.post('/SSSloan', upload.fields([{ name: 'Pay_Slip' }, { name: 'Disclosure_St
       const RequestType = "";
       const OtherReq = "";
       
-      const EmpId = "10023";
+      const EmpId = "CTU456";
       const ErroneousName = "";
       const CorrectName = "";
       const RequestTitle = "";
@@ -188,7 +190,7 @@ app.post('/PagIbigLandbankCard', upload.fields([{ name: 'Application_Form' }, { 
       const RequestType = "";
       const OtherReq = "";
       
-      const EmpId = "10023";
+      const EmpId = "CTU456";
       const ErroneousName = "";
       const CorrectName = "";
       const RequestTitle = "";
@@ -236,7 +238,7 @@ app.post('/PagIbigVirtualAccount', upload.fields([ { name: 'paySlip' }, { name: 
       const RequestType = "";
       const OtherReq = "";
 
-      const EmpId = "10023";
+      const EmpId = "CTU456";
       const ErroneousName = "";
       const CorrectName = "";
       const RequestTitle = "";
@@ -286,7 +288,7 @@ app.post('/MaternityNotification', upload.fields([ { name: 'Notication_Form' }, 
     const RequestType = "";
     const OtherReq = "";
 
-    const EmpId = "10023";
+    const EmpId = "CTU456";
     const ErroneousName = "";
     const CorrectName = "";
     const RequestTitle = "";
@@ -365,7 +367,7 @@ app.post('/MaternityBenefit', upload.fields([
       const CurrentCivilStatus ="";
       const NewCivilStatus ="";
     
-      const EmpId = "10023";
+      const EmpId = "CTU456";
 
       if(selectedNum === "1"){
         const TypeOfDelivery = "Live Child Birth";
@@ -422,7 +424,7 @@ app.post('/CertificationRequestSSS', upload.fields([
       const TypeOfDelivery = "";
       
 
-      const EmpId = "10023";
+      const EmpId = "CTU456";
       const ErroneousName = "";
       const CorrectName = "";
       const RequestTitle = "";
@@ -500,7 +502,7 @@ app.post('/PagIbigRequest', upload.fields([
       const ReasonType="";
       const DeductionFor="";
 
-      const EmpId = "10023";
+      const EmpId = "CTU456";
 
       const PlaceOfConfinement ="";
       const BankAccount ="";
@@ -564,7 +566,7 @@ app.post('/PHILHEALTHrequest', upload.fields([
       const Description = "";
       const CompletionDate = "";
         
-      const EmpId = "10023";
+      const EmpId = "CTU456";
 
       const ErroneousName = "";
       const CorrectName = "";
@@ -678,7 +680,7 @@ app.post('/SicknessNotification', upload.fields([
       const RequestType = "";
       const TypeOfDelivery = "";
       const OtherReq = "";
-      const EmpId = "10023";
+      const EmpId = "CTU456";
       const ErroneousName = "";
       const CorrectName = "";
       const RequestTitle = "";
@@ -721,7 +723,7 @@ app.post('/SicknessApproval', upload.fields([
       const RequestType = "";
       const TypeOfDelivery = "";
       const OtherReq = "";
-      const EmpId = "10023";
+      const EmpId = "CTU456";
       const ErroneousName = "";
       const CorrectName = "";
       const RequestTitle = "";
@@ -774,7 +776,7 @@ app.post('/UpdateEmployeeInformation', upload.fields([
       const RequestType = "";
       const TypeOfDelivery = "";
       const OtherReq = "";
-      const EmpId = "10023";
+      const EmpId = "CTU456";
       const ErroneousName = "";
       const CorrectName = "";
       const CompletionDate= "";
@@ -814,7 +816,7 @@ app.post('/OtherRequest', upload.fields([
       const RequestType = "Other Request";
       const TypeOfDelivery = "";
       const OtherReq = "";
-      const EmpId = "10023";
+      const EmpId = "CTU456";
       const ErroneousName = "";
       const CorrectName = "";
       const CompletionDate= "";
@@ -861,13 +863,13 @@ app.post('/GetLink', upload.fields([
   { name: 'LinkHeader' }
 ]), async (req, res) => {
   try {
-      const LinkHeader = req.body.LinkHeader; // Adjust this line
-
-      const linkData = await dbOperation.LinkURL(LinkHeader);
-
-      if (linkData) {
+    const LinkHeader = req.body.LinkHeader; 
+    
+    const linkData = await dbOperation.LinkURL(LinkHeader);
+    
+    if (linkData) {
           res.status(200).json({ message: 'Link fetched successfully', data: linkData });
-      } else {
+        } else {
           res.status(404).json({ message: 'Link not found' });
       }
   } catch (error) {
@@ -875,25 +877,36 @@ app.post('/GetLink', upload.fields([
       res.status(500).json({ error: 'Internal server error' });
   }
 });
+app.post('/setLink', async (req, res) => {
+  try {
+      const linkData = await dbOperation.setLink();
 
-app.post('/SetLink', upload.fields([
-  { name: 'LinkHeader1' },
-  { name: 'LinkHeader2' }
+      if (linkData) {
+          res.status(200).json({ message: 'Links fetched successfully', data: linkData });
+      } else {
+          res.status(404).json({ message: 'Links not found' });
+      }
+  } catch (error) {
+    console.error('Error fetching links:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+}); 
+      
+app.post('/UpdateLink', upload.fields([
+  { name: 'updatethisLabel' },
+  { name: 'updatethisLink' }
 ]), async (req, res) => {
   try {
-      const { LinkHeader1,LinkHeader2}  = req.body;
 
-      const linkData = await dbOperation.SetUrl(LinkHeader1,LinkHeader2);
+      const { updatethisLabel, updatethisLink } = req.body;
+    
+      await dbOperation.UpdateLink(updatethisLabel, updatethisLink);
 
-      if (linkData) {
-          res.status(200).json({ message: 'Link fetched successfully', data: linkData });
-      } else {
-          res.status(404).json({ message: 'Link not found' });
-      }
+      res.status(200).json({ message: 'Files uploaded successfully' });
   } catch (error) {
       console.error('Error uploading files:', error);
       res.status(500).json({ error: 'Internal server error' });
   }
 });
-      
+
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

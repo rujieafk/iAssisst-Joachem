@@ -42,24 +42,6 @@ function UpdateEmployee() {
         OtherContract: ""
     });
 
-    useEffect(() => {
-        // Fetch employee data based on employeeId
-        const fetchEmployeeData = async () => {
-            try {
-                const response = await fetch(variables.API_URL + 'UploadEmp/' + employeeId);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch employee data');
-                }
-                const data = await response.json();
-                setEmployeeData(data);
-            } catch (error) {
-                console.error('Error fetching employee data:', error);
-            }
-        };
-
-        fetchEmployeeData();
-    }, [employeeId]);
-
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();

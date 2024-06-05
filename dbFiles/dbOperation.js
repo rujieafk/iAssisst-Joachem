@@ -819,6 +819,26 @@ const PdfFile = async (insertPDF,SubmissionID,RequirementName) => {
     }
 }
 
+const UpdateLink = async (updatethisLabel, updatethisLink) => {
+    try {
+
+        let pool = await sql.connect(config);
+        
+        let file = await pool.request()
+            .input('updatethisLabel', sql.VarChar, updatethisLabel)
+            .input('updatethisLink', sql.VarChar, updatethisLink)
+            .query(`
+                UPDATE Link
+                SET LinkURL = @updatethisLink
+                WHERE LinkName = @updatethisLabel
+            `);
+
+        console.log("Successfully updated: ", file);
+    } catch (error) {
+        console.error("Error updating record:", error);
+        throw error;
+    }
+}
 const LinkURL = async (LinkUrl) => {
     try {
         let pool = await sql.connect(config);
@@ -842,33 +862,23 @@ const LinkURL = async (LinkUrl) => {
     }
 };
 
-const SetUrl = async (Url1,Url2) => {
+const setLink = async () => {
     try {
-
         let pool = await sql.connect(config);
-
         let result = await pool.request()
-            .input('Url1', sql.NVarChar, Url1)
-            .input('Url2', sql.NVarChar, Url2)
             .query(`
-                SELECT LinkName, LinkURL FROM Link WHERE LinkName = @Url1 AND LinkName = @Url2;
+                SELECT LinkName, LinkURL FROM Link;
             `);
 
-        // If there's no result, return null
         if (result.recordset.length === 0) {
             return null;
         }
-
-        // Return the first record's LinkURL
-        // return result.recordset[0];
-
-        console.log(result.recordset);
+        return result.recordset;
     } catch (error) {
-        console.error("Error updating record:", error);
+        console.error("Error fetching records:", error);
         throw error;
     }
 };
-
 
 // -----------------------------------------------------------------------
 module.exports = {
@@ -891,6 +901,7 @@ module.exports = {
     OtherRequest,
     UpdateRequest,
     LinkURL,
-    SetUrl,
+    setLink,
+    UpdateLink,
     UpdateEmployeeInformation
 };
