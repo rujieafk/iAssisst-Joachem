@@ -479,7 +479,7 @@ function SSSRequest() {
                   </div>
                 </div>
                 {/* Page content ends here */}
-                <button type="submit" className="btn btn-primary d-block mx-auto loan-btn">Submit</button>
+                <button type="submit" className="btn btn-primary d-block mx-auto loan-btn">Update</button>
               </div>
             </form>
           </div>
@@ -540,7 +540,7 @@ function SSSRequest() {
                         </div>
                     </div>
                   {/* Page content ends here */}
-                  <button className="btn btn-primary d-block mx-auto loan-btn">Submit</button>
+                  <button className="btn btn-primary d-block mx-auto loan-btn">Update</button>
               </form>
             ) : SelectedLink.thisSelectedLink === "showModalVF" ? (
               <form onSubmit={handleLink}>

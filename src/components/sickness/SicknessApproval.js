@@ -9,6 +9,9 @@ import { variables } from '../../variables';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+
 function SicknessApproval() {
 
     const { employeeId } = useParams();
@@ -37,6 +40,34 @@ function SicknessApproval() {
         BankAccount: ""
     });
 
+    const [showModal, setShowModal] = useState(false);
+    const handleShowModal = () => setShowModal(true);
+    const handleCloseModal = () => setShowModal(false);
+
+    const [SelectedLink, setSelectedLink] = useState({
+      thisSelectedLink: ''
+    });
+
+    const [currentValue, setcurrentValue] = useState({
+      currentLabel: '',
+      currentLink: ''
+    });
+
+    const [SE, setThisSE] = useState({
+      thisLabel: '',
+      thisLink: ''
+    });
+
+
+    const selectedSE = (e) => {
+      e.preventDefault();
+      setcurrentValue(prevState => ({
+        ...prevState,
+        currentLabel: "SSS SE",
+        currentLink: e.target.value
+      }));
+    };
+
     useEffect(() => {
         // Fetch employee data based on employeeId
         const fetchEmployeeData = async () => {
@@ -53,6 +84,7 @@ function SicknessApproval() {
         };
 
         fetchEmployeeData();
+        handleSetLinks();
     }, [employeeId]);
 
     const handleFormSubmit = async (e) => {
@@ -152,6 +184,86 @@ function SicknessApproval() {
         setThisInfo({ ...thisInfo, SicknessEligibility: e.target.files[0] });
     };
 
+    const handleUpdateLinks = (e) => {
+        setSelectedLink({ ...SelectedLink, thisSelectedLink: e.target.value });
+        handleShowModal();
+      };
+
+    const handleLink = async (e) => {
+        try {
+          e.preventDefault();
+    
+          const formData = new FormData();
+          formData.append("updatethisLabel", currentValue.currentLabel);
+          formData.append("updatethisLink", currentValue.currentLink);
+          
+          const response = await fetch('/UpdateLink', {
+            method: 'POST',
+            body: formData,
+          });
+          
+          if (response.ok) {
+            const jsonResponse = await response.json();
+    
+            console.log(jsonResponse.message);
+    
+            toast.success('Thank you! Your request has been submitted.', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+  
+            handleSetLinks();
+            handleCloseModal();
+          } else {
+              console.error('Failed to submit request:', response.statusText);
+              toast.error('Failed to Submit', {
+                  position: "bottom-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+              });
+          }
+        } catch (error) {
+            console.error('Error fetching links:', error);
+        }
+      };
+    
+      const handleSetLinks = async () => {
+        try {
+            const response = await fetch('/setLink', {
+                method: 'POST'
+            });
+    
+            if (response.ok) {
+                const jsonResponse = await response.json();
+                // console.log(jsonResponse.message);
+    
+                // Handle the received data as needed
+                const url = jsonResponse.data;
+                console.log(url);
+                
+                setThisSE({
+                  thisLabel: url[7].LinkName,
+                  thisLink: url[7].LinkURL
+                });
+                
+                
+            }
+          } catch (error) {
+              console.error('Error fetching links:', error);
+          }
+        };
+
     if (!employeeData) {
         return <div>Loading...</div>;
     }
@@ -183,7 +295,10 @@ function SicknessApproval() {
                                                 <div className="">
                                                     <input id='SicknessEligibility' type="file" className="form-control-file" aria-describedby="fileHelp" onChange={handleSicknessEligibility} />
                                                     <button style={{ fontSize: '12px', border: 'none', background: 'none' }} type="button">
-                                                        How to generate Sickness Eligibility: <a href="https://innodata.sharepoint.com/:b:/s/HR-TOOLS/EWP3Ptx-96dCmlZdkAN0NRMBJKfrVukf2bM3A5FJJ8893w?e=kfH6eo" target="_blank" rel="noopener noreferrer">SSS Sickness Eligibility</a>
+                                                        How to generate Sickness Eligibility: <a href={SE.thisLink} target="_blank" rel="noopener noreferrer">SSS Sickness Eligibility</a>
+                                                    </button>
+                                                    <button style={{ fontSize: '12px', border: '1px solid #ccc', padding: '1px 5px', cursor: 'pointer', marginLeft: '3px' }} type="button" value="showSicknessEligibility" onClick={handleUpdateLinks}>
+                                                        Update 
                                                     </button>
                                                 </div>
                                             </div>
@@ -247,6 +362,64 @@ function SicknessApproval() {
                 pauseOnHover
                 theme="light"
             />
+            <Modal show={showModal} onHide={handleCloseModal}>
+            <Modal.Header >
+              <Modal.Title>Update Link</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                {SelectedLink.thisSelectedLink === "showSicknessEligibility" ? (
+                  <form onSubmit={handleLink}>
+                    {/* Page content begins here */}
+                          <div className="container-fluid">
+                            <div className="row justify-content-center">
+                                <div className="col-xl-12 col-lg-8">
+                                    {/* First Card */}
+                                    <div className="card shadow mb-4">
+                                        {/* Card Header */}
+                                        <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                            <h6 className="m-0 text-primary">SSS Sickness Notification Form</h6>
+                                        </div>
+                                        {/* Card Body */}    
+                                    </div>
+                                    {/* Second Card */}
+                                    <div className="card shadow mb-4">
+                                        {/* Card Header */}
+                                        <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                            <h6 className="m-0 font-weight-bold text-primary">URL / Link</h6>
+                                        </div>
+                                        {/* Card Body */}
+                                        <div className="card-body">
+                                            <div className="tab-content">
+                                                <textarea
+                                                    className="form-control text-gray-700"
+                                                    style={{ height: '100px' }} // This line sets the height to 100px
+                                                    value={currentValue.currentLink}
+                                                    onChange={selectedSE}
+                                                    placeholder={SE.thisLink}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      {/* Page content ends here */}
+                      <button className="btn btn-primary d-block mx-auto loan-btn">Update</button>
+                  </form>
+                ) : (
+                  <div>
+                    <p>No specific link selected.</p>
+                  </div>
+                )}
+                <label style={{fontSize: '12px'}}>Note: Before you paste your link, please make sure to copy the entire URL or link.</label>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseModal}>
+                Close
+              </Button>
+              {/* Add any additional buttons or actions here */}
+            </Modal.Footer>
+          </Modal>
         </div>
     );
 }
