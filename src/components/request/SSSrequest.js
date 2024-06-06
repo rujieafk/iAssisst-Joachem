@@ -275,6 +275,23 @@ function SSSRequest() {
     try {
       e.preventDefault();
 
+       // Check if the textarea value is empty
+       if (currentValue.currentLink.trim() === '') {
+        // Show an error message or handle the empty case as needed
+        console.error('Textarea is empty. Please enter a URL.');
+        toast.error('Please enter a URL', {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+        return; // Exit the function if the textarea is empty
+    }
+
       const formData = new FormData();
       formData.append("updatethisLabel", currentValue.currentLabel);
       formData.append("updatethisLink", currentValue.currentLink);
