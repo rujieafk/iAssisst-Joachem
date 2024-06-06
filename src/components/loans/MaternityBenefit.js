@@ -311,12 +311,13 @@ import 'react-toastify/dist/ReactToastify.css';
                               {/* Card Body - New Hire Options */}
                               <div className="card-body">
                                 <div className="tab-content">
-                                  <div className="card-body">
                                     <div className="d-flex justify-content-left">
                                       <input type="file" className="input-file" aria-describedby="fileHelp" onChange={handleApplicationForm} id='Application_Form'/>
                                       <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
-                                    </div>
                                   </div>
+                                      <button style={{ fontSize: '12px', border: 'none', background: 'none', marginBottom: '15px' }} type="button">
+                                        <a href="https://www.sss.gov.ph/sss/DownloadContent?fileName=SIC_01242.pdf" target="_blank" rel="noopener noreferrer">Please see link for the steps/process</a>
+                                      </button>
                                 </div>
                               </div>
                             </div>

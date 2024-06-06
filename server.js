@@ -5,7 +5,7 @@ const multer = require('multer');
 const upload = multer({ dest: 'uploads/' }); // Specify upload directory
 exports.upload = upload;
 
-const dbOperation = require('./dbFiles/dbOperation.js');
+const dbOperationEmp = require('./dbFiles/dbOperationEmp.js');
 const thisDefaultContructor = require('./dbFiles/dbContructor/thisDefaultContructor.js');
 const DefaultOneFile = require('./dbFiles/dbContructor/DefaultOneFile.js');
 const DefaultTwoFile = require('./dbFiles/dbContructor/DefaultTwoFile.js');
@@ -29,7 +29,7 @@ app.post('/upload', upload.single('sssloanPDF'), async (req, res) => {
     }
 
     // Here you can save the file to the database
-    await dbOperation.insertPDF(req.file.filename); // Pass filename to the insertPDF function
+    await dbOperationEmp.insertPDF(req.file.filename); // Pass filename to the insertPDF function
 
     res.status(200).json({ message: 'PDF uploaded successfully' });
   } catch (error) {
@@ -46,7 +46,7 @@ app.post('/hrsubmission', async (req, res) => {
     //   return res.status(400).json({ error: 'No Employee ID' });
     // }
   
-    const result = await dbOperation.getSubmissions();
+    const result = await dbOperationEmp.getSubmissions();
     res.status(200).json({ result: result });
 
   } catch (error) {
@@ -63,7 +63,7 @@ app.post('/submissionpdf',  upload.single('SubmissionID'), async (req, res) => {
     //   return res.status(400).json({ error: 'No Employee ID' });
     // } 
   
-    const result = await dbOperation.getPDF(req.body.SubmissionID);
+    const result = await dbOperationEmp.getPDF(req.body.SubmissionID);
     res.status(200).json({ result: result });
 
   } catch (error) {
@@ -80,7 +80,7 @@ app.post('/usersubmission',  upload.single('EmpId'), async (req, res) => {
     //   return res.status(400).json({ error: 'No Employee ID' });
     // } 
   
-    const result = await dbOperation.getUserSubmissions(req.body.EmpId);
+    const result = await dbOperationEmp.getUserSubmissions(req.body.EmpId);
     console.log(req.body.EmpId);
     res.status(200).json({ result: result });
 
@@ -120,7 +120,7 @@ app.post('/resubmitPDF', upload.fields([{ name: 'newPDF' }, { name: 'requirement
       const dbData = new submissionResubmit(setrequirementName, FileName, ContentType, setFileSize, UploadDate, Resubmit, ResubmitReason, setSubmissionID, setPdfFileID);
       const dbDataPDF = new ResubmitPDFContructor(PdfData);
       
-      dbOperation.updateResubmit(dbData, dbDataPDF);
+      dbOperationEmp.updateResubmit(dbData, dbDataPDF);
     });
 
     res.status(200).json({ message: 'Files uploaded successfully' });
@@ -167,7 +167,7 @@ app.post('/SSSloan', upload.fields([{ name: 'Pay_Slip' }, { name: 'Disclosure_St
       const dbDataPDF = new DefaultThreeFile(paySlipFiles,disclosureStatementFiles);
 
       // Pass the required parameters to insertPDF function
-      await dbOperation.sssLoan(dbData,dbDataPDF);
+      await dbOperationEmp.sssLoan(dbData,dbDataPDF);
       
       res.status(200).json({ message: 'Files uploaded successfully' });
   } catch (error) {
@@ -216,7 +216,7 @@ app.post('/PagIbigLandbankCard', upload.fields([{ name: 'Application_Form' }, { 
       const dbDataPDF = new DefaultThreeFile(ApplicationFormFile,paySlipFiles,Valid_ID);
 
       // Pass the required parameters to insertPDF function
-      await dbOperation.PagIbigLandbankCard(dbData,dbDataPDF);
+      await dbOperationEmp.PagIbigLandbankCard(dbData,dbDataPDF);
       
       res.status(200).json({ message: 'Files uploaded successfully' });
   } catch (error) {
@@ -264,7 +264,7 @@ app.post('/PagIbigVirtualAccount', upload.fields([ { name: 'paySlip' }, { name: 
        const dbDataPDF = new DefaultThreeFile(Screenshot_Virtual,paySlip,GrossIncome);
 
       // Pass the required parameters to insertPDF function
-      await dbOperation.PagIbigVirtualAccount(dbData,dbDataPDF);
+      await dbOperationEmp.PagIbigVirtualAccount(dbData,dbDataPDF);
       
       res.status(200).json({ message: 'Files uploaded successfully' });
   } catch (error) {
@@ -316,7 +316,7 @@ app.post('/MaternityNotification', upload.fields([ { name: 'Notication_Form' }, 
       
       // console.log(dbData);
       // Pass the required parameters to insertPDF function
-      await dbOperation.MaternityNotification(dbData, dbDataPDF);
+      await dbOperationEmp.MaternityNotification(dbData, dbDataPDF);
       
       res.status(200).json({ message: 'Files uploaded successfully' });
     } catch (error) {``
@@ -376,7 +376,7 @@ app.post('/MaternityBenefit', upload.fields([
         const dbDataPDF = new DefaultThreeFile(Application_Form,LiveBirthCert,SoloParent);
         
         // Pass the required parameters to insertPDF function
-        await dbOperation.MaternityBenefit(dbData,dbDataPDF);
+        await dbOperationEmp.MaternityBenefit(dbData,dbDataPDF);
       }
       else if(selectedNum === "2"){
         const TypeOfDelivery = "Miscarriage / Emergency Termination of Pregnancy / Ectopic Pregnancy";
@@ -384,14 +384,14 @@ app.post('/MaternityBenefit', upload.fields([
         const dbDataPDF = new DefaultSetterFile(Application_Form,ProofPregnancy,HospitalRec);
         
         // Pass the required parameters to insertPDF function
-        await dbOperation.MaternityBenefit(dbData,dbDataPDF);
+        await dbOperationEmp.MaternityBenefit(dbData,dbDataPDF);
       }else if(selectedNum === "3"){
         const TypeOfDelivery = "Still Birth / Fetal Death";
         const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus);
         const dbDataPDF = new DefaultTwoFile(Application_Form,DeathCert);
         
         // Pass the required parameters to insertPDF function
-        await dbOperation.MaternityBenefit(dbData,dbDataPDF);
+        await dbOperationEmp.MaternityBenefit(dbData,dbDataPDF);
       }
       
       res.status(200).json({ message: 'Files uploaded successfully' });
@@ -447,7 +447,7 @@ app.post('/CertificationRequestSSS', upload.fields([
         const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus);
         const dbDataPDF = new DefaultTwoFile(StatementOfAccount,VerificationRequestForm);
         
-        await dbOperation.CertificationRequestSSS(dbData,dbDataPDF);
+        await dbOperationEmp.CertificationRequestSSS(dbData,dbDataPDF);
       }
       else if(selectedNum === "2"){
         const OtherReq = "";
@@ -455,7 +455,7 @@ app.post('/CertificationRequestSSS', upload.fields([
         const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus);
         const dbDataPDF = new DefaultTwoFile(MonthlyContributions,VerificationRequestForm);
 
-        await dbOperation.CertificationRequestSSS(dbData,dbDataPDF);
+        await dbOperationEmp.CertificationRequestSSS(dbData,dbDataPDF);
       
       }else if(selectedNum === "3"){
         const OtherReq = SpecifyOtherRequest;
@@ -464,7 +464,7 @@ app.post('/CertificationRequestSSS', upload.fields([
         const dbDataPDF = new DefaultOneFile(VerificationRequestForm);
 
         // Pass the required parameters to insertPDF function
-        await dbOperation.CertificationRequestSSS(dbData,dbDataPDF);
+        await dbOperationEmp.CertificationRequestSSS(dbData,dbDataPDF);
       }
 
       
@@ -521,7 +521,7 @@ app.post('/PagIbigRequest', upload.fields([
         const dbDataPDF = new DefaultOneFile(StatementOfAccount);
         
         // Pass the required parameters to insertPDF function
-        await dbOperation.CertificateOfRemittance(dbData,dbDataPDF);
+        await dbOperationEmp.CertificateOfRemittance(dbData,dbDataPDF);
       }
       else if(selectedNum === "2"){
         const ErroneousName = req.body.ErroneousName;
@@ -530,7 +530,7 @@ app.post('/PagIbigRequest', upload.fields([
         const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus);
         const dbDataPDF = new DefaultOneFile(FormFromPagIbig);
 
-        await dbOperation.CertificateOfOneness(dbData,dbDataPDF);
+        await dbOperationEmp.CertificateOfOneness(dbData,dbDataPDF);
       
       }
       res.status(200).json({ message: 'Files uploaded successfully' });
@@ -586,14 +586,14 @@ app.post('/PHILHEALTHrequest', upload.fields([
           const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus);
           const dbDataPDF = new DefaultOneFile(EmailNotification);
 
-          await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
+          await dbOperationEmp.PHILHEALTHrequest(dbData,dbDataPDF);
         }else if(selectedReason === "2"){
           const ReasonType = "Due to Re-Loan";
           const DeductionFor = "SSS Salary Loan";
           const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus);
           const dbDataPDF = new DefaultOneFile(EmailNotification);
 
-          await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
+          await dbOperationEmp.PHILHEALTHrequest(dbData,dbDataPDF);
         }
       }
       else if(selected === "2"){
@@ -603,14 +603,14 @@ app.post('/PHILHEALTHrequest', upload.fields([
           const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus);
           const dbDataPDF = new DefaultOneFile(EmailNotification);
 
-          await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
+          await dbOperationEmp.PHILHEALTHrequest(dbData,dbDataPDF);
         }else if(selectedReason === "2"){
           const ReasonType = "Due to Re-Loan";
           const DeductionFor = "SSS Calamity Loan";
           const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus);
           const dbDataPDF = new DefaultOneFile(EmailNotification);
 
-          await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
+          await dbOperationEmp.PHILHEALTHrequest(dbData,dbDataPDF);
         }
       
       }
@@ -621,14 +621,14 @@ app.post('/PHILHEALTHrequest', upload.fields([
           const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus);
           const dbDataPDF = new DefaultOneFile(ProvidentApplicationForm);
 
-          await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
+          await dbOperationEmp.PHILHEALTHrequest(dbData,dbDataPDF);
         }else if(selectedReason === "2"){
           const ReasonType = "Re-Loan";
           const DeductionFor = "PAG-IBIG Salary Loan";
           const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus);
           const dbDataPDF = new DefaultOneFile(ProvidentApplicationForm);
 
-          await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
+          await dbOperationEmp.PHILHEALTHrequest(dbData,dbDataPDF);
         }
       
       }
@@ -639,14 +639,14 @@ app.post('/PHILHEALTHrequest', upload.fields([
           const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus);
           const dbDataPDF = new DefaultOneFile(ProvidentApplicationForm);
 
-          await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
+          await dbOperationEmp.PHILHEALTHrequest(dbData,dbDataPDF);
         }else if(selectedReason === "2"){
           const ReasonType = "Re-Loan";
           const DeductionFor = "PAG-IBIG Calamity Loan";
           const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus);
           const dbDataPDF = new DefaultOneFile(ProvidentApplicationForm);
 
-          await dbOperation.PHILHEALTHrequest(dbData,dbDataPDF);
+          await dbOperationEmp.PHILHEALTHrequest(dbData,dbDataPDF);
         }
       
       }
@@ -698,7 +698,7 @@ app.post('/SicknessNotification', upload.fields([
 
       const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus);
       const dbDataPDF = new DefaultSetterFile(SicknessNotificationForm,MedicalCertificate,SupportingDocuments,ECSupportingDocuments);
-      await dbOperation.SicknessNotification(dbData,dbDataPDF);
+      await dbOperationEmp.SicknessNotification(dbData,dbDataPDF);
 
       res.status(200).json({ message: 'Files uploaded successfully' });
   } catch (error) {
@@ -741,7 +741,7 @@ app.post('/SicknessApproval', upload.fields([
 
       const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus);
       const dbDataPDF = new DefaultOneFile(SicknessEligibility);
-      await dbOperation.SicknessApproval(dbData,dbDataPDF);
+      await dbOperationEmp.SicknessApproval(dbData,dbDataPDF);
 
       res.status(200).json({ message: 'Files uploaded successfully' });
   } catch (error) {
@@ -789,7 +789,7 @@ app.post('/UpdateEmployeeInformation', upload.fields([
 
       const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus);
       const dbDataPDF = new DefaultTwoFile(SignedLetter, OtherContract);
-      await dbOperation.UpdateEmployeeInformation(dbData,dbDataPDF);
+      await dbOperationEmp.UpdateEmployeeInformation(dbData,dbDataPDF);
 
       res.status(200).json({ message: 'Files uploaded successfully' });
   } catch (error) {
@@ -833,7 +833,7 @@ app.post('/OtherRequest', upload.fields([
 
       const dbData = new thisDefaultContructor(TransactionType,Status,currentDate,TurnAround,Application_Date,Transaction_Number,RequestType,TypeOfDelivery,OtherReq,EmpId,ErroneousName,CorrectName,RequestTitle, Description,CompletionDate,ReasonType,DeductionFor,PlaceOfConfinement,BankAccount,ReasonForInfoUpdate, CurrentFullname, NewFullname, CurrentCivilStatus, NewCivilStatus);
       const dbDataPDF = new DefaultOneFile(NeccesaryFile);
-      await dbOperation.OtherRequest(dbData,dbDataPDF);
+      await dbOperationEmp.OtherRequest(dbData,dbDataPDF);
 
       res.status(200).json({ message: 'Files uploaded successfully' });
   } catch (error) {
@@ -850,7 +850,7 @@ app.post('/UpdateRequest', upload.fields([
 
       const { thisAction, thisSubmissionID} = req.body;
       
-      await dbOperation.UpdateRequest(thisAction, thisSubmissionID);
+      await dbOperationEmp.UpdateRequest(thisAction, thisSubmissionID);
 
       res.status(200).json({ message: 'Files uploaded successfully' });
   } catch (error) {
@@ -865,7 +865,7 @@ app.post('/GetLink', upload.fields([
   try {
     const LinkHeader = req.body.LinkHeader; 
     
-    const linkData = await dbOperation.LinkURL(LinkHeader);
+    const linkData = await dbOperationEmp.LinkURL(LinkHeader);
     
     if (linkData) {
           res.status(200).json({ message: 'Link fetched successfully', data: linkData });
@@ -879,7 +879,7 @@ app.post('/GetLink', upload.fields([
 });
 app.post('/setLink', async (req, res) => {
   try {
-      const linkData = await dbOperation.setLink();
+      const linkData = await dbOperationEmp.setLink();
 
       if (linkData) {
           res.status(200).json({ message: 'Links fetched successfully', data: linkData });
@@ -900,7 +900,7 @@ app.post('/UpdateLink', upload.fields([
 
       const { updatethisLabel, updatethisLink } = req.body;
     
-      await dbOperation.UpdateLink(updatethisLabel, updatethisLink);
+      await dbOperationEmp.UpdateLink(updatethisLabel, updatethisLink);
 
       res.status(200).json({ message: 'Files uploaded successfully' });
   } catch (error) {

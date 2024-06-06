@@ -55,6 +55,7 @@ import 'react-toastify/dist/ReactToastify.css';
       };
   
       fetchEmployeeData();
+      handleSetLinks();
     }, [employeeId]);
   
   
@@ -225,6 +226,37 @@ import 'react-toastify/dist/ReactToastify.css';
       setThisInfo({ ...thisInfo, Medical_Reports: e.target.files[0] });
     };
   
+    const handleSetLinks = async () => {
+      try {
+          const response = await fetch('/setLink', {
+              method: 'POST'
+          });
+  
+          if (response.ok) {
+              const jsonResponse = await response.json();
+
+              const url = jsonResponse.data;
+  
+            //   if(selected === '1'){
+            //       setThisSOA({
+            //         thisLabel: url[0].LinkName,
+            //         thisLink: url[0].LinkURL
+            //       });
+            //       setThisVF({
+            //         thisLabel: url[1].LinkName,
+            //         thisLink: url[1].LinkURL
+            //       });
+            //   }else if(selected === '2'){
+                
+              
+            // }
+              
+          }
+        } catch (error) {
+            console.error('Error fetching links:', error);
+        }
+      };
+
     if (!employeeData) {
       return <div>Loading...</div>;
     }
@@ -257,6 +289,9 @@ import 'react-toastify/dist/ReactToastify.css';
                                     <input id='Notication_Form' type="file" className="input-file" aria-describedby="fileHelp" onChange={handleNotication_Form}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
+                                  <button style={{ fontSize: '12px', border: 'none', background: 'none' }} type="button">
+                                    <a href="https://www.sss.gov.ph/sss/DownloadContent?fileName=SIC_01241.pdf" target="_blank" rel="noopener noreferrer">Link to download SSS Maternity Form</a>
+                                  </button>
                                 </div>
                               </div>
                             </div>
@@ -283,6 +318,9 @@ import 'react-toastify/dist/ReactToastify.css';
                                     <input id='Maternity_Eligibility' type="file" className="input-file" aria-describedby="fileHelp" onChange={handMaternity_Eligibility}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
+                                  <button style={{ fontSize: '12px', border: 'none', background: 'none' }} type="button">
+                                    <a href="https://innodata-my.sharepoint.com/:b:/p/zax/EWXR8fUdvqhBoGd00VF5dvABgcA6oPrNY-Ba1rA2AlBMTw?e=KPEBNN" target="_blank" rel="noopener noreferrer">Please see link for the steps/process</a>
+                                  </button>
                                 </div>
                               </div>
                             </div>
@@ -309,6 +347,9 @@ import 'react-toastify/dist/ReactToastify.css';
                                     <input id='Credit_Form' type="file" className="input-file" aria-describedby="fileHelp" onChange={handleCredit_Form}/>
                                     <small id="fileHelp" className="form-text text-muted">Choose a file to upload.</small>
                                   </div>
+                                  <button style={{ fontSize: '12px', border: 'none', background: 'none' }} type="button">
+                                    <a href="https://www.sss.gov.ph/sss/DownloadContent?fileName=smd-01409.pdf" target="_blank" rel="noopener noreferrer">Please see link for the steps/process</a>
+                                  </button>
                                 </div>
                               </div>
                             </div>

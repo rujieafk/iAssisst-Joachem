@@ -299,7 +299,7 @@ function SSSRequest() {
             progress: undefined,
             theme: "light",
         });
-
+        handleSetLinks();
         handleCloseModal();
       } else {
           console.error('Failed to submit request:', response.statusText);
@@ -332,19 +332,14 @@ function SSSRequest() {
             // Handle the received data as needed
             const url = jsonResponse.data;
 
-            if(selected === '1'){
-                setThisSOA({
-                  thisLabel: url[0].LinkName,
-                  thisLink: url[0].LinkURL
-                });
-                setThisVF({
-                  thisLabel: url[1].LinkName,
-                  thisLink: url[1].LinkURL
-                });
-            }else if(selected === '2'){
-              
-            
-          }
+            setThisSOA({
+              thisLabel: url[0].LinkName,
+              thisLink: url[0].LinkURL
+            });
+            setThisVF({
+              thisLabel: url[1].LinkName,
+              thisLink: url[1].LinkURL
+            });
             
         }
       } catch (error) {
